@@ -59,10 +59,13 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'PixelBoop Wiki',
+      title: '',
       logo: {
-        alt: 'PixelBoop',
-        src: 'img/203.svg', // Placeholder, user will update
+        alt: 'PixelBoop Wiki',
+        src: 'img/pixelboop-logo.svg',
+        srcDark: 'img/pixelboop-logo-dark.svg',
+        width: 140,
+        height: 20,
       },
       items: [
         {

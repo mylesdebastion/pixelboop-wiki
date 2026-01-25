@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180" height="24" viewBox="0 0 180 24" xmlns="http://www.w3.org/2000/svg">
+  <!-- PixelBoop logo in 3x5 pixel font -->
+  <!-- Each letter is 3 pixels wide, 5 pixels tall, with 1 pixel spacing -->
+  <!-- Pixel size: 4x4 with 1px gap -->
+  
+  <defs>
+    <linearGradient id="pixelGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f7dc6f"/>
+      <stop offset="25%" style="stop-color:#4ecdc4"/>
+      <stop offset="50%" style="stop-color:#45b7d1"/>
+      <stop offset="75%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#9acd32"/>
+    </linearGradient>
+  </defs>
+  
+  <style>
+    .pixel { fill: url(#pixelGradient); }
+    @media (prefers-color-scheme: dark) {
+      .pixel { fill: url(#pixelGradient); }
+    }
+  </style>
+  
+  <!-- P: x=0 -->
+  <rect class="pixel" x="0" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="4" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="0" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="8" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="0" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="4" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="0" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="0" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- I: x=16 -->
+  <rect class="pixel" x="16" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="20" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="24" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="20" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="20" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="20" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="16" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="20" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="24" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- X: x=32 -->
+  <rect class="pixel" x="32" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="40" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="32" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="40" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="36" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="32" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="40" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="32" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="40" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- E: x=48 -->
+  <rect class="pixel" x="48" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="52" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="56" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="48" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="48" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="52" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="48" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="48" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="52" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="56" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- L: x=64 -->
+  <rect class="pixel" x="64" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="64" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="64" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="64" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="64" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="68" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="72" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- B: x=80 -->
+  <rect class="pixel" x="80" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="84" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="80" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="88" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="80" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="84" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="80" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="88" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="80" y="16" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="84" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- O: x=96 -->
+  <rect class="pixel" x="100" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="96" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="104" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="96" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="104" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="96" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="104" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="100" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- O: x=112 -->
+  <rect class="pixel" x="116" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="112" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="120" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="112" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="120" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="112" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="120" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="116" y="16" width="3" height="3" rx="0.5"/>
+  
+  <!-- P: x=128 -->
+  <rect class="pixel" x="128" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="132" y="0" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="128" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="136" y="4" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="128" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="132" y="8" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="128" y="12" width="3" height="3" rx="0.5"/>
+  <rect class="pixel" x="128" y="16" width="3" height="3" rx="0.5"/>
+</svg>
