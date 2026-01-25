@@ -193,9 +193,9 @@
 
 /* Container for all elements */
 .functionDisplay {
-  width: 40%;
-  min-width: 40%;
-  max-width: 40%;
+  width: 30%;
+  min-width: 30%;
+  max-width: 30%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -443,74 +443,33 @@ html[lang="zh-CN"] .functionDetailBtnText {
 
 .mystrix {
   position: relative;
-  aspect-ratio: 1/1;
+  aspect-ratio: 44/24; /* Correct aspect ratio for PixelBoop */
   z-index: 1;
-  margin: 6%;
-  width: 60%;
+  margin: 2%;
+  width: 70%;
+  display: flex; /* Center proper */
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 996px) {
   .mystrix {
-    width: 80%;
-    margin: 10%;
+    width: 90%;
+    margin: 5%;
   }
 }
 
 
 .mystrixBorder {
   background-color: rgb(20, 20, 20);
-  border: 2px solid rgb(120, 120, 120);
-  border-radius: 3%;
-  position: absolute;
+  border: 4px solid rgb(80, 80, 80);
+  border-radius: 8px;
+  position: relative; /* Changed from absolute to flow correctly */
   width: 100%;
-  aspect-ratio: 1/1;
+  height: 100%;
   z-index: 3;
-  text-wrap: stable;
 }
 
-
-.mystrixUnderglow {
-  position: absolute;
-  aspect-ratio: 1/1;
-  top: -3%;
-  left: -3%;
-  height: 106%;
-  width: 106%;
-  filter: blur(20px) saturate(200%) grayscale(0%) brightness(200%);
-  transition: filter 0.15s ease;
-  z-index: 2;
-}
-
-.mystrixUnderglowDim {
-  filter:  blur(20px) saturate(100%) grayscale(80%) brightness(80%)
-}
-
-.mystrixUnderglowRow {
-  height: 6%;
-  display: flex;
-  padding-left: 6%;
-  padding-right: 6%;
-  gap: 1.5%;
-}
-
-.mystrixUnderglowColumn {
-  height: 100%;
-  width: 6%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5%;
-  padding-top: 0.5%;
-  padding-bottom: 0.5%;
-}
-
-.mystrixUnderglowLed{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-}
 
 .mystrixControls {
   position: relative;
@@ -518,171 +477,49 @@ html[lang="zh-CN"] .functionDetailBtnText {
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 3%;
-  gap: 1.5%;
+  padding: 1%;
+  gap: 2px;
   z-index: 10;
 }
 
 .mystrixControlsRow {
   height: 100%;
   display: flex;
-  gap: 1.5%;
+  gap: 2px;
 }
 
 .mystrixBtn {
   height: 100%;
   width: 100%;
-  border-radius: 10%;
-  background-color: rgb(160, 160, 160);
+  border-radius: 1px; /* Sharper pixels */
+  background-color: rgb(50, 50, 50);
   justify-content: center;
   align-items: center;
   background-image: none;
-  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  transition: transform 0.1s ease, background-color 0.1s ease, box-shadow 0.1s ease;
 }
 
 .mystrixBtnLit {
-  animation: fade-in 0.3s ease forwards;
+  animation: fade-in 0.2s ease forwards;
 }
 
 .mystrixBtnDim {
-  filter: grayscale(80%) brightness(80%)
+  filter: grayscale(80%) brightness(50%)
 }
 
 .mystrixBtnSelected {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  z-index: 100;
 }
 
 .mystrixBtn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  z-index: 100;
 }
 
 @keyframes fade-in {
-  0% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.0) 10%, rgba(255, 255, 255, 0));
-  }
-  10% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, rgba(255, 255, 255, 0));
-  }
-  20% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 10%, rgba(255, 255, 255, 0));
-  }
-  30% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 10%, rgba(255, 255, 255, 0));
-  }
-  40% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, rgba(255, 255, 255, 0));
-  }
-  50% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.25) 10%, rgba(255, 255, 255, 0));
-  }
-  60% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, rgba(255, 255, 255, 0));
-  }
-  70% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.35) 10%, rgba(255, 255, 255, 0));
-  }
-  80% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 10%, rgba(255, 255, 255, 0));
-  }
-  90% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.45) 10%, rgba(255, 255, 255, 0));
-  }
-  100% {
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.5) 10%, rgba(255, 255, 255, 0));
-  }
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
 }
 
-.mystrixTouchKey {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 5;
-  padding: 1px;
-  pointer-events: none;
-}
-
-.mystrixTouchKeyRow {
-  height: 3%;
-  display: flex;
-  padding-left: 3%;
-  padding-right: 3%;
-  gap: 1.5%;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
-.mystrixTouchKeyColumn {
-  height: 100%;
-  width: 3%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5%;
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
-.mystrixTouchkeyBtn {
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  pointer-events: auto;
-}
-
-.mystrixTouchkeyBtnChild {
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.0);
-  border-radius: 9999px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  transform: scale(0.8);
-}
-
-.mystrixTouchkeyBtnChildHasElement {
-  background-color:  rgba(255, 255, 255, 0.3);
-}
-
-.mystrixTouchkeyBtnChildSelected {
-  background-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.15);
-}
-
-.mystrixTouchkeyBtnChildDim{
-  background-color:  rgba(255, 255, 255, 0.0);
-}
-
-.mystrixTouchkeyBtnChild:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.15);
-}
-
-.mystrixCenterKey {
-  position: absolute;
-  height: 2.8%;
-  width: 2.8%;
-  z-index: 5;
-  background-color:rgba(255, 255, 255, 0.1);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  border-radius: 20%;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.mystrixCenterKeyHasElement {
-  background-color:  rgba(255, 255, 255, 0.3);
-}
-
-.mystrixCenterKeySelected {
-  background-color: rgba(255, 255, 255, 0.5);
-  transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
-}
-
-.mystrixCenterKeyDim{
-  background-color:  rgba(255, 255, 255, 0.0);
-}
-
-.mystrixCenterKey:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
-}
+/* Removed unused hardware specific styles (Underglow, TouchKey, CenterKey) */

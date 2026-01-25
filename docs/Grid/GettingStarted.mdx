@@ -1,0 +1,57 @@
+---
+sidebar_position: 1
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Getting Started with PixelBoop
+
+PixelBoop is an interactive musical grid **application** (available for iOS and coming soon to Android). It features a unique **44x24 pixel grid** that serves as your primary performance surface and sequencer.
+
+## The Interface
+
+While PixelBoop is a digital app, it is designed with a tactile, physical feel. The main interface is a dense grid of 1,056 interactive virtual LEDs. Each LED can represent a musical step or a visual effect.
+
+### Interactive Grid Demonstration
+
+Below is a live simulation of the PixelBoop grid. You can hover over the pixels to see them respond, simulating the physical touch interface.
+
+export function HardwareDemo() {
+    const uiElements = [
+        {
+            "name": "Note Input Area",
+            "desc": "The primary area for entering musical notes. Tapping here toggles a step in the sequencer.",
+            "elements": [
+                {
+                    "pos": [0, 0],
+                    "size": [44, 24],
+                    "color": "#333333"
+                },
+                {
+                   "pos": [5, 5],
+                   "size": [2, 2],
+                   "color": "#00FF00"
+                },
+                {
+                   "pos": [10, 10],
+                   "size": [2, 2],
+                   "color": "#0000FF"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="PixelBoop Grid"
+        uiDescription="Hover over pixels to interact with the 44x24 grid simulation."
+        uiElements={uiElements}
+    />
+}
+
+<HardwareDemo />
+
+## Basic Concepts
+
+- **Pixels as Steps**: Each vertical column typically represents a point in time, while horizontal rows often represent pitch or track layers.
+- **Multitouch**: On physical devices, PixelBoop supports complex multitouch gestures for drawing patterns and manipulating sounds.
+- **Visual Feedback**: Every interaction is met with vibrant glowing feedback, designed to be as much a visual instrument as a musical one.
