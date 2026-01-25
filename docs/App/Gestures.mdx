@@ -1,0 +1,468 @@
+---
+sidebar_position: 5
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Gestures & Drawing
+
+PixelBoop uses intuitive gesture-based input for drawing musical patterns. Different gestures create different musical results depending on the track and direction.
+
+## Gesture Overview
+
+PixelBoop interprets your touch gestures based on:
+- **Direction**: Horizontal, vertical, or diagonal
+- **Track**: Melody, Chords, Bass, or Rhythm
+- **Duration**: Quick tap vs. held touch
+
+## Basic Gestures
+
+### Tap (All Tracks)
+
+The simplest gesture — tap any pixel to place a single note.
+
+export function TapDemo() {
+    const uiElements = [
+        {
+            "name": "Tap to Place Note",
+            "desc": "Single tap places one note at that step and pitch.",
+            "elements": [
+                {
+                    "pos": [10, 5],
+                    "size": [1, 1],
+                    "color": "#F7DC6F"
+                }
+            ]
+        },
+        {
+            "name": "Melody Track",
+            "desc": "Rows 2-7. Tap to place melody notes.",
+            "elements": [
+                {
+                    "pos": [4, 2],
+                    "size": [32, 6],
+                    "color": "#333333"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Tap Gesture"
+        uiDescription="Tap any pixel to place a single note"
+        uiElements={uiElements}
+    />
+}
+
+<TapDemo />
+
+### Accent (Hold)
+
+Hold a pixel for **400ms+** to place an accented (louder) note.
+
+export function AccentDemo() {
+    const uiElements = [
+        {
+            "name": "Accented Note",
+            "desc": "Hold 400ms+ for a louder note (velocity 96 vs 64).",
+            "elements": [
+                {
+                    "pos": [12, 4],
+                    "size": [1, 1],
+                    "color": "#FFD700"
+                }
+            ]
+        },
+        {
+            "name": "Normal Note",
+            "desc": "Quick tap for standard velocity.",
+            "elements": [
+                {
+                    "pos": [14, 5],
+                    "size": [1, 1],
+                    "color": "#F7DC6F"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Accent Gesture"
+        uiDescription="Hold longer for accented notes (brighter = louder)"
+        uiElements={uiElements}
+    />
+}
+
+<AccentDemo />
+
+---
+
+## Horizontal Gestures
+
+Swipe horizontally to create patterns that span multiple steps.
+
+### Run (Melody)
+
+Horizontal swipe on **Melody track** creates a **scale run** — notes ascending or descending through the current scale.
+
+export function RunDemo() {
+    const notes = [
+        [8, 5], [9, 4], [10, 4], [11, 3], [12, 3], [13, 2], [14, 2], [15, 2]
+    ];
+    
+    const uiElements = [
+        {
+            "name": "Scale Run",
+            "desc": "Horizontal swipe creates ascending/descending scale run. Notes snap to current scale.",
+            "elements": notes.map((pos, i) => ({
+                "pos": pos,
+                "size": [1, 1],
+                "color": `hsl(${45 + i * 5}, 90%, ${60 + i * 3}%)`
+            }))
+        },
+        {
+            "name": "Swipe Direction",
+            "desc": "Swipe left-to-right for ascending, right-to-left for descending.",
+            "elements": [
+                {
+                    "pos": [8, 7],
+                    "size": [8, 1],
+                    "color": "#666666"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Melody Run"
+        uiDescription="Horizontal swipe on melody = scale run"
+        uiElements={uiElements}
+    />
+}
+
+<RunDemo />
+
+### Arpeggio (Chords)
+
+Horizontal swipe on **Chords track** creates an **arpeggio** — chord notes played sequentially.
+
+export function ArpeggioDemo() {
+    // C major arpeggio: C-E-G-C across steps
+    const uiElements = [
+        {
+            "name": "Arpeggio Pattern",
+            "desc": "Chord notes spread across steps. Creates rhythmic chord pattern.",
+            "elements": [
+                { "pos": [8, 8], "size": [1, 1], "color": "#4ECDC4" },   // Root
+                { "pos": [9, 10], "size": [1, 1], "color": "#4ECDC4" },  // 3rd
+                { "pos": [10, 11], "size": [1, 1], "color": "#4ECDC4" }, // 5th
+                { "pos": [11, 8], "size": [1, 1], "color": "#4ECDC4" },  // Root
+                { "pos": [12, 10], "size": [1, 1], "color": "#4ECDC4" }, // 3rd
+                { "pos": [13, 11], "size": [1, 1], "color": "#4ECDC4" }, // 5th
+            ]
+        },
+        {
+            "name": "Chords Track",
+            "desc": "Rows 8-13. Horizontal swipe creates arpeggio.",
+            "elements": [
+                {
+                    "pos": [4, 8],
+                    "size": [32, 6],
+                    "color": "#222222"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Chord Arpeggio"
+        uiDescription="Horizontal swipe on chords = arpeggio pattern"
+        uiElements={uiElements}
+    />
+}
+
+<ArpeggioDemo />
+
+### Walking Bass (Bass)
+
+Horizontal swipe on **Bass track** creates a **walking bass line** — root, 5th, 4th pattern.
+
+export function WalkingDemo() {
+    const uiElements = [
+        {
+            "name": "Walking Bass Pattern",
+            "desc": "Root → 5th → 4th → 5th pattern. Classic bass movement.",
+            "elements": [
+                { "pos": [8, 14], "size": [1, 1], "color": "#45B7D1" },  // Root
+                { "pos": [9, 16], "size": [1, 1], "color": "#45B7D1" },  // 5th
+                { "pos": [10, 15], "size": [1, 1], "color": "#45B7D1" }, // 4th
+                { "pos": [11, 16], "size": [1, 1], "color": "#45B7D1" }, // 5th
+            ]
+        },
+        {
+            "name": "Bass Track",
+            "desc": "Rows 14-17. Horizontal swipe creates walking bass.",
+            "elements": [
+                {
+                    "pos": [4, 14],
+                    "size": [32, 4],
+                    "color": "#222222"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Walking Bass"
+        uiDescription="Horizontal swipe on bass = walking bass line"
+        uiElements={uiElements}
+    />
+}
+
+<WalkingDemo />
+
+### Drum Roll (Rhythm)
+
+Horizontal swipe on **Rhythm track** creates a **drum roll** — rapid hits on the same drum.
+
+export function RollDemo() {
+    const uiElements = [
+        {
+            "name": "Drum Roll",
+            "desc": "Rapid consecutive hits on the same drum sound.",
+            "elements": [
+                { "pos": [8, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [9, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [10, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [11, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [12, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [13, 19], "size": [1, 1], "color": "#FF6B6B" },
+            ]
+        },
+        {
+            "name": "Rhythm Track",
+            "desc": "Rows 18-21. Horizontal swipe creates drum roll.",
+            "elements": [
+                {
+                    "pos": [4, 18],
+                    "size": [32, 4],
+                    "color": "#222222"
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Drum Roll"
+        uiDescription="Horizontal swipe on rhythm = drum roll"
+        uiElements={uiElements}
+    />
+}
+
+<RollDemo />
+
+---
+
+## Vertical Gestures
+
+Swipe vertically to stack notes at the same step.
+
+### Chord Stack (Melody/Chords)
+
+Vertical swipe on **Melody or Chords** creates a **chord stack** — multiple notes at the same step.
+
+export function StackDemo() {
+    const uiElements = [
+        {
+            "name": "Chord Stack (Maj7)",
+            "desc": "Vertical swipe creates Root-3rd-5th-7th chord at one step.",
+            "elements": [
+                { "pos": [12, 8], "size": [1, 1], "color": "#4ECDC4" },  // Root
+                { "pos": [12, 9], "size": [1, 1], "color": "#4ECDC4" },  // 3rd
+                { "pos": [12, 10], "size": [1, 1], "color": "#4ECDC4" }, // 5th
+                { "pos": [12, 11], "size": [1, 1], "color": "#4ECDC4" }, // 7th
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Chord Stack"
+        uiDescription="Vertical swipe = stacked chord notes"
+        uiElements={uiElements}
+    />
+}
+
+<StackDemo />
+
+### Fifth (Bass)
+
+Vertical swipe on **Bass** creates **Root + 5th** — a power chord foundation.
+
+export function FifthDemo() {
+    const uiElements = [
+        {
+            "name": "Root + Fifth",
+            "desc": "Vertical swipe on bass adds the 5th above the root.",
+            "elements": [
+                { "pos": [12, 14], "size": [1, 1], "color": "#45B7D1" }, // Root
+                { "pos": [12, 16], "size": [1, 1], "color": "#45B7D1" }, // 5th
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Bass Fifth"
+        uiDescription="Vertical swipe on bass = root + fifth"
+        uiElements={uiElements}
+    />
+}
+
+<FifthDemo />
+
+### Multi-Drum (Rhythm)
+
+Vertical swipe on **Rhythm** plays **multiple drums** at the same step.
+
+export function MultiDrumDemo() {
+    const uiElements = [
+        {
+            "name": "Multi-Drum Hit",
+            "desc": "Vertical swipe triggers multiple drums simultaneously (e.g., kick + snare + hat).",
+            "elements": [
+                { "pos": [12, 18], "size": [1, 1], "color": "#FF6B6B" }, // Kick
+                { "pos": [12, 19], "size": [1, 1], "color": "#FF6B6B" }, // Snare
+                { "pos": [12, 20], "size": [1, 1], "color": "#FF6B6B" }, // Hat
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Multi-Drum"
+        uiDescription="Vertical swipe on rhythm = multiple drums"
+        uiElements={uiElements}
+    />
+}
+
+<MultiDrumDemo />
+
+---
+
+## Diagonal Gestures
+
+Swipe diagonally to create melodic phrases or fills.
+
+### Phrase (Melody/Chords)
+
+Diagonal swipe on **Melody or Chords** creates a **melodic phrase** — notes that follow the scale diagonally.
+
+export function PhraseDemo() {
+    const uiElements = [
+        {
+            "name": "Melodic Phrase",
+            "desc": "Diagonal creates a musical phrase following the scale.",
+            "elements": [
+                { "pos": [8, 6], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [10, 5], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [12, 4], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [14, 3], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [16, 2], "size": [1, 1], "color": "#F7DC6F" },
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Melodic Phrase"
+        uiDescription="Diagonal swipe = melodic phrase"
+        uiElements={uiElements}
+    />
+}
+
+<PhraseDemo />
+
+### Fill (Rhythm)
+
+Diagonal swipe on **Rhythm** creates a **drum fill** — notes that traverse multiple drums across steps.
+
+export function FillDemo() {
+    const uiElements = [
+        {
+            "name": "Drum Fill",
+            "desc": "Diagonal creates a fill pattern across drums.",
+            "elements": [
+                { "pos": [24, 18], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [25, 18], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [26, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [27, 19], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [28, 20], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [29, 20], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [30, 21], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [31, 21], "size": [1, 1], "color": "#FF6B6B" },
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Drum Fill"
+        uiDescription="Diagonal swipe on rhythm = drum fill"
+        uiElements={uiElements}
+    />
+}
+
+<FillDemo />
+
+---
+
+## Special Gestures
+
+### Sustain (Hold + Drag)
+
+**Hold** a note for 400ms, then **drag horizontally** to create a sustained note across multiple steps.
+
+export function SustainDemo() {
+    const uiElements = [
+        {
+            "name": "Sustained Note",
+            "desc": "First note is accented, following notes are sustain markers.",
+            "elements": [
+                { "pos": [8, 5], "size": [1, 1], "color": "#FFD700" },  // Accent
+                { "pos": [9, 5], "size": [1, 1], "color": "#F7DC6F" },  // Sustain
+                { "pos": [10, 5], "size": [1, 1], "color": "#F7DC6F" }, // Sustain
+                { "pos": [11, 5], "size": [1, 1], "color": "#F7DC6F" }, // Sustain
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Sustained Note"
+        uiDescription="Hold + drag = sustained note"
+        uiElements={uiElements}
+    />
+}
+
+<SustainDemo />
+
+### Erase (Double-Tap)
+
+**Double-tap** any pixel to erase the note at that position.
+
+### Clear (Shake)
+
+**Shake** the device to clear all notes from the current pattern.
+
+### Undo/Redo (Double-Swipe)
+
+- **Double-swipe left**: Undo last action
+- **Double-swipe right**: Redo last undone action
+
+---
+
+## Gesture Reference Table
+
+| Gesture | Direction | Melody | Chords | Bass | Rhythm |
+|---------|-----------|--------|--------|------|--------|
+| Tap | Point | Note | Note | Note | Drum hit |
+| Hold | Point | Accent | Accent | Accent | Accent |
+| Horizontal | ← → | Scale run | Arpeggio | Walking | Roll |
+| Vertical | ↑ ↓ | Chord stack | Chord stack | Root+5th | Multi-drum |
+| Diagonal | ↗ ↘ | Phrase | Phrase | Bass walk | Fill |
+| Hold+Drag | Hold → | Sustain | Sustain chord | Sustain | — |

@@ -1,0 +1,281 @@
+---
+sidebar_position: 8
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Song Sections
+
+PixelBoop supports **8 song sections** (pattern banks) for building complete songs. Each section stores an independent pattern for all 4 tracks.
+
+## Section Overview
+
+export function SectionOverview() {
+    const sectionColors = [
+        "#FF0000", "#FF8C00", "#FFFF00", "#00FF00",
+        "#00FFFF", "#0088FF", "#8800FF", "#FF00FF"
+    ];
+    
+    const uiElements = [
+        {
+            "name": "Section Columns",
+            "desc": "Columns 36-43. Each column triggers a different section.",
+            "elements": sectionColors.map((color, i) => ({
+                "pos": [36 + i, 2],
+                "size": [1, 20],
+                "color": color
+            }))
+        },
+        {
+            "name": "Current Section",
+            "desc": "The active section glows brighter. Tap another to switch.",
+            "elements": [
+                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Pattern Grid",
+            "desc": "Columns 4-35. Shows notes for the current section.",
+            "elements": [
+                { "pos": [4, 2], "size": [32, 20], "color": "#222222" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Song Sections"
+        uiDescription="8 sections (columns 36-43) for building full songs"
+        uiElements={uiElements}
+    />
+}
+
+<SectionOverview />
+
+---
+
+## Switching Sections
+
+**Tap** any section column (36-43) to switch to that section.
+
+export function SwitchDemo() {
+    const uiElements = [
+        {
+            "name": "Section 1 (Active)",
+            "desc": "Column 36. Currently active section.",
+            "elements": [
+                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Section 2",
+            "desc": "Column 37. Tap to switch.",
+            "elements": [
+                { "pos": [37, 2], "size": [1, 20], "color": "#663600" }
+            ]
+        },
+        {
+            "name": "Section 3",
+            "desc": "Column 38. Tap to switch.",
+            "elements": [
+                { "pos": [38, 2], "size": [1, 20], "color": "#666600" }
+            ]
+        },
+        {
+            "name": "Other Sections",
+            "desc": "Columns 39-43. 5 more sections available.",
+            "elements": [
+                { "pos": [39, 2], "size": [5, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Switching Sections"
+        uiDescription="Tap a section column to switch patterns"
+        uiElements={uiElements}
+    />
+}
+
+<SwitchDemo />
+
+Each section is **independent**:
+- Switching sections changes which pattern is displayed and playing
+- Notes you place are saved to the current section
+- All 4 tracks are switched together
+
+---
+
+## Section Thumbnails
+
+Each section column shows a **thumbnail preview** of the notes in that section.
+
+export function ThumbnailDemo() {
+    const uiElements = [
+        {
+            "name": "Section 1 Preview",
+            "desc": "Shows a condensed view of notes in section 1.",
+            "elements": [
+                { "pos": [36, 3], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [36, 5], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [36, 10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [36, 15], "size": [1, 1], "color": "#45B7D1" },
+                { "pos": [36, 19], "size": [1, 1], "color": "#FF6B6B" }
+            ]
+        },
+        {
+            "name": "Section 2 Preview",
+            "desc": "Different notes in section 2.",
+            "elements": [
+                { "pos": [37, 4], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [37, 9], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [37, 11], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [37, 18], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [37, 20], "size": [1, 1], "color": "#FF6B6B" }
+            ]
+        },
+        {
+            "name": "Empty Section",
+            "desc": "Section 3 has no notes yet.",
+            "elements": [
+                { "pos": [38, 2], "size": [1, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Section Thumbnails"
+        uiDescription="Each section shows a preview of its contents"
+        uiElements={uiElements}
+    />
+}
+
+<ThumbnailDemo />
+
+Thumbnails use **track colors** to show where notes are:
+- 🟡 Yellow = Melody notes
+- 🩵 Teal = Chord notes
+- 🩵 Blue = Bass notes
+- 🔴 Red = Rhythm hits
+
+---
+
+## Section Play Mode
+
+Enable **Section Play Mode** to automatically advance through all sections during playback.
+
+export function SectionPlayDemo() {
+    const uiElements = [
+        {
+            "name": "Section Play Toggle",
+            "desc": "Located in the control row. Tap to enable section play mode.",
+            "elements": [
+                { "pos": [24, 0], "size": [1, 1], "color": "#00FF00" }
+            ]
+        },
+        {
+            "name": "Playback Order",
+            "desc": "Sections play in order: 1 → 2 → 3 → ... → 8 → 1",
+            "elements": [
+                { "pos": [36, 22], "size": [1, 1], "color": "#FF0000" },
+                { "pos": [37, 22], "size": [1, 1], "color": "#666600" },
+                { "pos": [38, 22], "size": [1, 1], "color": "#006600" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Section Play Mode"
+        uiDescription="Auto-advance through sections during playback"
+        uiElements={uiElements}
+    />
+}
+
+<SectionPlayDemo />
+
+### Section Play Behavior
+
+When **Section Play Mode** is enabled:
+1. Pattern plays through all 32 steps
+2. At step 32, advances to the next section
+3. Cycles through all 8 sections
+4. Loops back to section 1 after section 8
+
+This creates a **256-step song** (8 sections × 32 steps).
+
+---
+
+## Building a Song
+
+### Workflow
+
+1. **Start in Section 1**: Create your intro or verse pattern
+2. **Copy to Section 2**: Duplicate and modify for variation
+3. **Section 3**: Build a chorus or bridge
+4. **Continue**: Fill sections 4-8 with song parts
+5. **Enable Section Play**: Listen to the full song
+
+### Arrangement Ideas
+
+| Section | Purpose | Example |
+|---------|---------|---------|
+| 1 | Intro | Sparse melody, no drums |
+| 2 | Verse 1 | Add bass and light drums |
+| 3 | Chorus | Full energy, all tracks |
+| 4 | Verse 2 | Variation of section 2 |
+| 5 | Chorus | Same as section 3 |
+| 6 | Bridge | Different feel, buildup |
+| 7 | Chorus | Final chorus, extra energy |
+| 8 | Outro | Strip back, fade out |
+
+---
+
+## Section Reference
+
+| Section | Column | Default Color |
+|---------|--------|---------------|
+| 1 | 36 | Red |
+| 2 | 37 | Orange |
+| 3 | 38 | Yellow |
+| 4 | 39 | Green |
+| 5 | 40 | Cyan |
+| 6 | 41 | Blue |
+| 7 | 42 | Purple |
+| 8 | 43 | Magenta |
+
+---
+
+## Ghost Notes
+
+Enable **Ghost Notes** to see faded notes from other sections while editing. This helps maintain continuity across sections.
+
+export function GhostDemo() {
+    const uiElements = [
+        {
+            "name": "Active Notes",
+            "desc": "Current section's notes are bright.",
+            "elements": [
+                { "pos": [10, 5], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [14, 4], "size": [1, 1], "color": "#F7DC6F" }
+            ]
+        },
+        {
+            "name": "Ghost Notes",
+            "desc": "Notes from other sections appear dim for reference.",
+            "elements": [
+                { "pos": [12, 6], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [16, 5], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [18, 3], "size": [1, 1], "color": "#3a3520" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Ghost Notes"
+        uiDescription="See notes from other sections for reference"
+        uiElements={uiElements}
+    />
+}
+
+<GhostDemo />
+
+Toggle ghost notes using the control in row 0 (see [Control Row](/docs/App/ControlRow)).

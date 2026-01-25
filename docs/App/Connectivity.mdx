@@ -1,6 +1,8 @@
 ---
-sidebar_position: 4
+sidebar_position: 3
 ---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
 
 # MIDI Connectivity
 
@@ -27,6 +29,8 @@ PixelBoop acts as a standard class-compliant USB MIDI device when connected via 
 - **Android:** Connect directly via USB-C. Ensure "MIDI" is selected in USB configuration if prompted.
 - **Plug & Play:** No drivers required on macOS or Windows.
 
+---
+
 ## Default MIDI Channels
 
 Each track in PixelBoop transmits on a specific MIDI channel by default.
@@ -41,3 +45,150 @@ Each track in PixelBoop transmits on a specific MIDI channel by default.
 :::info
 The rhythm track maps its drum sounds to standard GM Drum notes (e.g., Kick = 36, Snare = 38).
 :::
+
+---
+
+## Changing MIDI Channels
+
+You can change the MIDI transmit channel for each track using **Config Mode**.
+
+export function ConfigModeDemo() {
+    const uiElements = [
+        {
+            "name": "Mute Column (Config Mode)",
+            "desc": "Enter config mode by double-tapping the mute column. Track indicator shows current config.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#FFFF00" },
+                { "pos": [0, 8], "size": [1, 6], "color": "#333333" },
+                { "pos": [0, 14], "size": [1, 4], "color": "#333333" },
+                { "pos": [0, 18], "size": [1, 4], "color": "#333333" }
+            ]
+        },
+        {
+            "name": "Channel Indicator",
+            "desc": "Bright pixels show current MIDI channel (1-16).",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="MIDI Config Mode"
+        uiDescription="Configure MIDI channels for each track"
+        uiElements={uiElements}
+    />
+}
+
+<ConfigModeDemo />
+
+### How to Change MIDI Channels
+
+1. **Enter Config Mode**: Double-tap the mute column (column 0)
+2. **Select Track**: Tap the track you want to configure (it highlights)
+3. **Cycle Channel**: Tap again to cycle through channels 1-16
+4. **Exit Config Mode**: Double-tap mute column again, or wait for timeout
+
+export function ChannelCycleDemo() {
+    const uiElements = [
+        {
+            "name": "Track Selected",
+            "desc": "Melody track selected for channel configuration.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#FFFF00" }
+            ]
+        },
+        {
+            "name": "Channel Display",
+            "desc": "Rows light up to show current channel (1-6 in first 6 rows).",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        },
+        {
+            "name": "Channel 1 Active",
+            "desc": "Currently set to channel 1. Tap to cycle to next channel.",
+            "elements": [
+                { "pos": [2, 0], "size": [1, 1], "color": "#00FF00" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Cycling MIDI Channels"
+        uiDescription="Tap to cycle through channels 1-16"
+        uiElements={uiElements}
+    />
+}
+
+<ChannelCycleDemo />
+
+### Channel Configuration Reference
+
+| Track | Default TX | Configurable Range | Default RX |
+|-------|------------|-------------------|------------|
+| Melody | 1 | 1-16 | Same as TX |
+| Chords | 1 | 1-16 | Same as TX |
+| Bass | 2 | 1-16 | Same as TX |
+| Rhythm | 10 | 1-16 | Same as TX |
+
+### Use Cases for Custom Channels
+
+- **Separate instruments**: Route each track to a different synth
+- **Multi-timbral synths**: Use one synth with multiple parts on different channels
+- **DAW routing**: Send tracks to different DAW channels for individual processing
+- **Hardware integration**: Match channels to your external gear setup
+
+---
+
+## MIDI Messages Sent
+
+PixelBoop sends the following MIDI messages:
+
+### Note Messages
+
+| Message | When Sent |
+|---------|-----------|
+| Note On (velocity 64) | When a note plays (normal tap) |
+| Note On (velocity 96) | When an accented note plays (long press) |
+| Note Off | When note duration ends |
+
+### Clock Messages
+
+| Message | Description |
+|---------|-------------|
+| Clock | 24 ppqn timing pulses |
+| Start | Sent when playback begins |
+| Stop | Sent when playback stops |
+| Continue | Sent when resuming from pause |
+
+---
+
+## Troubleshooting
+
+### Bluetooth MIDI Not Connecting
+
+1. Ensure Bluetooth is enabled on both devices
+2. Check that your DAW/app supports BLE MIDI
+3. Try forgetting and re-pairing the device
+4. Restart PixelBoop and the receiving app
+
+### USB MIDI Not Detected
+
+1. Try a different USB cable (some are charge-only)
+2. Check USB mode is set to "MIDI" on Android
+3. Restart your DAW after connecting
+4. Try a different USB port
+
+### Wrong Notes Playing
+
+1. Check MIDI channel matches your synth's receive channel
+2. Verify scale and key settings in PixelBoop
+3. Check your synth's transpose/octave settings
+
+### Latency Issues
+
+1. Use USB MIDI for lowest latency
+2. Reduce audio buffer size in your DAW
+3. Close other Bluetooth devices that may interfere
+4. Keep devices close together for BLE MIDI

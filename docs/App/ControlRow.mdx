@@ -1,0 +1,386 @@
+---
+sidebar_position: 6
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Control Row
+
+Row 0 (the top row) contains all playback and musical controls. These buttons let you control tempo, scale, musical key, and more.
+
+## Control Layout Overview
+
+export function ControlRowOverview() {
+    const uiElements = [
+        {
+            "name": "Play/Stop",
+            "desc": "Column 0. Tap to start/stop playback.",
+            "elements": [
+                { "pos": [0, 0], "size": [1, 1], "color": "#00FF00" }
+            ]
+        },
+        {
+            "name": "BPM Controls",
+            "desc": "Columns 1-2. Decrease/increase tempo.",
+            "elements": [
+                { "pos": [1, 0], "size": [1, 1], "color": "#FF6B6B" },
+                { "pos": [2, 0], "size": [1, 1], "color": "#4ECDC4" }
+            ]
+        },
+        {
+            "name": "Pattern Length",
+            "desc": "Columns 3-4. Decrease/increase pattern steps (8/16/32).",
+            "elements": [
+                { "pos": [3, 0], "size": [1, 1], "color": "#FF8C00" },
+                { "pos": [4, 0], "size": [1, 1], "color": "#FFFF00" }
+            ]
+        },
+        {
+            "name": "Scale Selection",
+            "desc": "Columns 5-7. Major / Minor / Pentatonic.",
+            "elements": [
+                { "pos": [5, 0], "size": [1, 1], "color": "#FF0000" },
+                { "pos": [6, 0], "size": [1, 1], "color": "#0055FF" },
+                { "pos": [7, 0], "size": [1, 1], "color": "#8A2BE2" }
+            ]
+        },
+        {
+            "name": "Root Note (Key)",
+            "desc": "Columns 8-19. Select musical key (C through B).",
+            "elements": [
+                { "pos": [8, 0], "size": [12, 1], "color": [
+                    "#FF0000", "#FF4500", "#FF8C00", "#FFC700",
+                    "#FFFF00", "#99CC33", "#00FF00", "#00FFAA",
+                    "#00FFFF", "#00AAFF", "#0055FF", "#8A2BE2"
+                ]}
+            ]
+        },
+        {
+            "name": "Clear Pattern",
+            "desc": "Column 20. Clear all notes from current pattern.",
+            "elements": [
+                { "pos": [20, 0], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        },
+        {
+            "name": "Undo",
+            "desc": "Column 21. Undo last action.",
+            "elements": [
+                { "pos": [21, 0], "size": [1, 1], "color": "#888888" }
+            ]
+        },
+        {
+            "name": "Redo",
+            "desc": "Column 22. Redo last undone action.",
+            "elements": [
+                { "pos": [22, 0], "size": [1, 1], "color": "#AAAAAA" }
+            ]
+        },
+        {
+            "name": "Ghost Notes",
+            "desc": "Column 23. Toggle ghost note display.",
+            "elements": [
+                { "pos": [23, 0], "size": [1, 1], "color": "#444444" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Control Row"
+        uiDescription="Top row contains all playback and musical controls"
+        uiElements={uiElements}
+    />
+}
+
+<ControlRowOverview />
+
+---
+
+## Play/Stop
+
+export function PlayStopDemo() {
+    const uiElements = [
+        {
+            "name": "Play/Stop Button",
+            "desc": "Green = playing, dim = stopped. Tap to toggle.",
+            "elements": [
+                { "pos": [0, 0], "size": [1, 1], "color": "#00FF00" }
+            ]
+        },
+        {
+            "name": "Playhead Position",
+            "desc": "Current step indicator moves across the grid during playback.",
+            "elements": [
+                { "pos": [12, 1], "size": [1, 22], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Play/Stop"
+        uiDescription="Column 0: Start or stop the sequencer"
+        uiElements={uiElements}
+    />
+}
+
+<PlayStopDemo />
+
+| State | Color | Description |
+|-------|-------|-------------|
+| Playing | 🟢 Bright Green | Sequencer is running |
+| Stopped | ⚫ Dim | Sequencer is paused |
+
+---
+
+## BPM (Tempo)
+
+export function BPMDemo() {
+    const uiElements = [
+        {
+            "name": "BPM Down",
+            "desc": "Column 1. Tap to decrease tempo by 5 BPM.",
+            "elements": [
+                { "pos": [1, 0], "size": [1, 1], "color": "#FF6B6B" }
+            ]
+        },
+        {
+            "name": "BPM Up",
+            "desc": "Column 2. Tap to increase tempo by 5 BPM.",
+            "elements": [
+                { "pos": [2, 0], "size": [1, 1], "color": "#4ECDC4" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="BPM Controls"
+        uiDescription="Columns 1-2: Adjust tempo"
+        uiElements={uiElements}
+    />
+}
+
+<BPMDemo />
+
+- **Default**: 120 BPM
+- **Range**: 40-240 BPM
+- **Step**: ±5 BPM per tap
+- **Hold**: Continuous adjustment
+
+---
+
+## Pattern Length
+
+export function PatternLengthDemo() {
+    const uiElements = [
+        {
+            "name": "Length Down",
+            "desc": "Column 3. Decrease pattern length (32→16→8).",
+            "elements": [
+                { "pos": [3, 0], "size": [1, 1], "color": "#FF8C00" }
+            ]
+        },
+        {
+            "name": "Length Up",
+            "desc": "Column 4. Increase pattern length (8→16→32).",
+            "elements": [
+                { "pos": [4, 0], "size": [1, 1], "color": "#FFFF00" }
+            ]
+        },
+        {
+            "name": "8-Step Pattern",
+            "desc": "Visible columns 4-11 when length is 8.",
+            "elements": [
+                { "pos": [4, 2], "size": [8, 20], "color": "#222222" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Pattern Length"
+        uiDescription="Columns 3-4: Adjust pattern length"
+        uiElements={uiElements}
+    />
+}
+
+<PatternLengthDemo />
+
+| Length | Steps | Use Case |
+|--------|-------|----------|
+| 8 | 8 steps | Quick loops, fills |
+| 16 | 16 steps | Standard patterns |
+| 32 | 32 steps | Extended phrases |
+
+---
+
+## Scale Selection
+
+export function ScaleDemo() {
+    const uiElements = [
+        {
+            "name": "Major Scale",
+            "desc": "Column 5. Bright, happy sound. Intervals: 0-2-4-5-7-9-11",
+            "elements": [
+                { "pos": [5, 0], "size": [1, 1], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Minor Scale",
+            "desc": "Column 6. Dark, emotional sound. Intervals: 0-2-3-5-7-8-10",
+            "elements": [
+                { "pos": [6, 0], "size": [1, 1], "color": "#0055FF" }
+            ]
+        },
+        {
+            "name": "Pentatonic Scale",
+            "desc": "Column 7. Simple, universal. Intervals: 0-2-4-7-9",
+            "elements": [
+                { "pos": [7, 0], "size": [1, 1], "color": "#8A2BE2" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Scale Selection"
+        uiDescription="Columns 5-7: Choose musical scale"
+        uiElements={uiElements}
+    />
+}
+
+<ScaleDemo />
+
+When you change scales, existing notes **snap to the new scale** — out-of-scale notes move to the nearest in-scale pitch.
+
+| Scale | Notes | Character |
+|-------|-------|-----------|
+| **Major** | C D E F G A B | Happy, bright |
+| **Minor** | C D Eb F G Ab Bb | Sad, emotional |
+| **Pentatonic** | C D E G A | Simple, versatile |
+
+---
+
+## Musical Key (Root Note)
+
+export function KeyDemo() {
+    const uiElements = [
+        {
+            "name": "Key Selection",
+            "desc": "Columns 8-19. Each column represents a chromatic note (C through B).",
+            "elements": [
+                { "pos": [8, 0], "size": [12, 1], "color": [
+                    "#FF0000", "#FF4500", "#FF8C00", "#FFC700",
+                    "#FFFF00", "#99CC33", "#00FF00", "#00FFAA",
+                    "#00FFFF", "#00AAFF", "#0055FF", "#8A2BE2"
+                ]}
+            ]
+        },
+        {
+            "name": "Current Key Indicator",
+            "desc": "The active key glows brighter than others.",
+            "elements": [
+                { "pos": [8, 0], "size": [1, 1], "color": "#FF0000" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Key Selection"
+        uiDescription="Columns 8-19: Select musical key (root note)"
+        uiElements={uiElements}
+    />
+}
+
+<KeyDemo />
+
+| Column | Note | Color |
+|--------|------|-------|
+| 8 | C | Red |
+| 9 | C# | Orange |
+| 10 | D | Dark Orange |
+| 11 | D# | Yellow-Orange |
+| 12 | E | Yellow |
+| 13 | F | Yellow-Green |
+| 14 | F# | Green |
+| 15 | G | Cyan-Green |
+| 16 | G# | Cyan |
+| 17 | A | Sky Blue |
+| 18 | A# | Blue |
+| 19 | B | Purple |
+
+Changing the key **transposes all notes** in the pattern to the new key.
+
+---
+
+## Clear, Undo, Redo
+
+export function EditControlsDemo() {
+    const uiElements = [
+        {
+            "name": "Clear All",
+            "desc": "Column 20. Clears all notes from the current pattern.",
+            "elements": [
+                { "pos": [20, 0], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        },
+        {
+            "name": "Undo",
+            "desc": "Column 21. Reverts the last change.",
+            "elements": [
+                { "pos": [21, 0], "size": [1, 1], "color": "#888888" }
+            ]
+        },
+        {
+            "name": "Redo",
+            "desc": "Column 22. Re-applies an undone change.",
+            "elements": [
+                { "pos": [22, 0], "size": [1, 1], "color": "#AAAAAA" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Edit Controls"
+        uiDescription="Columns 20-22: Clear, Undo, Redo"
+        uiElements={uiElements}
+    />
+}
+
+<EditControlsDemo />
+
+- **Clear**: Removes all notes (can be undone)
+- **Undo**: Supports multiple levels
+- **Redo**: Restore undone changes
+
+---
+
+## Ghost Notes Toggle
+
+export function GhostDemo() {
+    const uiElements = [
+        {
+            "name": "Ghost Notes Toggle",
+            "desc": "Column 23. Shows faded notes from other sections for reference.",
+            "elements": [
+                { "pos": [23, 0], "size": [1, 1], "color": "#444444" }
+            ]
+        },
+        {
+            "name": "Ghost Note Example",
+            "desc": "Faded notes from other sections appear as dim pixels.",
+            "elements": [
+                { "pos": [10, 5], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [14, 6], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [18, 4], "size": [1, 1], "color": "#3a3520" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Ghost Notes"
+        uiDescription="Column 23: Toggle ghost note display"
+        uiElements={uiElements}
+    />
+}
+
+<GhostDemo />
+
+Ghost notes show faded versions of notes from other song sections, helping you create cohesive arrangements.
