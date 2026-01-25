@@ -22,45 +22,45 @@ Hover over the sections below to see how each track is mapped to the PixelBoop g
 export function TracksDemo() {
     const uiElements = [
         {
-            "name": "Chords Track",
-            "desc": "The top section of the grid. Notes here create lush pads and harmonies.",
-            "elements": [
-                {
-                    "pos": [0, 0],
-                    "size": [44, 6],
-                    "color": "#FFC0CB" // Pink
-                }
-            ]
-        },
-        {
             "name": "Melody Track",
-            "desc": "The second section. Used for high-pitched leads and riffs.",
+            "desc": "Rows 2-7 (6 rows). High-pitched leads and riffs.",
             "elements": [
                 {
-                    "pos": [0, 6],
+                    "pos": [0, 2],
                     "size": [44, 6],
                     "color": "#ADD8E6" // Light Blue
                 }
             ]
         },
         {
-            "name": "Bass Track",
-            "desc": "The third section. Handles the low frequencies.",
+            "name": "Chords Track",
+            "desc": "Rows 8-13 (6 rows). Foundation pads and harmonies.",
             "elements": [
                 {
-                    "pos": [0, 12],
+                    "pos": [0, 8],
                     "size": [44, 6],
+                    "color": "#FFC0CB" // Pink
+                }
+            ]
+        },
+        {
+            "name": "Bass Track",
+            "desc": "Rows 14-17 (4 rows). Low-end energy.",
+            "elements": [
+                {
+                    "pos": [0, 14],
+                    "size": [44, 4],
                     "color": "#90EE90" // Light Green
                 }
             ]
         },
         {
-            "name": "Drums Track",
-            "desc": "The bottom section. Used for kicks, snares, and hats.",
+            "name": "Rhythm Track",
+            "desc": "Rows 18-21 (4 rows). Drums (Kick, Snare, Hats, etc.).",
             "elements": [
                 {
                     "pos": [0, 18],
-                    "size": [44, 6],
+                    "size": [44, 4],
                     "color": "#FFFFE0" // Light Yellow
                 }
             ]
@@ -69,7 +69,7 @@ export function TracksDemo() {
 
     return <MystrixVisualizer
         uiName="Track Layout"
-        uiDescription="The 44x24 grid is divided into four horizontal tracks of 6 rows each."
+        uiDescription="The grid is divided horizontally into four tracks."
         uiElements={uiElements}
     />
 }

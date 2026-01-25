@@ -1,0 +1,43 @@
+---
+sidebar_position: 4
+---
+
+# MIDI Connectivity
+
+PixelBoop generates MIDI (Musical Instrument Digital Interface) data, allowing you to control external synthesizers, DAWs, and other music software.
+
+## Bluetooth MIDI (BLE)
+
+PixelBoop supports MIDI over Bluetooth Low Energy (BLE).
+
+### How to Connect
+1.  Open your DAW or MIDI host software (e.g., GarageBand, Ableton Live, Logic Pro).
+2.  Navigate to the Bluetooth MIDI settings.
+3.  Look for **"PixelBoop MIDI"**.
+4.  Connect to pair.
+
+**Technical Details:**
+- **Service UUID:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700`
+- **Output:** PixelBoop sends Note On/Off messages and MIDI Clock.
+
+## USB MIDI
+
+PixelBoop acts as a standard class-compliant USB MIDI device when connected via USB.
+
+- **Android:** Connect directly via USB-C. Ensure "MIDI" is selected in USB configuration if prompted.
+- **Plug & Play:** No drivers required on macOS or Windows.
+
+## Default MIDI Channels
+
+Each track in PixelBoop transmits on a specific MIDI channel by default.
+
+| Track | Default Channel | Notes |
+| :--- | :--- | :--- |
+| **Melody** | **Channel 1** | Shares channel with Chords by default. |
+| **Chords** | **Channel 1** | Shares channel with Melody by default. |
+| **Bass** | **Channel 2** | |
+| **Rhythm** | **Channel 10** | Standard General MIDI (GM) Drum channel. |
+
+:::info
+The rhythm track maps its drum sounds to standard GM Drum notes (e.g., Kick = 36, Snare = 38).
+:::

@@ -111,7 +111,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} PixelBoop.`,
+      copyright: `Copyright © ${new Date().getFullYear()} PixelBoop by Audiolux Devices and dbinc. <br/> Wiki tech powered by <a href="https://203.io" target="_blank">203 Systems</a>.`,
     },
     image: 'img/social-card.jpg',
     prism: {
