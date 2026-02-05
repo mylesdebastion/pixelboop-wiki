@@ -4,40 +4,78 @@ sidebar_position: 4
 
 # Common Q&A
 
-### Q: Where is 203 Systems based?
+## Company & Product
 
-203 Systems is based in the US. It is currently run by me, Nengzhuo Cai (also known as Null). 203 is not a full-time job yet, and I move from place to place, so there is no single physical location.
+### Q: Who makes PixelBoop?
 
-### Q: How do I get started with Mystrix?
+PixelBoop is an **Audiolux** product. Audiolux creates innovative music creation tools and is owned and operated by **de Bastion, Inc**.
 
-Please refer to the [quick start guide](./GettingStarted) for Mystrix.
+- **Audiolux**: [www.audiolux.app](https://www.audiolux.app)
+- **de Bastion, Inc**: [inc.debastion.com](https://inc.debastion.com)
 
-### Q: Why is the Mystrix labeled as Matrix on the box?
+### Q: Is PixelBoop available for Android?
 
-Mystrix underwent a branding change in 2024; the box was not reprinted.
+**Coming soon!** PixelBoop is currently available on iOS (iPhone and iPad), with Android support in active development. Follow [@audioluxapp](https://twitter.com/audioluxapp) for updates.
 
-### Q: Why is the magnet falling out? What are the extra pieces in the box?
+### Q: Is there a desktop version?
 
-I only made one batch of Mystrix in 2023, so the units being sold are still from that original batch. The hot glue degraded while they were in storage, so the magnets might fall out during shipping. No need to worry—just put them back in and then install the pad.
+Not currently. PixelBoop is designed as a mobile-first experience, optimized for multitouch gestures on iOS and Android devices. A desktop companion app may be considered in the future.
 
-There is a metal function key replacement as the special gift for Mystrix batch 1. There has not been a batch 2 yet, so all existing Mystrix units come with it.
+## Playing with Others
 
-### Q: Why is the bottom pad not pre-installed?
+### Q: Can people jam together with PixelBoop?
 
-For legal reasons, the device information plaque cannot be covered up out of the box. The pads are shipped separately to comply with this rule.
+**Yes!** Multiple PixelBoop devices can sync together for collaborative jamming. See our [Multi-Device Sync](../JamWithOthers/MultiDeviceSync) guide to learn how to connect devices and jam in real-time.
 
-### Q: Why is there no documentation or quick start guide in the box?
+### Q: How many devices can sync together?
 
-Mystrix batch 1 started production months before the first delivery for the Kickstarter. By the time they were in production, the documentation was not ready. Mystrix also undergoes constant updates, so any included printed documentation would quickly become outdated.
+Currently, PixelBoop supports **up to 8 devices** syncing together simultaneously. One device acts as the host and shares playback state, BPM, and timing with all connected peers.
 
-### Q: What is the main focus of Mystrix? It seems very open-ended with no clear focus.
+### Q: Do we need to be on the same WiFi network?
 
-The ultimate goal for Mystrix is to be a highly customizable and flexible platform for music applications. We are not there yet, and we need practical steps to pave the way.
+Yes, for best results all devices should be on the same WiFi network. PixelBoop uses WiFi for device discovery and synchronization via Ableton Link protocol.
 
-Mystrix 1 launched as a regular MIDI controller that served as a platform for the community to build upon. After years of work, it is now capable of more than just MIDI control and can function as a standalone component in a music studio setup with features like the advanced note app, customizable control map, and sequencer.
+## MIDI & External Gear
 
-### Q: What are you doing differently for Mystrix 2?
+### Q: Can I use PixelBoop with my MIDI gear?
 
-The software capabilities of Mystrix have drastically outgrown the hardware, so it is time for Mystrix 2, with a more premium build, better I/O options, refined control options, and an internal battery.
+**Yes!** PixelBoop supports both:
+- **USB MIDI** via Lightning/USB-C adapter (iOS)
+- **Bluetooth MIDI** for wireless connections
 
-We will continue advancing Mystrix for years to come, so in the future we may have enough capabilities to make other focused products like a groove box, standalone sequencer, and other specialized devices.
+Each track can send MIDI to different channels, making it easy to control multiple synths, drum machines, or DAWs. See [Connectivity](../Connectivity/Connectivity) for setup.
+
+### Q: Can I sync PixelBoop with my DAW?
+
+Absolutely! PixelBoop includes **Ableton Link** support for tight timing sync with desktop DAWs like Ableton Live, Bitwig, and other Link-enabled apps. You can also send MIDI clock if your DAW prefers that.
+
+## LED Integration
+
+### Q: Can I connect external LED strips?
+
+**Yes!** PixelBoop can control [WLED](https://kno.wled.ge/)-compatible LED strips over WiFi. The bottom-left corner shows a rainbow gradient when WLED is enabled, and your LEDs will mirror the grid patterns in real-time. Perfect for live performances!
+
+### Q: What LEDs are compatible?
+
+Any **WLED-compatible** LED strip or controller. WLED is an open-source project that runs on ESP8266/ESP32 chips and supports addressable LEDs (WS2812B, SK6812, etc.). Search "WLED controller" online for ready-made options.
+
+## Getting Help
+
+### Q: I found a bug. How do I report it?
+
+Please report bugs or request features:
+- **Email**: [support@audiolux.app](mailto:support@audiolux.app)
+- **GitHub**: Coming soon
+- **Discord**: Join our community for quick help and discussions
+
+### Q: Do I need an account to use PixelBoop?
+
+**No account required!** PixelBoop works completely offline. All your patterns and settings are stored locally on your device.
+
+### Q: Can I export my patterns?
+
+Pattern export/import is on the roadmap. For now, patterns are saved locally. Multi-device sync lets you share and copy patterns between devices during a session.
+
+### Q: Does PixelBoop cost money?
+
+PixelBoop is currently **free** during beta. Pricing details for the full release will be announced later.
