@@ -55,9 +55,11 @@ Absolutely! PixelBoop includes **Ableton Link** support for tight timing sync wi
 
 **Yes!** PixelBoop can control [WLED](https://kno.wled.ge/)-compatible LED strips over WiFi. The bottom-left corner shows a rainbow gradient when WLED is enabled, and your LEDs will mirror the grid patterns in real-time. Perfect for live performances!
 
+**See our [WLED Setup Guide](../Connectivity/WLED) for complete instructions.**
+
 ### Q: What LEDs are compatible?
 
-Any **WLED-compatible** LED strip or controller. WLED is an open-source project that runs on ESP8266/ESP32 chips and supports addressable LEDs (WS2812B, SK6812, etc.). Search "WLED controller" online for ready-made options.
+Any **WLED-compatible** LED strip or controller. WLED is an open-source project that runs on ESP8266/ESP32 chips and supports addressable LEDs (WS2812B, SK6812, etc.). Search "WLED controller" online for ready-made options, or follow our [WLED guide](../Connectivity/WLED) to build your own.
 
 ## Getting Help
 
