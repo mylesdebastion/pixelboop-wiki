@@ -244,6 +244,141 @@ This creates a **256-step song** (8 sections × 32 steps).
 
 ---
 
+## Section Copy & Merge
+
+PixelBoop supports copying sections and merging them additively with other sections. This is perfect for creating variations and building up arrangements.
+
+### Copy a Section (Hold 1s)
+
+export function SectionCopyDemo() {
+    const uiElements = [
+        {
+            "name": "Hold Section Column",
+            "desc": "Hold any section column for 1 second to copy it.",
+            "elements": [
+                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Tooltip Shows 'COPIED X'",
+            "desc": "Confirmation that section X was copied to clipboard.",
+            "elements": [
+                { "pos": [20, 11], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Copy Section"
+        uiDescription="Hold section column for 1s to copy"
+        uiElements={uiElements}
+    />
+}
+
+<SectionCopyDemo />
+
+**How to copy:**
+1. **Hold** any section column (36-43) for 1 second
+2. See **"COPIED X"** tooltip (where X is section number)
+3. Section is now in clipboard
+
+### Merge to Another Section (Tap)
+
+export function SectionMergeDemo() {
+    const uiElements = [
+        {
+            "name": "Source Section (Copied)",
+            "desc": "Section 1 was copied. It contains some notes.",
+            "elements": [
+                { "pos": [36, 3], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [36, 10], "size": [1, 1], "color": "#4ECDC4" }
+            ]
+        },
+        {
+            "name": "Target Section (Before Merge)",
+            "desc": "Section 2 has different notes.",
+            "elements": [
+                { "pos": [37, 5], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [37, 12], "size": [1, 1], "color": "#4ECDC4" }
+            ]
+        },
+        {
+            "name": "After Merge",
+            "desc": "Section 2 now has notes from BOTH sections (additive).",
+            "elements": [
+                { "pos": [37, 3], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [37, 5], "size": [1, 1], "color": "#F7DC6F" },
+                { "pos": [37, 10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [37, 12], "size": [1, 1], "color": "#4ECDC4" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Merge Sections"
+        uiDescription="Tap target section to merge additively"
+        uiElements={uiElements}
+    />
+}
+
+<SectionMergeDemo />
+
+**How to merge:**
+1. **Copy** a section (hold 1s)
+2. **Tap** a different section column
+3. See **"MERGED"** tooltip
+4. Target section switches to active
+5. Target section now contains notes from **both** sections (additive merge)
+
+### Additive Merge Behavior
+
+When merging sections:
+- **Existing notes are preserved**: Notes in the target section stay
+- **New notes are added**: Notes from the copied section are added
+- **Overlapping notes**: If both sections have a note at the same position, the copied note replaces it
+- **All tracks merged**: Melody, Chords, Bass, and Rhythm all merge
+
+### Use Cases
+
+#### Creating Variations
+1. Copy section 1 (intro)
+2. Merge to section 2
+3. Add extra notes to section 2 (variation)
+
+#### Building Up Arrangements
+1. Section 1: Just melody
+2. Copy section 1, merge to section 2
+3. Add bass to section 2 (melody + bass)
+4. Copy section 2, merge to section 3
+5. Add drums to section 3 (melody + bass + drums)
+
+#### Combining Song Parts
+1. Section 1: Verse melody
+2. Section 2: Chorus chords
+3. Copy section 1, merge to section 3
+4. Copy section 2, merge to section 3
+5. Section 3 now has both verse melody AND chorus chords
+
+### Undo Support
+
+Merging is **fully undoable**:
+- Press **Undo** (row 0, column 21) to restore the pre-merge state
+- Or use **double-swipe left** gesture for quick undo
+
+### Section Variation (Tap-Tap)
+
+If you tap a section and then **tap an empty section**, you get a **variation** (not a merge):
+1. **Tap** section 1 (active)
+2. **Tap** section 2 (empty)
+3. See **"SEC VARIATION"** tooltip
+4. Section 2 gets a copy of section 1 (traditional copy, not merge)
+
+**Difference from Copy-Merge:**
+- **Variation**: Replaces target section (overwrite)
+- **Copy-Merge**: Adds to target section (additive)
+
+---
+
 ## Ghost Notes
 
 Enable **Ghost Notes** to see faded notes from other sections while editing. This helps maintain continuity across sections.

@@ -1,0 +1,380 @@
+---
+sidebar_position: 8
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Bottom Control Row (Row 23)
+
+Row 23 (the bottom row) contains advanced features for external hardware control, collaboration, and session management.
+
+## Control Layout Overview
+
+export function BottomRowOverview() {
+    const uiElements = [
+        {
+            "name": "WLED Controls",
+            "desc": "Columns 0-3. Control external LED strips via WLED.",
+            "elements": [
+                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"] }
+            ]
+        },
+        {
+            "name": "Link Button",
+            "desc": "Columns 5-7. Toggle Ableton Link timing sync.",
+            "elements": [
+                { "pos": [5, 23], "size": [3, 1], "color": "#FFFFFF" }
+            ]
+        },
+        {
+            "name": "Mode Button",
+            "desc": "Columns 8-9. Toggle between play modes.",
+            "elements": [
+                { "pos": [8, 23], "size": [2, 1], "color": "#888888" }
+            ]
+        },
+        {
+            "name": "Sync Button",
+            "desc": "Columns 10-12. Multi-device sync controls.",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+            ]
+        },
+        {
+            "name": "Device Indicators",
+            "desc": "Columns 13-20. Shows connected devices (up to 8).",
+            "elements": [
+                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Bottom Control Row"
+        uiDescription="Row 23 contains WLED, Link, Mode, Sync, and device indicators"
+        uiElements={uiElements}
+    />
+}
+
+<BottomRowOverview />
+
+---
+
+## WLED Controls (Cols 0-3)
+
+export function WLEDDemo() {
+    const uiElements = [
+        {
+            "name": "WLED Gradient",
+            "desc": "Rainbow gradient chase shows WLED status. Tap to toggle.",
+            "elements": [
+                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#FF8800", "#00FF00", "#00FFAA"] }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="WLED Controls"
+        uiDescription="Columns 0-3: Control external LED strips"
+        uiElements={uiElements}
+    />
+}
+
+<WLEDDemo />
+
+### What is WLED?
+WLED is an open-source LED strip control system. PixelBoop can send pattern data to WLED devices to create synchronized light shows.
+
+### Visual Indicator
+- **Rainbow gradient chase**: WLED enabled and connected
+- **Dark**: WLED disabled
+
+### Tap: Toggle WLED On/Off
+- Enables/disables WLED output
+- When enabled, sends pattern data to configured WLED device
+
+### Long-Press: WLED Settings
+- Configure WLED IP address
+- Set brightness and color mapping
+- Test connection
+
+### Features
+- **Real-time sync**: LED patterns match sequencer playback
+- **Pattern visualization**: Notes light up as they play
+- **Guide lights**: Show beat positions when master sync enabled
+- **Color mapping**: Tracks map to different LED colors
+
+**See [WLED Setup Guide](#) for configuration details.**
+
+---
+
+## Ableton Link (Cols 5-7)
+
+export function LinkButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Link Disabled",
+            "desc": "Dark = Link is off",
+            "elements": [
+                { "pos": [5, 23], "size": [3, 1], "color": "#222222" }
+            ]
+        },
+        {
+            "name": "Link Enabled (Connected)",
+            "desc": "White = Link active with peers",
+            "elements": [
+                { "pos": [5, 22], "size": [3, 1], "color": "#FFFFFF" }
+            ]
+        },
+        {
+            "name": "Link Enabled (No Peers)",
+            "desc": "Dim = Link on but no peers found",
+            "elements": [
+                { "pos": [5, 21], "size": [3, 1], "color": "#666666" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Link Button States"
+        uiDescription="Columns 5-7: Ableton Link timing sync"
+        uiElements={uiElements}
+    />
+}
+
+<LinkButtonDemo />
+
+### What is Ableton Link?
+Ableton Link synchronizes musical tempo and phase across apps and devices on the same network. It ensures all devices play in perfect time.
+
+### Tap: Toggle Link On/Off
+Enables or disables Ableton Link
+
+| Color | Status | Description |
+|-------|--------|-------------|
+| **White** | Connected | Link active, peers detected |
+| **Dim White** | Enabled, no peers | Link on, waiting for connections |
+| **Dark** | Disabled | Link is off |
+
+### Long-Press: Link Diagnostics
+Opens Link diagnostics panel showing:
+- Number of connected Link peers
+- Current Link tempo (BPM)
+- Timing offset/latency
+- Connection status
+
+### Features
+- **Tempo lock**: Syncs BPM across all Link-enabled apps
+- **Phase alignment**: Ensures beats align perfectly
+- **Zero-config**: Auto-discovers Link peers on network
+- **Cross-app sync**: Works with Ableton Live, AUM, Loopy Pro, etc.
+
+### Typical Use Cases
+- Sync PixelBoop with desktop DAW (Ableton Live, Logic Pro)
+- Multiple PixelBoop devices playing together
+- iOS music app collaboration (AUM, Loopy Pro, etc.)
+
+**See [Multi-Device Sync](MultiDeviceSync.mdx) for collaboration setup.**
+
+---
+
+## Mode Button (Cols 8-9)
+
+export function ModeButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Mode Button",
+            "desc": "Columns 8-9. Tap to cycle through play modes.",
+            "elements": [
+                { "pos": [8, 23], "size": [2, 1], "color": "#888888" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Mode Button"
+        uiDescription="Columns 8-9: Toggle play modes"
+        uiElements={uiElements}
+    />
+}
+
+<ModeButtonDemo />
+
+### Tap: Cycle Play Modes
+Cycles through available play modes:
+- **Normal**: Standard sequencer playback
+- **Section Play**: Auto-advance through sections
+- **[Future modes]**: Additional modes coming soon
+
+### Visual Feedback
+- Color changes based on current mode
+- Brief tooltip shows mode name
+
+### Section Play Mode
+When enabled:
+- Sequencer plays through all 8 sections in order
+- Automatically advances to next section at end of pattern
+- Returns to section 0 after section 7
+- Use for song arrangement playback
+
+**See [Song Sections](SongSections.mdx) for section management.**
+
+---
+
+## Sync Button (Cols 10-12)
+
+export function SyncButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Disconnected",
+            "desc": "Gray = No active sync session",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#444444" }
+            ]
+        },
+        {
+            "name": "Host",
+            "desc": "Gold = You're hosting a session",
+            "elements": [
+                { "pos": [10, 22], "size": [3, 1], "color": "#FFD700" }
+            ]
+        },
+        {
+            "name": "Follower",
+            "desc": "Green = Connected to a host",
+            "elements": [
+                { "pos": [10, 21], "size": [3, 1], "color": "#00FF00" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Sync Button States"
+        uiDescription="Columns 10-12: Multi-device sync control"
+        uiElements={uiElements}
+    />
+}
+
+<SyncButtonDemo />
+
+### What is Sync?
+Multi-device sync allows multiple iOS devices to collaborate in real-time. Devices can share patterns, sync playback, and play together with perfect timing.
+
+### Tap: Open Sync Interface
+Opens the sync control panel with options:
+- **Start Session**: Become the host
+- **Join Session**: See and join available sessions
+- **Leave Session**: Disconnect from current session
+- **Session Settings**: Configure sync options
+
+### Long-Press: Quick Join/Leave
+- **When disconnected**: Quick-join first available session
+- **When connected**: Quick-leave current session
+- Faster than opening the full menu
+
+### Visual Indicators
+
+| Color | Status | Description |
+|-------|--------|-------------|
+| **Gray** | Disconnected | No active session |
+| **Gold** | Host | You're controlling the session |
+| **Green** | Follower | Connected to a host |
+
+### Host vs. Follower
+
+#### Host (Gold)
+- Controls tempo, key, scale
+- Edits master pattern (syncs to all followers in Orchestra mode)
+- Manages session settings
+- Gold indicator in middle of sync button
+
+#### Follower (Green)
+- Receives patterns from host
+- Can adjust local volume, mute/solo
+- Pattern grid may be locked (Orchestra mode)
+- Green indicator shows connected status
+
+**See [Multi-Device Sync](MultiDeviceSync.mdx) for full collaboration guide.**
+
+---
+
+## Device Indicators (Cols 13-20)
+
+export function DeviceIndicatorsDemo() {
+    const uiElements = [
+        {
+            "name": "Connected Devices",
+            "desc": "Each device gets a unique color. Up to 8 devices supported.",
+            "elements": [
+                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" },
+                { "pos": [16, 23], "size": [1, 1], "color": "#FFFF00" },
+                { "pos": [17, 23], "size": [1, 1], "color": "#FF6600" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Device Indicators"
+        uiDescription="Columns 13-20: Shows connected devices"
+        uiElements={uiElements}
+    />
+}
+
+<DeviceIndicatorsDemo />
+
+### What They Show
+When devices are connected via WiFi Sync, each device gets a colored pixel indicator showing:
+- **Device presence**: One pixel per connected device
+- **Unique colors**: Each device auto-assigned a distinct color
+- **Connection strength**: Brightness indicates signal strength
+
+### Tap Device Indicator
+Tap any device indicator to see:
+- Device name (e.g., "iPhone 15 Pro")
+- Connection status
+- Signal strength
+
+### Maximum Devices
+- **Supported**: Up to 8 simultaneous devices
+- **Positions**: Columns 13-20 (8 columns)
+- **Auto-assignment**: First-come, first-served positioning
+
+### Colors
+Each device gets a unique hue from a predefined palette:
+- Device 1: Green
+- Device 2: Cyan
+- Device 3: Magenta
+- Device 4: Yellow
+- Device 5: Orange
+- Device 6: Teal
+- Device 7: Purple
+- Device 8: Pink
+
+### Use Cases
+- **See who's connected**: Quick visual roster
+- **Monitor connection health**: Dim = weak signal
+- **Identify devices**: Tap for device name
+- **Session management**: See when devices join/leave
+
+---
+
+## Quick Reference
+
+| Control | Columns | Function | Tap | Long-Press |
+|---------|---------|----------|-----|------------|
+| **WLED** | 0-3 | LED strip control | Toggle on/off | Settings |
+| **Link** | 5-7 | Ableton Link sync | Toggle Link | Diagnostics |
+| **Mode** | 8-9 | Play mode | Cycle modes | — |
+| **Sync** | 10-12 | Multi-device sync | Sync menu | Quick join/leave |
+| **Devices** | 13-20 | Device indicators | Show name | — |
+
+---
+
+**See Also:**
+- [Control Row](ControlRow.mdx) - Row 0 (top) controls
+- [Multi-Device Sync](MultiDeviceSync.mdx) - Collaboration setup
+- [Connectivity](Connectivity.mdx) - MIDI and other connections
