@@ -18,100 +18,104 @@ Below is a live simulation of the PixelBoop grid. You can hover over the pixels 
 
 export function HardwareDemo() {
     const uiElements = [
-        {
-            "name": "Control Row (Row 0)",
-            "desc": "Top row: Play/Stop, BPM, Pattern Length, Scale, Key, Clear, Undo/Redo, Ghost Notes",
-            "elements": [
-                { "pos": [0, 0], "size": [1, 1], "color": "#00FF00" },  // Play
-                { "pos": [1, 0], "size": [25, 1], "color": "#444444" },  // BPM, Scale, Key controls
-                { "pos": [26, 0], "size": [3, 1], "color": "#FFFFFF" },  // BPM indicator
-                { "pos": [29, 0], "size": [15, 1], "color": "#444444" }   // Clear, Undo, etc.
-            ]
-        },
-        {
-            "name": "Track Row (Row 1)",
-            "desc": "Track labels: Melody, Chords, Bass, Rhythm",
-            "elements": [
-                { "pos": [0, 1], "size": [4, 1], "color": "#666666" },   // Track labels
-                { "pos": [4, 1], "size": [32, 1], "color": "#222222" },  // Pattern area
-                { "pos": [36, 1], "size": [8, 1], "color": "#333333" }   // Sections
-            ]
-        },
-        {
-            "name": "Melody Track (Rows 2-7)",
-            "desc": "6 rows for melody notes (yellow)",
-            "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#555555" },   // Mute
-                { "pos": [1, 2], "size": [1, 6], "color": "#444444" },   // Solo
-                { "pos": [2, 2], "size": [1, 6], "color": "#333333" },   // Volume
-                { "pos": [3, 2], "size": [1, 6], "color": "#222222" },   // Interval
-                { "pos": [4, 2], "size": [32, 6], "color": "#1a1a1a" },  // Pattern grid
-                { "pos": [36, 2], "size": [8, 6], "color": "#2a2a1a" }   // Sections
-            ]
-        },
-        {
-            "name": "Chords Track (Rows 8-13)",
-            "desc": "6 rows for chord notes (teal)",
-            "elements": [
-                { "pos": [0, 8], "size": [1, 6], "color": "#555555" },
-                { "pos": [1, 8], "size": [1, 6], "color": "#444444" },
-                { "pos": [2, 8], "size": [1, 6], "color": "#333333" },
-                { "pos": [3, 8], "size": [1, 6], "color": "#222222" },
-                { "pos": [4, 8], "size": [32, 6], "color": "#1a1a1a" },
-                { "pos": [36, 8], "size": [8, 6], "color": "#1a2a2a" }
-            ]
-        },
-        {
-            "name": "Bass Track (Rows 14-17)",
-            "desc": "4 rows for bass notes (blue)",
-            "elements": [
-                { "pos": [0, 14], "size": [1, 4], "color": "#555555" },
-                { "pos": [1, 14], "size": [1, 4], "color": "#444444" },
-                { "pos": [2, 14], "size": [1, 4], "color": "#333333" },
-                { "pos": [3, 14], "size": [1, 4], "color": "#222222" },
-                { "pos": [4, 14], "size": [32, 4], "color": "#1a1a1a" },
-                { "pos": [36, 14], "size": [8, 4], "color": "#1a1a2a" }
-            ]
-        },
-        {
-            "name": "Rhythm Track (Rows 18-21)",
-            "desc": "4 rows for drum hits (red)",
-            "elements": [
-                { "pos": [0, 18], "size": [1, 4], "color": "#555555" },
-                { "pos": [1, 18], "size": [1, 4], "color": "#444444" },
-                { "pos": [2, 18], "size": [1, 4], "color": "#333333" },
-                { "pos": [3, 18], "size": [1, 4], "color": "#222222" },
-                { "pos": [4, 18], "size": [32, 4], "color": "#1a1a1a" },
-                { "pos": [36, 18], "size": [8, 4], "color": "#2a1a1a" }
-            ]
-        },
-        {
-            "name": "Utility Row (Row 22)",
-            "desc": "Section controls: Play, Clear buttons",
-            "elements": [
-                { "pos": [0, 22], "size": [4, 1], "color": "#444444" },
-                { "pos": [4, 22], "size": [32, 1], "color": "#222222" },
-                { "pos": [36, 22], "size": [8, 1], "color": "#333333" }
-            ]
-        },
-        {
-            "name": "Bottom Control Row (Row 23)",
-            "desc": "WLED (0-3), Link (5-7), Mode (8-9), Sync (10-12), Device Indicators (13-20)",
-            "elements": [
-                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#FF8800", "#00FF00", "#00FFAA"] },  // WLED gradient
-                { "pos": [4, 23], "size": [1, 1], "color": "#111111" },  // Spacer
-                { "pos": [5, 23], "size": [3, 1], "color": "#666666" },  // Link
-                { "pos": [8, 23], "size": [2, 1], "color": "#555555" },  // Mode
-                { "pos": [10, 23], "size": [3, 1], "color": "#444444" }, // Sync
-                { "pos": [13, 23], "size": [8, 1], "color": "#222222" }, // Device indicators
-                { "pos": [21, 23], "size": [23, 1], "color": "#111111" } // Unused
-            ]
-        }
+        // Row 0 - Control Row (individual buttons)
+        { "name": "Play/Stop", "desc": "Column 0: Start/stop playback", "elements": [{ "pos": [0, 0], "size": [1, 1], "color": "#00FF00" }] },
+        { "name": "BPM Down", "desc": "Column 1: Decrease tempo", "elements": [{ "pos": [1, 0], "size": [1, 1], "color": "#FF6B6B" }] },
+        { "name": "BPM Up", "desc": "Column 2: Increase tempo", "elements": [{ "pos": [2, 0], "size": [1, 1], "color": "#4ECDC4" }] },
+        { "name": "Length Down", "desc": "Column 3: Decrease pattern length", "elements": [{ "pos": [3, 0], "size": [1, 1], "color": "#FF8C00" }] },
+        { "name": "Length Up", "desc": "Column 4: Increase pattern length", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#FFFF00" }] },
+        { "name": "Major Scale", "desc": "Column 5", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#FF0000" }] },
+        { "name": "Minor Scale", "desc": "Column 6", "elements": [{ "pos": [6, 0], "size": [1, 1], "color": "#0055FF" }] },
+        { "name": "Pentatonic", "desc": "Column 7", "elements": [{ "pos": [7, 0], "size": [1, 1], "color": "#8A2BE2" }] },
+        { "name": "Key Selection", "desc": "Columns 8-19: C through B", "elements": [
+            { "pos": [8, 0], "size": [1, 1], "color": "#FF0000" },
+            { "pos": [9, 0], "size": [1, 1], "color": "#FF4500" },
+            { "pos": [10, 0], "size": [1, 1], "color": "#FF8C00" },
+            { "pos": [11, 0], "size": [1, 1], "color": "#FFC700" },
+            { "pos": [12, 0], "size": [1, 1], "color": "#FFFF00" },
+            { "pos": [13, 0], "size": [1, 1], "color": "#99CC33" },
+            { "pos": [14, 0], "size": [1, 1], "color": "#00FF00" },
+            { "pos": [15, 0], "size": [1, 1], "color": "#00FFAA" },
+            { "pos": [16, 0], "size": [1, 1], "color": "#00FFFF" },
+            { "pos": [17, 0], "size": [1, 1], "color": "#00AAFF" },
+            { "pos": [18, 0], "size": [1, 1], "color": "#0055FF" },
+            { "pos": [19, 0], "size": [1, 1], "color": "#8A2BE2" }
+        ] },
+        { "name": "Clear", "desc": "Column 20: Clear pattern", "elements": [{ "pos": [20, 0], "size": [1, 1], "color": "#FFFFFF" }] },
+        { "name": "Undo", "desc": "Column 21", "elements": [{ "pos": [21, 0], "size": [1, 1], "color": "#888888" }] },
+        { "name": "Redo", "desc": "Column 22", "elements": [{ "pos": [22, 0], "size": [1, 1], "color": "#AAAAAA" }] },
+        { "name": "Ghost Notes", "desc": "Column 23", "elements": [{ "pos": [23, 0], "size": [1, 1], "color": "#444444" }] },
+        { "name": "Section Play", "desc": "Column 24", "elements": [{ "pos": [24, 0], "size": [1, 1], "color": "#555555" }] },
+        { "name": "MIDI", "desc": "Column 25", "elements": [{ "pos": [25, 0], "size": [1, 1], "color": "#666666" }] },
+        { "name": "BPM -", "desc": "Column 26", "elements": [{ "pos": [26, 0], "size": [1, 1], "color": "#777777" }] },
+        { "name": "BPM Display", "desc": "Column 27: Shows current BPM", "elements": [{ "pos": [27, 0], "size": [1, 1], "color": "#FFFFFF" }] },
+        { "name": "BPM +", "desc": "Column 28", "elements": [{ "pos": [28, 0], "size": [1, 1], "color": "#777777" }] },
+        
+        // Track labels and controls - Melody (rows 2-7)
+        { "name": "Melody Mute", "desc": "Column 0, Rows 2-7: Tap to mute melody track", "elements": [{ "pos": [0, 2], "size": [1, 6], "color": "#555555" }] },
+        { "name": "Melody Solo", "desc": "Column 1, Rows 2-7: Tap to solo melody track", "elements": [{ "pos": [1, 2], "size": [1, 6], "color": "#666666" }] },
+        { "name": "Melody Volume", "desc": "Column 2, Rows 2-7: Adjust melody volume", "elements": [{ "pos": [2, 2], "size": [1, 6], "color": "#777777" }] },
+        { "name": "Melody Interval", "desc": "Column 3, Rows 2-7: Set interval mode", "elements": [{ "pos": [3, 2], "size": [1, 6], "color": "#888888" }] },
+        
+        // Melody pattern grid (32 steps × 6 pitches)
+        { "name": "Melody Grid", "desc": "Columns 4-35, Rows 2-7: Draw melody notes (yellow)", "elements": [{ "pos": [4, 2], "size": [32, 6], "color": "#1a1a0a" }] },
+        
+        // Melody sections
+        { "name": "Melody Sections", "desc": "Columns 36-43, Rows 2-7: 8 section slots", "elements": [
+            { "pos": [36, 2], "size": [1, 6], "color": "#2a1a1a" },
+            { "pos": [37, 2], "size": [1, 6], "color": "#2a1a0a" },
+            { "pos": [38, 2], "size": [1, 6], "color": "#2a2a0a" },
+            { "pos": [39, 2], "size": [1, 6], "color": "#1a2a0a" },
+            { "pos": [40, 2], "size": [1, 6], "color": "#0a2a2a" },
+            { "pos": [41, 2], "size": [1, 6], "color": "#0a1a2a" },
+            { "pos": [42, 2], "size": [1, 6], "color": "#1a0a2a" },
+            { "pos": [43, 2], "size": [1, 6], "color": "#2a0a2a" }
+        ] },
+        
+        // Chords track (rows 8-13)
+        { "name": "Chords Mute", "desc": "Column 0, Rows 8-13", "elements": [{ "pos": [0, 8], "size": [1, 6], "color": "#555555" }] },
+        { "name": "Chords Solo", "desc": "Column 1, Rows 8-13", "elements": [{ "pos": [1, 8], "size": [1, 6], "color": "#666666" }] },
+        { "name": "Chords Volume", "desc": "Column 2, Rows 8-13", "elements": [{ "pos": [2, 8], "size": [1, 6], "color": "#777777" }] },
+        { "name": "Chords Interval", "desc": "Column 3, Rows 8-13", "elements": [{ "pos": [3, 8], "size": [1, 6], "color": "#888888" }] },
+        { "name": "Chords Grid", "desc": "Columns 4-35, Rows 8-13: Draw chord notes (teal)", "elements": [{ "pos": [4, 8], "size": [32, 6], "color": "#0a1a1a" }] },
+        { "name": "Chords Sections", "desc": "Columns 36-43, Rows 8-13", "elements": [{ "pos": [36, 8], "size": [8, 6], "color": "#0a2a2a" }] },
+        
+        // Bass track (rows 14-17)
+        { "name": "Bass Mute", "desc": "Column 0, Rows 14-17", "elements": [{ "pos": [0, 14], "size": [1, 4], "color": "#555555" }] },
+        { "name": "Bass Solo", "desc": "Column 1, Rows 14-17", "elements": [{ "pos": [1, 14], "size": [1, 4], "color": "#666666" }] },
+        { "name": "Bass Volume", "desc": "Column 2, Rows 14-17", "elements": [{ "pos": [2, 14], "size": [1, 4], "color": "#777777" }] },
+        { "name": "Bass Interval", "desc": "Column 3, Rows 14-17", "elements": [{ "pos": [3, 14], "size": [1, 4], "color": "#888888" }] },
+        { "name": "Bass Grid", "desc": "Columns 4-35, Rows 14-17: Draw bass notes (blue)", "elements": [{ "pos": [4, 14], "size": [32, 4], "color": "#0a0a1a" }] },
+        { "name": "Bass Sections", "desc": "Columns 36-43, Rows 14-17", "elements": [{ "pos": [36, 14], "size": [8, 4], "color": "#0a0a2a" }] },
+        
+        // Rhythm track (rows 18-21)
+        { "name": "Rhythm Mute", "desc": "Column 0, Rows 18-21", "elements": [{ "pos": [0, 18], "size": [1, 4], "color": "#555555" }] },
+        { "name": "Rhythm Solo", "desc": "Column 1, Rows 18-21", "elements": [{ "pos": [1, 18], "size": [1, 4], "color": "#666666" }] },
+        { "name": "Rhythm Volume", "desc": "Column 2, Rows 18-21", "elements": [{ "pos": [2, 18], "size": [1, 4], "color": "#777777" }] },
+        { "name": "Rhythm Interval", "desc": "Column 3, Rows 18-21", "elements": [{ "pos": [3, 18], "size": [1, 4], "color": "#888888" }] },
+        { "name": "Rhythm Grid", "desc": "Columns 4-35, Rows 18-21: Draw drum hits (red)", "elements": [{ "pos": [4, 18], "size": [32, 4], "color": "#1a0a0a" }] },
+        { "name": "Rhythm Sections", "desc": "Columns 36-43, Rows 18-21", "elements": [{ "pos": [36, 18], "size": [8, 4], "color": "#2a0a0a" }] },
+        
+        // Row 22 - Section controls
+        { "name": "Section Play", "desc": "Columns 36-37, Row 22: Play button for sections", "elements": [{ "pos": [36, 22], "size": [2, 1], "color": "#00FF00" }] },
+        { "name": "Section Clear", "desc": "Columns 38-39, Row 22: Clear button for sections", "elements": [{ "pos": [38, 22], "size": [2, 1], "color": "#FF0000" }] },
+        
+        // Row 23 - Bottom control row (individual controls)
+        { "name": "WLED", "desc": "Columns 0-3: Rainbow gradient when enabled", "elements": [
+            { "pos": [0, 23], "size": [1, 1], "color": "#FF0000" },
+            { "pos": [1, 23], "size": [1, 1], "color": "#FF8800" },
+            { "pos": [2, 23], "size": [1, 1], "color": "#00FF00" },
+            { "pos": [3, 23], "size": [1, 1], "color": "#00FFAA" }
+        ] },
+        { "name": "Link Button", "desc": "Columns 5-7: Ableton Link timing sync", "elements": [{ "pos": [5, 23], "size": [3, 1], "color": "#666666" }] },
+        { "name": "Mode Button", "desc": "Columns 8-9: Toggle play modes", "elements": [{ "pos": [8, 23], "size": [2, 1], "color": "#555555" }] },
+        { "name": "Sync Button", "desc": "Columns 10-12: Multi-device sync", "elements": [{ "pos": [10, 23], "size": [3, 1], "color": "#444444" }] },
+        { "name": "Device Indicators", "desc": "Columns 13-20: Shows connected devices (up to 8)", "elements": [{ "pos": [13, 23], "size": [8, 1], "color": "#222222" }] }
     ];
 
     return <MystrixVisualizer
         uiName="PixelBoop 44×24 Grid"
-        uiDescription="The complete PixelBoop interface - tap to explore each section"
+        uiDescription="Hover over any pixel to see what it does - individual controls are now interactive"
         uiElements={uiElements}
     />
 }
