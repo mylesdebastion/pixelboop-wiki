@@ -35,6 +35,7 @@ const config: Config = {
           lastVersion: 'current',
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
+          routeBasePath: '/', // Make docs the site root
         },
         blog: false, // Disabled blog
         theme: {
