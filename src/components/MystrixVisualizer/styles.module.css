@@ -504,7 +504,7 @@ html[lang="zh-CN"] .functionDetailBtnText {
 }
 
 .mystrixBtnDim {
-  filter: grayscale(80%) brightness(50%)
+  filter: grayscale(20%) brightness(85%)
 }
 
 .mystrixBtnSelected {

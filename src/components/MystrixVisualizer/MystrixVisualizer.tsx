@@ -242,7 +242,7 @@ const MystrixVisualizer: React.FC<UIProps> = ({ uiName, uiDescription, uiElement
                             const keyID = y * GRID_WIDTH + x;
                             const keyFunctions = keypadFunctionStacks?.[keyID] ?? [];
                             const isSelected = selected_function != undefined && keyFunctions.includes(selected_function);
-                            let dim = false; // Disabled dimming behavior - keep all pixels at full brightness
+                            let dim = selected_function != undefined && !isSelected; // Re-enabled with lighter dimming
                             let selected = isSelected;
 
                             return ( 
