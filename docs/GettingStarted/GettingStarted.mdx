@@ -1,0 +1,132 @@
+---
+sidebar_position: 1
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Getting Started with PixelBoop
+
+PixelBoop is an interactive musical grid **application** (available for iOS and coming soon to Android). It features a unique **44x24 pixel grid** that serves as your primary performance surface and sequencer.
+
+## The Interface
+
+While PixelBoop is a digital app, it is designed with a tactile, physical feel. The main interface is a dense grid of 1,056 interactive virtual LEDs. Each LED can represent a musical step or a visual effect.
+
+### Interactive Grid Demonstration
+
+Below is a live simulation of the PixelBoop grid. You can hover over the pixels to see them respond, simulating the physical touch interface.
+
+export function HardwareDemo() {
+    const uiElements = [
+        {
+            "name": "Control Row (Row 0)",
+            "desc": "Top row: Play/Stop, BPM, Pattern Length, Scale, Key, Clear, Undo/Redo, Ghost Notes",
+            "elements": [
+                { "pos": [0, 0], "size": [1, 1], "color": "#00FF00" },  // Play
+                { "pos": [1, 0], "size": [25, 1], "color": "#444444" },  // BPM, Scale, Key controls
+                { "pos": [26, 0], "size": [3, 1], "color": "#FFFFFF" },  // BPM indicator
+                { "pos": [29, 0], "size": [15, 1], "color": "#444444" }   // Clear, Undo, etc.
+            ]
+        },
+        {
+            "name": "Track Row (Row 1)",
+            "desc": "Track labels: Melody, Chords, Bass, Rhythm",
+            "elements": [
+                { "pos": [0, 1], "size": [4, 1], "color": "#666666" },   // Track labels
+                { "pos": [4, 1], "size": [32, 1], "color": "#222222" },  // Pattern area
+                { "pos": [36, 1], "size": [8, 1], "color": "#333333" }   // Sections
+            ]
+        },
+        {
+            "name": "Melody Track (Rows 2-7)",
+            "desc": "6 rows for melody notes (yellow)",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#555555" },   // Mute
+                { "pos": [1, 2], "size": [1, 6], "color": "#444444" },   // Solo
+                { "pos": [2, 2], "size": [1, 6], "color": "#333333" },   // Volume
+                { "pos": [3, 2], "size": [1, 6], "color": "#222222" },   // Interval
+                { "pos": [4, 2], "size": [32, 6], "color": "#1a1a1a" },  // Pattern grid
+                { "pos": [36, 2], "size": [8, 6], "color": "#2a2a1a" }   // Sections
+            ]
+        },
+        {
+            "name": "Chords Track (Rows 8-13)",
+            "desc": "6 rows for chord notes (teal)",
+            "elements": [
+                { "pos": [0, 8], "size": [1, 6], "color": "#555555" },
+                { "pos": [1, 8], "size": [1, 6], "color": "#444444" },
+                { "pos": [2, 8], "size": [1, 6], "color": "#333333" },
+                { "pos": [3, 8], "size": [1, 6], "color": "#222222" },
+                { "pos": [4, 8], "size": [32, 6], "color": "#1a1a1a" },
+                { "pos": [36, 8], "size": [8, 6], "color": "#1a2a2a" }
+            ]
+        },
+        {
+            "name": "Bass Track (Rows 14-17)",
+            "desc": "4 rows for bass notes (blue)",
+            "elements": [
+                { "pos": [0, 14], "size": [1, 4], "color": "#555555" },
+                { "pos": [1, 14], "size": [1, 4], "color": "#444444" },
+                { "pos": [2, 14], "size": [1, 4], "color": "#333333" },
+                { "pos": [3, 14], "size": [1, 4], "color": "#222222" },
+                { "pos": [4, 14], "size": [32, 4], "color": "#1a1a1a" },
+                { "pos": [36, 14], "size": [8, 4], "color": "#1a1a2a" }
+            ]
+        },
+        {
+            "name": "Rhythm Track (Rows 18-21)",
+            "desc": "4 rows for drum hits (red)",
+            "elements": [
+                { "pos": [0, 18], "size": [1, 4], "color": "#555555" },
+                { "pos": [1, 18], "size": [1, 4], "color": "#444444" },
+                { "pos": [2, 18], "size": [1, 4], "color": "#333333" },
+                { "pos": [3, 18], "size": [1, 4], "color": "#222222" },
+                { "pos": [4, 18], "size": [32, 4], "color": "#1a1a1a" },
+                { "pos": [36, 18], "size": [8, 4], "color": "#2a1a1a" }
+            ]
+        },
+        {
+            "name": "Utility Row (Row 22)",
+            "desc": "Section controls: Play, Clear buttons",
+            "elements": [
+                { "pos": [0, 22], "size": [4, 1], "color": "#444444" },
+                { "pos": [4, 22], "size": [32, 1], "color": "#222222" },
+                { "pos": [36, 22], "size": [8, 1], "color": "#333333" }
+            ]
+        },
+        {
+            "name": "Bottom Control Row (Row 23)",
+            "desc": "WLED (0-3), Link (5-7), Mode (8-9), Sync (10-12), Device Indicators (13-20)",
+            "elements": [
+                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#FF8800", "#00FF00", "#00FFAA"] },  // WLED gradient
+                { "pos": [4, 23], "size": [1, 1], "color": "#111111" },  // Spacer
+                { "pos": [5, 23], "size": [3, 1], "color": "#666666" },  // Link
+                { "pos": [8, 23], "size": [2, 1], "color": "#555555" },  // Mode
+                { "pos": [10, 23], "size": [3, 1], "color": "#444444" }, // Sync
+                { "pos": [13, 23], "size": [8, 1], "color": "#222222" }, // Device indicators
+                { "pos": [21, 23], "size": [23, 1], "color": "#111111" } // Unused
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="PixelBoop 44×24 Grid"
+        uiDescription="The complete PixelBoop interface - tap to explore each section"
+        uiElements={uiElements}
+    />
+}
+
+<HardwareDemo />
+
+## Grid Zones
+
+The 44x24 grid is divided into three vertical zones:
+- **Labels (Cols 0-3):** Identify tracks and provide controls.
+- **Steps (Cols 4-35):** The main 32-step sequencer area where you draw notes.
+- **Sections (Cols 36-43):** Trigger different song sections (Intro, Verse, Chorus, etc.).
+
+## Basic Concepts
+
+- **Pixels as Steps**: Each vertical column in the "Steps" zone represents a 1/16th note (usually), while horizontal rows represent pitch or drums.
+- **Multitouch**: PixelBoop supports complex multitouch gestures for drawing patterns and manipulating sounds.
+- **Visual Feedback**: Every interaction is met with vibrant glowing feedback.

@@ -41,13 +41,13 @@ export default function Home(): JSX.Element {
           <div className={styles.buttons}>
             <Link
               className={"button" + " " + styles.hero_button}
-              to="/docs/Grid/GettingStarted">
+              to="/docs/GettingStarted/GettingStarted">
               Quick Start
             </Link>
             <Link
               className={"button" + " " + styles.hero_button}
-              to="/docs/App/AppBasics">
-              App Features
+              to="/docs/MakingSound/Gestures">
+              Making Sound
             </Link>
           </div>
         </div>

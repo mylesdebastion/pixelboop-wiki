@@ -70,15 +70,9 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'gridSidebar',
+          sidebarId: 'mainSidebar',
           position: 'left',
-          label: 'The Grid',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'appSidebar',
-          position: 'left',
-          label: 'App Features',
+          label: 'Documentation',
         },
         {
           href: 'https://github.com/mylesdebastion/pixelboop',
@@ -95,12 +89,16 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'The Grid',
-              to: 'docs/Grid/GettingStarted',
+              label: 'Getting Started',
+              to: 'docs/GettingStarted/GettingStarted',
             },
             {
-              label: 'App',
-              to: 'docs/App/AppBasics',
+              label: 'Making Sound',
+              to: 'docs/MakingSound/Gestures',
+            },
+            {
+              label: 'Jam with Others',
+              to: 'docs/JamWithOthers/MultiDeviceSync',
             },
           ],
         },
