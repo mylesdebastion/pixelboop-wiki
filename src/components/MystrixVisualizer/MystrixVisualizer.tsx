@@ -256,7 +256,7 @@ const MystrixVisualizer: React.FC<UIProps> = ({ uiName, uiDescription, uiElement
                                     style={{ 
                                         // clipPath: getCornerRadius(x, y), // Removed custom shapes
                                         backgroundColor: keyColor ? keyColor : "rgb(50, 50, 50)",
-                                        boxShadow: (keyColor && ! dim) ? `0 0 5px 1px ${keyColor}` : "none",
+                                        // boxShadow: (keyColor && ! dim) ? `0 0 5px 1px ${keyColor}` : "none", // Removed glow for clarity
                                         }}
                                     onMouseEnter={(e) => { selectHighlightFunction(keypadFunctions[keyID], keyColor);}}
                                     onClick={(e) => { lockSelectedFunction(keypadFunctions[keyID], keyColor);  e.stopPropagation()}}
