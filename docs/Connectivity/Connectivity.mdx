@@ -6,25 +6,25 @@ import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVis
 
 # MIDI Connectivity
 
-PixelBoop generates MIDI (Musical Instrument Digital Interface) data, allowing you to control external synthesizers, DAWs, and other music software.
+Pixelboop generates MIDI (Musical Instrument Digital Interface) data, allowing you to control external synthesizers, DAWs, and other music software.
 
 ## Bluetooth MIDI (BLE)
 
-PixelBoop supports MIDI over Bluetooth Low Energy (BLE).
+Pixelboop supports MIDI over Bluetooth Low Energy (BLE).
 
 ### How to Connect
 1.  Open your DAW or MIDI host software (e.g., GarageBand, Ableton Live, Logic Pro).
 2.  Navigate to the Bluetooth MIDI settings.
-3.  Look for **"PixelBoop MIDI"**.
+3.  Look for **"Pixelboop MIDI"**.
 4.  Connect to pair.
 
 **Technical Details:**
 - **Service UUID:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700`
-- **Output:** PixelBoop sends Note On/Off messages and MIDI Clock.
+- **Output:** Pixelboop sends Note On/Off messages and MIDI Clock.
 
 ## USB MIDI
 
-PixelBoop acts as a standard class-compliant USB MIDI device when connected via USB.
+Pixelboop acts as a standard class-compliant USB MIDI device when connected via USB.
 
 - **Android:** Connect directly via USB-C. Ensure "MIDI" is selected in USB configuration if prompted.
 - **Plug & Play:** No drivers required on macOS or Windows.
@@ -33,7 +33,7 @@ PixelBoop acts as a standard class-compliant USB MIDI device when connected via 
 
 ## Default MIDI Channels
 
-Each track in PixelBoop transmits on a specific MIDI channel by default.
+Each track in Pixelboop transmits on a specific MIDI channel by default.
 
 | Track | Default Channel | Notes |
 | :--- | :--- | :--- |
@@ -143,7 +143,7 @@ export function ChannelCycleDemo() {
 
 ## MIDI Messages Sent
 
-PixelBoop sends the following MIDI messages:
+Pixelboop sends the following MIDI messages:
 
 ### Note Messages
 
@@ -171,7 +171,7 @@ PixelBoop sends the following MIDI messages:
 1. Ensure Bluetooth is enabled on both devices
 2. Check that your DAW/app supports BLE MIDI
 3. Try forgetting and re-pairing the device
-4. Restart PixelBoop and the receiving app
+4. Restart Pixelboop and the receiving app
 
 ### USB MIDI Not Detected
 
@@ -183,7 +183,7 @@ PixelBoop sends the following MIDI messages:
 ### Wrong Notes Playing
 
 1. Check MIDI channel matches your synth's receive channel
-2. Verify scale and key settings in PixelBoop
+2. Verify scale and key settings in Pixelboop
 3. Check your synth's transpose/octave settings
 
 ### Latency Issues

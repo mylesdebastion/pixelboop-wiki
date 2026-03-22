@@ -443,7 +443,7 @@ html[lang="zh-CN"] .functionDetailBtnText {
 
 .mystrix {
   position: relative;
-  aspect-ratio: 44/24; /* Correct aspect ratio for PixelBoop */
+  aspect-ratio: 44/24; /* Correct aspect ratio for Pixelboop */
   z-index: 1;
   margin: 2%;
   width: 70%;

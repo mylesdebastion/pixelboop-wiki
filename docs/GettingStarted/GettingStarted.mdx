@@ -5,17 +5,17 @@ slug: /
 
 import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
 
-# Getting Started with PixelBoop
+# Getting Started with Pixelboop
 
-PixelBoop is an interactive musical grid **application** (available for iOS and coming soon to Android). It features a unique **44x24 pixel grid** that serves as your primary performance surface and sequencer.
+Pixelboop is an interactive musical grid **application** (available for iOS and coming soon to Android). It features a unique **44x24 pixel grid** that serves as your primary performance surface and sequencer.
 
 ## The Interface
 
-While PixelBoop is a digital app, it is designed with a tactile, physical feel. The main interface is a dense grid of 1,056 interactive virtual LEDs. Each LED can represent a musical step or a visual effect.
+While Pixelboop is a digital app, it is designed with a tactile, physical feel. The main interface is a dense grid of 1,056 interactive virtual LEDs. Each LED can represent a musical step or a visual effect.
 
 ### Interactive Grid Demonstration
 
-Below is a live simulation of the PixelBoop grid. You can hover over the pixels to see them respond, simulating the physical touch interface.
+Below is a live simulation of the Pixelboop grid. You can hover over the pixels to see them respond, simulating the physical touch interface.
 
 export function HardwareDemo() {
     // Exact colors from PixelGridUIView.swift
@@ -158,7 +158,7 @@ export function HardwareDemo() {
     ];
 
     return <MystrixVisualizer
-        uiName="PixelBoop 44×24 Grid"
+        uiName="Pixelboop 44×24 Grid"
         uiDescription="Exact 1:1 representation - hover over any pixel to explore"
         uiElements={uiElements}
     />
@@ -176,5 +176,5 @@ The 44x24 grid is divided into three vertical zones:
 ## Basic Concepts
 
 - **Pixels as Steps**: Each vertical column in the "Steps" zone represents a 1/16th note (usually), while horizontal rows represent pitch or drums.
-- **Multitouch**: PixelBoop supports complex multitouch gestures for drawing patterns and manipulating sounds.
+- **Multitouch**: Pixelboop supports complex multitouch gestures for drawing patterns and manipulating sounds.
 - **Visual Feedback**: Every interaction is met with vibrant glowing feedback.

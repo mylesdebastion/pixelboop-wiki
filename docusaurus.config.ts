@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'PixelBoop Wiki',
+  title: 'Pixelboop Wiki',
   favicon: 'img/favicon.png',
 
   // Set the production url of your site here
@@ -62,7 +62,7 @@ const config: Config = {
     navbar: {
       title: '',
       logo: {
-        alt: 'PixelBoop Wiki',
+        alt: 'Pixelboop Wiki',
         src: 'img/pixelboop-logo.svg',
         srcDark: 'img/pixelboop-logo-dark.svg',
         width: 140,
@@ -107,7 +107,7 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'PixelBoop Web',
+              label: 'Pixelboop Web',
               href: 'https://pixelboop.com',
             },
           ],

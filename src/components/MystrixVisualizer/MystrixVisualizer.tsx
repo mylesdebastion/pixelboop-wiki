@@ -94,7 +94,7 @@ const MystrixVisualizer: React.FC<UIProps> = ({ uiName, uiDescription, uiElement
             if(element.elements === undefined) return;
 
             element.elements?.forEach((displayElement) => {
-                // PixelBoop only uses main grid elements
+                // Pixelboop only uses main grid elements
                 if (displayElement.pos[0] === "t" || displayElement.pos[0] === "u" || displayElement.pos[0] === "c") {
                     return; // Skip Touchbar, Underglow, CenterKey
                 } else {
@@ -186,7 +186,7 @@ const MystrixVisualizer: React.FC<UIProps> = ({ uiName, uiDescription, uiElement
     <ErrorBoundary
         fallback={({error, tryAgain}) => (
         <div>
-            <p>The PixelBoop Visualizer crashed because of error: {error.message}.</p>
+            <p>The Pixelboop Visualizer crashed because of error: {error.message}.</p>
             <button onClick={tryAgain}>Try Again!</button>
         </div>
         )}>
