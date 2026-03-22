@@ -64,7 +64,7 @@
     "description": "The label of footer link with label=GitHub linking to https://github.com/203-Systems"
   },
   "copyright": {
-    "message": "Copyright © 2025 203 Systems",
+    "message": "Copyright © 2025 Pixelboop Wiki Content - Audiolux Devices and dbinc. <br/> Documentation framework based on <a href=\"https://github.com/203-Systems/Matrix-Wiki\" target=\"_blank\">203 Systems' Docusaurus template</a>.",
     "description": "The footer copyright"
   },
   "logo.alt": {
