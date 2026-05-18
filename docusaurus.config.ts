@@ -76,6 +76,11 @@ const config: Config = {
           label: 'Documentation',
         },
         {
+          type: 'docsVersionDropdown',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
+        },
+        {
           href: 'https://github.com/mylesdebastion/pixelboop',
           position: 'right',
           className: 'header-github-link',
