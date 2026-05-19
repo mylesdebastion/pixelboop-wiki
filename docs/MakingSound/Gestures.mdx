@@ -412,6 +412,52 @@ export function FillDemo() {
 
 ---
 
+## Progression Fill (Chords Track Only)
+
+**Progression Fill** is an intelligent chord-filling gesture exclusive to the Chords track. It uses harmonic intelligence to suggest musically coherent chord sequences.
+
+export function ProgressionFillDemo() {
+    const uiElements = [
+        {
+            "name": "Starting Chord (Hold)",
+            "desc": "Hold a step on the Chords track that already has a chord.",
+            "elements": [
+                { "pos": [8, 8], "size": [1, 4], "color": "#00E68C" }
+            ]
+        },
+        {
+            "name": "Filled Steps",
+            "desc": "Drag horizontally — subsequent steps fill with harmonically intelligent progressions.",
+            "elements": [
+                { "pos": [9, 9], "size": [1, 3], "color": "#00C87A" },
+                { "pos": [10, 10], "size": [1, 2], "color": "#00A866" },
+                { "pos": [11, 8], "size": [1, 4], "color": "#009055" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Progression Fill"
+        uiDescription="Hold a chord step, drag vertically to activate, then horizontally to fill"
+        uiElements={uiElements}
+    />
+}
+
+<ProgressionFillDemo />
+
+### How It Works
+
+1. **Hold** a step on the Chords track that already has a chord.
+2. **Drag vertically** to activate Progression Fill mode.
+3. **Drag horizontally** — subsequent steps fill with harmonically intelligent chord progressions matching the current key and scale.
+4. While filling, **drag vertically** to shift the harmonic degree of the progression.
+
+Progression Fill uses chord intelligence to suggest musically coherent sequences. Undo/redo works with the standard double-swipe gestures.
+
+> **Note**: Progression Fill only works on the Chords track.
+
+---
+
 ## Special Gestures
 
 ### Sustain (Hold + Drag)
@@ -466,3 +512,4 @@ export function SustainDemo() {
 | Vertical | ↑ ↓ | Chord stack | Chord stack | Root+5th | Multi-drum |
 | Diagonal | ↗ ↘ | Phrase | Phrase | Bass walk | Fill |
 | Hold+Drag | Hold → | Sustain | Sustain chord | Sustain | — |
+| Hold+Drag ↕ then ↔ | Hold ↕ → | — | Progression Fill | — | — |
