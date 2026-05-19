@@ -48,7 +48,6 @@ export function SyncOverview() {
 
 ### Key Features
 - **WiFi Sync**: Local network synchronization (no internet required)
-- **Ableton Link**: Tempo/phase synchronization with Link-enabled apps
 - **Orchestra Mode**: Host/follower collaboration model
 - **Step Sync**: Real-time pattern editing synchronization
 - **Playback Sync**: All devices play in perfect time
@@ -136,19 +135,8 @@ Pixelboop uses two complementary sync technologies:
 - **Range**: Local network only (same WiFi or peer-to-peer)
 - **Latency**: Low (~20-50ms)
 
-### Ableton Link (Timing Sync)
-- **Purpose**: Precise playback timing and tempo synchronization
-- **Transport**: UDP multicast on local network
-- **Range**: Local network only
-- **Latency**: Ultra-low (under 5ms)
-
-**How they work together:**
-- **WiFi Sync** sends what to play (tempo, key, notes)
-- **Ableton Link** ensures when to play it (timing/phase)
-- Result: Perfect synchronization between devices
-
-:::tip
-For best results, enable both WiFi Sync (connect devices) AND Ableton Link (timing accuracy).
+:::note
+**Ableton Link** (timing sync) is not available in Pixelboop v1.1.0 and will be enabled in a future update. WiFi Sync handles both state and timing synchronization between devices.
 :::
 
 ---
@@ -222,7 +210,7 @@ export function OrchestraMode() {
 - Adjust track volumes locally
 - Mute/solo tracks
 - Use section controls (local view only)
-- Access WLED and Link settings
+- Access WLED settings
 - **Cannot edit** pattern notes (grid locked)
 
 **Use cases:**
@@ -335,65 +323,9 @@ Each connected device gets a colored pixel indicator
 
 ## Ableton Link Integration
 
-export function LinkButton() {
-    const uiElements = [
-        {
-            "name": "Link Off",
-            "desc": "Columns 5-7, Row 23. Dark = Link disabled.",
-            "elements": [
-                { "pos": [5, 23], "size": [3, 1], "color": "#222222" }
-            ]
-        },
-        {
-            "name": "Link On (Connected)",
-            "desc": "White = Link active and connected to peers.",
-            "elements": [
-                { "pos": [5, 22], "size": [3, 1], "color": "#FFFFFF" }
-            ]
-        },
-        {
-            "name": "Link On (No Peers)",
-            "desc": "Dim white = Link enabled but no peers found.",
-            "elements": [
-                { "pos": [5, 21], "size": [3, 1], "color": "#666666" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Ableton Link Button"
-        uiDescription="Columns 5-7, Row 23: Toggle Link timing sync"
-        uiElements={uiElements}
-    />
-}
-
-<LinkButton />
-
-### What is Ableton Link?
-Ableton Link is a technology for synchronizing musical timing across apps and devices.
-
-**Pixelboop + Link:**
-- Syncs playback phase (beat alignment)
-- Locks tempo across all Link-enabled devices
-- Works with Ableton Live, AUM, Loopy Pro, etc.
-
-### Link Button (Row 23, Cols 5-7)
-
-#### Tap: Toggle Link On/Off
-- **White**: Link is active and connected
-- **Dim**: Link enabled but no peers
-- **Dark**: Link is off
-
-#### Long-Press: Open Link Settings
-- View connected Link peers
-- See timing diagnostics
-- Check sync latency
-
-| Color | Meaning | Details |
-|-------|---------|---------|
-| **White** | Connected | Link active, peers connected |
-| **Dim White** | Enabled but no peers | Link waiting for connections |
-| **Dark** | Disabled | Link is off |
+:::note
+**Ableton Link** is not available in Pixelboop v1.1.0. It will be enabled in a future update.
+:::
 
 ---
 
@@ -441,15 +373,13 @@ Ableton Link is a technology for synchronizing musical timing across apps and de
 ### Timing Is Slightly Off
 
 **Check:**
-- Ableton Link is enabled (white indicator)
-- All devices show Link connected
 - WiFi latency is low (under 50ms)
+- All devices are on the same local network
 
 **Try:**
-- Enable Link if disabled
 - Move closer to WiFi router
-- Close other apps using Link
-- Restart Link on all devices
+- Close other bandwidth-heavy apps
+- Restart Pixelboop on all devices
 
 ---
 
@@ -470,7 +400,6 @@ Ableton Link is a technology for synchronizing musical timing across apps and de
 ### For All Users
 - Use strong WiFi signal
 - Keep devices close together
-- Enable Ableton Link for best timing
 - Test connection before performance
 
 ---
@@ -478,7 +407,7 @@ Ableton Link is a technology for synchronizing musical timing across apps and de
 ## What Gets Synced
 
 ### Always Synced (All Modes)
-- **Tempo (BPM)**: 40-300 BPM
+- **Tempo (BPM)**: 60–200 BPM
 - **Root Key**: C through B
 - **Scale**: Major, Minor, Pentatonic
 
