@@ -101,9 +101,9 @@ export function AccentDemo() {
 
 Swipe horizontally to create patterns that span multiple steps.
 
-### Run (Melody)
+### Arpeggio Generator (Melody)
 
-Horizontal swipe on **Melody track** creates a **scale run** — notes ascending or descending through the current scale.
+Horizontal swipe on **Melody track** activates the **arpeggio generator** — chord notes from the current visible set, played sequentially across steps. Vertical movement during the drag selects the pattern (ascending / descending / up-down) and the density (quarter / 8th / 16th notes); the speed of the drag also influences the note count.
 
 export function RunDemo() {
     const notes = [
@@ -112,8 +112,8 @@ export function RunDemo() {
     
     const uiElements = [
         {
-            "name": "Scale Run",
-            "desc": "Horizontal swipe creates ascending/descending scale run. Notes snap to current scale.",
+            "name": "Arpeggio Pattern",
+            "desc": "Horizontal swipe spreads chord notes (from the current visible set) sequentially across steps. NOT a stepwise scale — picks from chord notes.",
             "elements": notes.map((pos, i) => ({
                 "pos": pos,
                 "size": [1, 1],
@@ -121,8 +121,8 @@ export function RunDemo() {
             }))
         },
         {
-            "name": "Swipe Direction",
-            "desc": "Swipe left-to-right for ascending, right-to-left for descending.",
+            "name": "Swipe Direction + Vertical Pattern",
+            "desc": "Left-to-right or right-to-left sets direction; vertical movement during the drag picks the arpeggio pattern (ascending / descending / up-down).",
             "elements": [
                 {
                     "pos": [8, 7],
@@ -134,36 +134,36 @@ export function RunDemo() {
     ];
 
     return <MystrixVisualizer
-        uiName="Melody Run"
-        uiDescription="Horizontal swipe on melody = scale run"
+        uiName="Melody Arpeggio"
+        uiDescription="Horizontal swipe on melody = arpeggio generator (chord notes spread across steps)"
         uiElements={uiElements}
     />
 }
 
 <RunDemo />
 
-### Arpeggio (Chords)
+### Single-Note Sustain (Chords)
 
-Horizontal swipe on **Chords track** creates an **arpeggio** — chord notes played sequentially.
+Horizontal swipe on **Chords track** plays a **single sustained note** — the note at the row you started on, held across the steps you drag through. Arpeggios are reserved for the Melody track; on Chords, horizontal drag is a sustain. Add vertical deviation (>1 row) during the drag to convert into a chord-build gesture.
 
 export function ArpeggioDemo() {
-    // C major arpeggio: C-E-G-C across steps
+    // Single sustained note: same row, multiple steps
     const uiElements = [
         {
-            "name": "Arpeggio Pattern",
-            "desc": "Chord notes spread across steps. Creates rhythmic chord pattern.",
+            "name": "Sustained Note",
+            "desc": "Horizontal swipe holds one chord-track note across all steps dragged through.",
             "elements": [
-                { "pos": [8, 8], "size": [1, 1], "color": "#4ECDC4" },   // Root
-                { "pos": [9, 10], "size": [1, 1], "color": "#4ECDC4" },  // 3rd
-                { "pos": [10, 11], "size": [1, 1], "color": "#4ECDC4" }, // 5th
-                { "pos": [11, 8], "size": [1, 1], "color": "#4ECDC4" },  // Root
-                { "pos": [12, 10], "size": [1, 1], "color": "#4ECDC4" }, // 3rd
-                { "pos": [13, 11], "size": [1, 1], "color": "#4ECDC4" }, // 5th
+                { "pos": [8,  10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [9,  10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [10, 10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [11, 10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [12, 10], "size": [1, 1], "color": "#4ECDC4" },
+                { "pos": [13, 10], "size": [1, 1], "color": "#4ECDC4" }
             ]
         },
         {
             "name": "Chords Track",
-            "desc": "Rows 8-13. Horizontal swipe creates arpeggio.",
+            "desc": "Rows 8-13. Horizontal swipe creates a single sustained note (NOT an arpeggio).",
             "elements": [
                 {
                     "pos": [4, 8],
@@ -175,8 +175,8 @@ export function ArpeggioDemo() {
     ];
 
     return <MystrixVisualizer
-        uiName="Chord Arpeggio"
-        uiDescription="Horizontal swipe on chords = arpeggio pattern"
+        uiName="Chords Sustain"
+        uiDescription="Horizontal swipe on chords = single sustained note (not an arpeggio)"
         uiElements={uiElements}
     />
 }
@@ -185,18 +185,18 @@ export function ArpeggioDemo() {
 
 ### Walking Bass (Bass)
 
-Horizontal swipe on **Bass track** creates a **walking bass line** — root, 5th, 4th pattern.
+Horizontal swipe on **Bass track** creates a **template-based walking bass line**. The pattern is selected dynamically by drag length and direction: short horizontal → **Funk Groove**, medium → **Rock Walk**, long → **Running 8ths**; diagonal-up → **Ascending Walk**, diagonal-down → **Descending Walk**. There's no fixed "root–5th–4th" sequence; each template is its own musical figure.
 
 export function WalkingDemo() {
     const uiElements = [
         {
-            "name": "Walking Bass Pattern",
-            "desc": "Root → 5th → 4th → 5th pattern. Classic bass movement.",
+            "name": "Walking Bass Pattern (Rock Walk example)",
+            "desc": "One of several templates the engine picks from based on drag length + direction. Short → Funk Groove; medium → Rock Walk; long → Running 8ths.",
             "elements": [
-                { "pos": [8, 14], "size": [1, 1], "color": "#45B7D1" },  // Root
-                { "pos": [9, 16], "size": [1, 1], "color": "#45B7D1" },  // 5th
-                { "pos": [10, 15], "size": [1, 1], "color": "#45B7D1" }, // 4th
-                { "pos": [11, 16], "size": [1, 1], "color": "#45B7D1" }, // 5th
+                { "pos": [8, 14], "size": [1, 1], "color": "#45B7D1" },
+                { "pos": [9, 16], "size": [1, 1], "color": "#45B7D1" },
+                { "pos": [10, 15], "size": [1, 1], "color": "#45B7D1" },
+                { "pos": [11, 16], "size": [1, 1], "color": "#45B7D1" }
             ]
         },
         {
@@ -294,25 +294,25 @@ export function StackDemo() {
 
 <StackDemo />
 
-### Fifth (Bass)
+### Ba-Dum (Bass)
 
-Vertical swipe on **Bass** creates **Root + 5th** — a power chord foundation.
+Vertical swipe on **Bass** creates a **sequential "ba-dum" figure** — the root note at step N, then a second note at step N+1 (not simultaneous). The interval between the two notes is determined by the drag distance: a small drag yields a tight interval, a large drag yields a wider one (octave, etc.). It's not always a 5th — the size of your gesture picks the interval.
 
 export function FifthDemo() {
     const uiElements = [
         {
-            "name": "Root + Fifth",
-            "desc": "Vertical swipe on bass adds the 5th above the root.",
+            "name": "Ba-Dum (sequential, not stacked)",
+            "desc": "Vertical swipe on bass: root at step N, interval at step N+1. The two notes play one step apart, NOT at the same time.",
             "elements": [
-                { "pos": [12, 14], "size": [1, 1], "color": "#45B7D1" }, // Root
-                { "pos": [12, 16], "size": [1, 1], "color": "#45B7D1" }, // 5th
+                { "pos": [12, 14], "size": [1, 1], "color": "#45B7D1" },
+                { "pos": [13, 16], "size": [1, 1], "color": "#45B7D1" }
             ]
         }
     ];
 
     return <MystrixVisualizer
-        uiName="Bass Fifth"
-        uiDescription="Vertical swipe on bass = root + fifth"
+        uiName="Bass Ba-Dum"
+        uiDescription="Vertical swipe on bass = sequential ba-dum (root at step N, interval at step N+1)"
         uiElements={uiElements}
     />
 }
@@ -508,8 +508,8 @@ export function SustainDemo() {
 |---------|-----------|--------|--------|------|--------|
 | Tap | Point | Note | Note | Note | Drum hit |
 | Hold | Point | Accent | Accent | Accent | Accent |
-| Horizontal | ← → | Scale run | Arpeggio | Walking | Roll |
-| Vertical | ↑ ↓ | Chord stack | Chord stack | Root+5th | Multi-drum |
+| Horizontal | ← → | Arpeggio | Single-note sustain | Walking | Roll |
+| Vertical | ↑ ↓ | Chord stack | Chord stack | Ba-dum (sequential) | Multi-drum |
 | Diagonal | ↗ ↘ | Phrase | Phrase | Bass walk | Fill |
 | Hold+Drag | Hold → | Sustain | Sustain chord | Sustain | — |
 | Hold+Drag ↕ then ↔ | Hold ↕ → | — | Progression Fill | — | — |
