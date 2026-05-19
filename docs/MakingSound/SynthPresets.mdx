@@ -130,6 +130,8 @@ export function MelodyPresetsDemo() {
 
 ## Chords Presets (6 sounds)
 
+The default Chords preset is **Pad** (preset 0).
+
 export function ChordsPresetsDemo() {
     const presetColors = ["#66E0C4", "#4ECDC4", "#3DBDB4", "#2CADA4", "#1B9D94", "#0A8D84"];
     const uiElements = [
@@ -141,43 +143,43 @@ export function ChordsPresetsDemo() {
             ]
         },
         {
-            "name": "Rhodes EP (Preset 0)",
-            "desc": "Classic Fender Rhodes electric piano.",
+            "name": "Pad (Preset 0, default)",
+            "desc": "Warm sustained pad.",
             "elements": [
                 { "pos": [0, 8], "size": [1, 1], "color": "#66E0C4" }
             ]
         },
         {
-            "name": "Wurlitzer (Preset 1)",
-            "desc": "Warm, reedy electric piano.",
+            "name": "Piano (Preset 1)",
+            "desc": "Acoustic piano timbre.",
             "elements": [
                 { "pos": [0, 9], "size": [1, 1], "color": "#4ECDC4" }
             ]
         },
         {
-            "name": "Pad (Preset 2)",
-            "desc": "Lush, sustained pad for atmospherics.",
+            "name": "Rhodes EP (Preset 2)",
+            "desc": "Electric piano with Rhodes character.",
             "elements": [
                 { "pos": [0, 10], "size": [1, 1], "color": "#3DBDB4" }
             ]
         },
         {
-            "name": "Pluck (Preset 3)",
-            "desc": "Short, percussive pluck sound.",
+            "name": "Wurlitzer (Preset 3)",
+            "desc": "Wurlitzer electric piano.",
             "elements": [
                 { "pos": [0, 11], "size": [1, 1], "color": "#2CADA4" }
             ]
         },
         {
-            "name": "Organ (Preset 4)",
-            "desc": "Drawbar organ with harmonic richness.",
+            "name": "Pluck (Preset 4)",
+            "desc": "Plucked string/mallet sound.",
             "elements": [
                 { "pos": [0, 12], "size": [1, 1], "color": "#1B9D94" }
             ]
         },
         {
-            "name": "Glass (Preset 5)",
-            "desc": "Crystalline, glassy FM sound.",
+            "name": "Organ (Preset 5)",
+            "desc": "Hammond-style organ.",
             "elements": [
                 { "pos": [0, 13], "size": [1, 1], "color": "#0A8D84" }
             ]
@@ -193,18 +195,20 @@ export function ChordsPresetsDemo() {
 
 <ChordsPresetsDemo />
 
-| # | Preset | Character | Best For |
-|---|--------|-----------|----------|
-| 0 | **Rhodes EP** | Warm, bell-like | Soul, R&B, jazz |
-| 1 | **Wurlitzer** | Reedy, warm | Rock, funk |
-| 2 | **Pad** | Lush, sustained | Ambient, chill |
-| 3 | **Pluck** | Short, percussive | Rhythmic patterns |
-| 4 | **Organ** | Rich harmonics | Gospel, rock |
-| 5 | **Glass** | Crystalline, bright | Modern, ethereal |
+| # | Name | Description |
+|---|------|-------------|
+| 0 | **Pad** | Warm sustained pad (default) |
+| 1 | **Piano** | Acoustic piano timbre |
+| 2 | **Rhodes EP** | Electric piano with Rhodes character |
+| 3 | **Wurlitzer** | Wurlitzer electric piano |
+| 4 | **Pluck** | Plucked string/mallet sound |
+| 5 | **Organ** | Hammond-style organ |
 
 ---
 
 ## Bass Presets (4 sounds)
+
+The default Bass preset is **Acid Bass** (preset 0).
 
 export function BassPresetsDemo() {
     const presetColors = ["#66C7D1", "#45B7D1", "#34A7C1", "#2397B1"];
@@ -217,29 +221,29 @@ export function BassPresetsDemo() {
             ]
         },
         {
-            "name": "Sub Bass (Preset 0)",
-            "desc": "Deep sine wave sub bass.",
+            "name": "Acid Bass (Preset 0, default)",
+            "desc": "Classic 303-style acid bass.",
             "elements": [
                 { "pos": [0, 14], "size": [1, 1], "color": "#66C7D1" }
             ]
         },
         {
-            "name": "Saw Bass (Preset 1)",
-            "desc": "Classic analog sawtooth bass.",
+            "name": "FM Bass (Preset 1)",
+            "desc": "FM synthesis bass.",
             "elements": [
                 { "pos": [0, 15], "size": [1, 1], "color": "#45B7D1" }
             ]
         },
         {
-            "name": "FM Bass (Preset 2)",
-            "desc": "Punchy FM synthesis bass.",
+            "name": "Saw Bass (Preset 2)",
+            "desc": "Sawtooth wave bass.",
             "elements": [
                 { "pos": [0, 16], "size": [1, 1], "color": "#34A7C1" }
             ]
         },
         {
-            "name": "Acid Bass (Preset 3)",
-            "desc": "TB-303 style resonant acid bass.",
+            "name": "Electric Bass (Preset 3)",
+            "desc": "Electric bass guitar timbre.",
             "elements": [
                 { "pos": [0, 17], "size": [1, 1], "color": "#2397B1" }
             ]
@@ -255,12 +259,12 @@ export function BassPresetsDemo() {
 
 <BassPresetsDemo />
 
-| # | Preset | Character | Best For |
-|---|--------|-----------|----------|
-| 0 | **Sub Bass** | Deep, pure | Hip-hop, dub |
-| 1 | **Saw Bass** | Warm, analog | General purpose |
-| 2 | **FM Bass** | Punchy, bright | Funk, electronic |
-| 3 | **Acid Bass** | Resonant, squelchy | Acid, techno |
+| # | Name | Description |
+|---|------|-------------|
+| 0 | **Acid Bass** | Classic 303-style acid bass (default) |
+| 1 | **FM Bass** | FM synthesis bass |
+| 2 | **Saw Bass** | Sawtooth wave bass |
+| 3 | **Electric Bass** | Electric bass guitar timbre |
 
 ---
 
