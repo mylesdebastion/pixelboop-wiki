@@ -36,6 +36,11 @@ const config: Config = {
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
           routeBasePath: '/', // Make docs the site root
+          versions: {
+            current: {
+              label: '1.1.1 b3',
+            },
+          },
         },
         blog: false, // Disabled blog
         theme: {
