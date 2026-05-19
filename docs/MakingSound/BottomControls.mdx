@@ -42,11 +42,11 @@ export function BottomRowOverview() {
         },
         {
             "name": "Device Indicators",
-            "desc": "Columns 13-20. Shows connected devices (up to 8).",
+            "desc": "Columns 12-35. Shows connected devices (up to 24). Only visible when devices are connected.",
             "elements": [
-                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
-                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" }
+                { "pos": [12, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [13, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00FF00" }
             ]
         }
     ];
@@ -233,26 +233,26 @@ Opens the sync control panel with options:
 
 ---
 
-## Device Indicators (Cols 13-20)
+## Device Indicators (Cols 12-35)
 
 export function DeviceIndicatorsDemo() {
     const uiElements = [
         {
             "name": "Connected Devices",
-            "desc": "Each device gets a unique color. Up to 8 devices supported.",
+            "desc": "Each device gets a green pixel. Up to 24 devices supported. Indicators only appear when devices are connected.",
             "elements": [
-                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
-                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" },
-                { "pos": [16, 23], "size": [1, 1], "color": "#FFFF00" },
-                { "pos": [17, 23], "size": [1, 1], "color": "#FF6600" }
+                { "pos": [12, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [13, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [16, 23], "size": [1, 1], "color": "#00FF00" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Device Indicators"
-        uiDescription="Columns 13-20: Shows connected devices"
+        uiDescription="Columns 12-35: Shows connected devices (only when active session has participants)"
         uiElements={uiElements}
     />
 }
@@ -260,37 +260,18 @@ export function DeviceIndicatorsDemo() {
 <DeviceIndicatorsDemo />
 
 ### What They Show
-When devices are connected via WiFi Sync, each device gets a colored pixel indicator showing:
-- **Device presence**: One pixel per connected device
-- **Unique colors**: Each device auto-assigned a distinct color
-- **Connection strength**: Brightness indicates signal strength
-
-### Tap Device Indicator
-Tap any device indicator to see:
-- Device name (e.g., "iPhone 15 Pro")
-- Connection status
-- Signal strength
+When devices are connected via WiFi Sync, each device gets a green pixel indicator:
+- **Host**: Bright green pixel
+- **Follower**: Dimmer green pixel
+- **Position**: One pixel per device, starting at column 12
 
 ### Maximum Devices
-- **Supported**: Up to 8 simultaneous devices
-- **Positions**: Columns 13-20 (8 columns)
+- **Supported**: Up to 24 simultaneous devices
+- **Positions**: Columns 12-35 (24 columns)
 - **Auto-assignment**: First-come, first-served positioning
-
-### Colors
-Each device gets a unique hue from a predefined palette:
-- Device 1: Green
-- Device 2: Cyan
-- Device 3: Magenta
-- Device 4: Yellow
-- Device 5: Orange
-- Device 6: Teal
-- Device 7: Purple
-- Device 8: Pink
 
 ### Use Cases
 - **See who's connected**: Quick visual roster
-- **Monitor connection health**: Dim = weak signal
-- **Identify devices**: Tap for device name
 - **Session management**: See when devices join/leave
 
 ---
@@ -303,7 +284,7 @@ Each device gets a unique hue from a predefined palette:
 | **Link** | 5-7 | Ableton Link (unavailable v1.1.0) | — | — |
 | **Mode** | 8-9 | Orchestra sync indicator | — | — |
 | **Sync** | 10-12 | Multi-device sync | Sync menu | Quick join/leave |
-| **Devices** | 13-20 | Device indicators | Show name | — |
+| **Devices** | 12-35 | Device indicators (when synced) | — | — |
 
 ---
 
