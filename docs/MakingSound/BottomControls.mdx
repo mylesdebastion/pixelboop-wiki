@@ -21,16 +21,16 @@ export function BottomRowOverview() {
         },
         {
             "name": "Link Button",
-            "desc": "Columns 5-7. Toggle Ableton Link timing sync.",
+            "desc": "Columns 5-7. Ableton Link (not available in v1.1.0 — cols 5-7 are dark).",
             "elements": [
-                { "pos": [5, 23], "size": [3, 1], "color": "#FFFFFF" }
+                { "pos": [5, 23], "size": [3, 1], "color": "#111111" }
             ]
         },
         {
             "name": "Mode Button",
-            "desc": "Columns 8-9. Toggle between play modes.",
+            "desc": "Columns 8-9. Orchestra sync mode indicator (Yellow=Free, Purple=Follower, Bright Purple=Host, Bright Green=Remote).",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#888888" }
+                { "pos": [8, 23], "size": [2, 1], "color": "#FFFF00" }
             ]
         },
         {
@@ -112,69 +112,9 @@ WLED is an open-source LED strip control system. Pixelboop can send pattern data
 
 ## Ableton Link (Cols 5-7)
 
-export function LinkButtonDemo() {
-    const uiElements = [
-        {
-            "name": "Link Disabled",
-            "desc": "Dark = Link is off",
-            "elements": [
-                { "pos": [5, 23], "size": [3, 1], "color": "#222222" }
-            ]
-        },
-        {
-            "name": "Link Enabled (Connected)",
-            "desc": "White = Link active with peers",
-            "elements": [
-                { "pos": [5, 22], "size": [3, 1], "color": "#FFFFFF" }
-            ]
-        },
-        {
-            "name": "Link Enabled (No Peers)",
-            "desc": "Dim = Link on but no peers found",
-            "elements": [
-                { "pos": [5, 21], "size": [3, 1], "color": "#666666" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Link Button States"
-        uiDescription="Columns 5-7: Ableton Link timing sync"
-        uiElements={uiElements}
-    />
-}
-
-<LinkButtonDemo />
-
-### What is Ableton Link?
-Ableton Link synchronizes musical tempo and phase across apps and devices on the same network. It ensures all devices play in perfect time.
-
-### Tap: Toggle Link On/Off
-Enables or disables Ableton Link
-
-| Color | Status | Description |
-|-------|--------|-------------|
-| **White** | Connected | Link active, peers detected |
-| **Dim White** | Enabled, no peers | Link on, waiting for connections |
-| **Dark** | Disabled | Link is off |
-
-### Long-Press: Link Diagnostics
-Opens Link diagnostics panel showing:
-- Number of connected Link peers
-- Current Link tempo (BPM)
-- Timing offset/latency
-- Connection status
-
-### Features
-- **Tempo lock**: Syncs BPM across all Link-enabled apps
-- **Phase alignment**: Ensures beats align perfectly
-- **Zero-config**: Auto-discovers Link peers on network
-- **Cross-app sync**: Works with Ableton Live, AUM, Loopy Pro, etc.
-
-### Typical Use Cases
-- Sync Pixelboop with desktop DAW (Ableton Live, Logic Pro)
-- Multiple Pixelboop devices playing together
-- iOS music app collaboration (AUM, Loopy Pro, etc.)
+:::note
+**Ableton Link** is not available in Pixelboop v1.1.0. Columns 5–7 in row 23 are dark/empty. Ableton Link will be enabled in a future update.
+:::
 
 **See [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) for collaboration setup.**
 
@@ -185,41 +125,34 @@ Opens Link diagnostics panel showing:
 export function ModeButtonDemo() {
     const uiElements = [
         {
-            "name": "Mode Button",
-            "desc": "Columns 8-9. Tap to cycle through play modes.",
+            "name": "Mode Button (Orchestra Indicator)",
+            "desc": "Columns 8-9, Row 23. Color indicates Orchestra sync state.",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#888888" }
+                { "pos": [8, 23], "size": [2, 1], "color": "#FFFF00" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Mode Button"
-        uiDescription="Columns 8-9: Toggle play modes"
+        uiDescription="Columns 8-9: Orchestra sync mode indicator"
         uiElements={uiElements}
     />
 }
 
 <ModeButtonDemo />
 
-### Tap: Cycle Play Modes
-Cycles through available play modes:
-- **Normal**: Standard sequencer playback
-- **Section Play**: Auto-advance through sections
-- **[Future modes]**: Additional modes coming soon
+The **Mode button** (cols 8–9, row 23) is the **Orchestra sync mode indicator** — not a toggle. It reflects the current sync state:
 
-### Visual Feedback
-- Color changes based on current mode
-- Brief tooltip shows mode name
-
-### Section Play Mode
-When enabled:
-- Sequencer plays through all 8 sections in order
-- Automatically advances to next section at end of pattern
-- Returns to section 0 after section 7
-- Use for song arrangement playback
+| Color | Meaning |
+|-------|---------|
+| **Yellow** | Free (not synced to any session) |
+| **Purple** | Follower (connected to a host) |
+| **Bright Purple** | Host (leading a sync session) |
+| **Bright Green** | Remote session active |
 
 **See [Song Sections](SongSections.mdx) for section management.**
+**See [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) for Orchestra mode details.**
 
 ---
 
@@ -367,8 +300,8 @@ Each device gets a unique hue from a predefined palette:
 | Control | Columns | Function | Tap | Long-Press |
 |---------|---------|----------|-----|------------|
 | **WLED** | 0-3 | LED strip control | Toggle on/off | Settings |
-| **Link** | 5-7 | Ableton Link sync | Toggle Link | Diagnostics |
-| **Mode** | 8-9 | Play mode | Cycle modes | — |
+| **Link** | 5-7 | Ableton Link (unavailable v1.1.0) | — | — |
+| **Mode** | 8-9 | Orchestra sync indicator | — | — |
 | **Sync** | 10-12 | Multi-device sync | Sync menu | Quick join/leave |
 | **Devices** | 13-20 | Device indicators | Show name | — |
 
