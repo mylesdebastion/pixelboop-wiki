@@ -18,7 +18,7 @@ export function ControlRowOverview() {
     ];
 
     const uiElements = [
-        { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, hold 2s for WLED config", "elements": [
+        { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, hold 3.5s for WLED config", "elements": [
             { "pos": [0, 0], "size": [3, 1], "color": "#45FF45" }  // Green when stopped
         ]},
         { "name": "Undo", "desc": "Col 4: Undo last action", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
@@ -39,7 +39,7 @@ export function ControlRowOverview() {
         { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
         { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
         { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#4080FF" }] },
-        { "name": "Clear Pattern", "desc": "Cols 40-43: Clear all notes", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#662121" }] }
+        { "name": "New Jam", "desc": "Cols 40-43: Reset to defaults (New Jam)", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#662121" }] }
     ];
 
     return <MystrixVisualizer
@@ -89,7 +89,7 @@ export function PlayStopDemo() {
 
 ### Hold for WLED Config
 
-**Hold the Play button for 2 seconds** to open WLED configuration dialog. This lets you:
+**Hold the Play button for 3.5 seconds** to open WLED configuration dialog. This lets you:
 - Enter WLED device IP address
 - Test connection to LED strips
 - Configure external lighting
@@ -104,23 +104,30 @@ export function BPMDemo() {
     const uiElements = [
         {
             "name": "BPM Down",
-            "desc": "Column 1. Tap to decrease tempo by 5 BPM.",
+            "desc": "Column 26. Tap to decrease tempo by 5 BPM.",
             "elements": [
-                { "pos": [1, 0], "size": [1, 1], "color": "#FF6B6B" }
+                { "pos": [26, 0], "size": [1, 1], "color": "#FF6B6B" }
+            ]
+        },
+        {
+            "name": "BPM Display",
+            "desc": "Column 27. Shows current BPM, pulses with beat.",
+            "elements": [
+                { "pos": [27, 0], "size": [1, 1], "color": "#595959" }
             ]
         },
         {
             "name": "BPM Up",
-            "desc": "Column 2. Tap to increase tempo by 5 BPM.",
+            "desc": "Column 28. Tap to increase tempo by 5 BPM.",
             "elements": [
-                { "pos": [2, 0], "size": [1, 1], "color": "#4ECDC4" }
+                { "pos": [28, 0], "size": [1, 1], "color": "#4ECDC4" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="BPM Controls"
-        uiDescription="Columns 1-2: Adjust tempo"
+        uiDescription="Columns 26-28: Adjust tempo"
         uiElements={uiElements}
     />
 }
@@ -128,7 +135,7 @@ export function BPMDemo() {
 <BPMDemo />
 
 - **Default**: 120 BPM
-- **Range**: 40-240 BPM
+- **Range**: 60–200 BPM
 - **Step**: ±5 BPM per tap
 - **Hold**: Continuous adjustment
 
@@ -140,16 +147,23 @@ export function PatternLengthDemo() {
     const uiElements = [
         {
             "name": "Length Down",
-            "desc": "Column 3. Decrease pattern length (32→16→8).",
+            "desc": "Column 30. Decrease pattern length (32→16→8).",
             "elements": [
-                { "pos": [3, 0], "size": [1, 1], "color": "#FF8C00" }
+                { "pos": [30, 0], "size": [1, 1], "color": "#FF8C00" }
+            ]
+        },
+        {
+            "name": "Length Display",
+            "desc": "Column 31. Shows current pattern length.",
+            "elements": [
+                { "pos": [31, 0], "size": [1, 1], "color": "#7F7F7F" }
             ]
         },
         {
             "name": "Length Up",
-            "desc": "Column 4. Increase pattern length (8→16→32).",
+            "desc": "Column 32. Increase pattern length (8→16→32).",
             "elements": [
-                { "pos": [4, 0], "size": [1, 1], "color": "#FFFF00" }
+                { "pos": [32, 0], "size": [1, 1], "color": "#FFFF00" }
             ]
         },
         {
@@ -163,7 +177,7 @@ export function PatternLengthDemo() {
 
     return <MystrixVisualizer
         uiName="Pattern Length"
-        uiDescription="Columns 3-4: Adjust pattern length"
+        uiDescription="Columns 30-32: Adjust pattern length"
         uiElements={uiElements}
     />
 }
@@ -184,30 +198,30 @@ export function ScaleDemo() {
     const uiElements = [
         {
             "name": "Major Scale",
-            "desc": "Column 5. Bright, happy sound. Intervals: 0-2-4-5-7-9-11",
+            "desc": "Column 7. Bright, happy sound. Intervals: 0-2-4-5-7-9-11",
             "elements": [
-                { "pos": [5, 0], "size": [1, 1], "color": "#FF0000" }
+                { "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }
             ]
         },
         {
             "name": "Minor Scale",
-            "desc": "Column 6. Dark, emotional sound. Intervals: 0-2-3-5-7-8-10",
+            "desc": "Column 8. Dark, emotional sound. Intervals: 0-2-3-5-7-8-10",
             "elements": [
-                { "pos": [6, 0], "size": [1, 1], "color": "#0055FF" }
+                { "pos": [8, 0], "size": [1, 1], "color": "#00AAFF" }
             ]
         },
         {
             "name": "Pentatonic Scale",
-            "desc": "Column 7. Simple, universal. Intervals: 0-2-4-7-9",
+            "desc": "Column 9. Simple, universal. Intervals: 0-2-4-7-9",
             "elements": [
-                { "pos": [7, 0], "size": [1, 1], "color": "#8A2BE2" }
+                { "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Scale Selection"
-        uiDescription="Columns 5-7: Choose musical scale"
+        uiDescription="Columns 7-9: Choose musical scale"
         uiElements={uiElements}
     />
 }
@@ -230,9 +244,9 @@ export function KeyDemo() {
     const uiElements = [
         {
             "name": "Key Selection",
-            "desc": "Columns 8-19. Each column represents a chromatic note (C through B).",
+            "desc": "Columns 11-22. Each column represents a chromatic note (C through B).",
             "elements": [
-                { "pos": [8, 0], "size": [12, 1], "color": [
+                { "pos": [11, 0], "size": [12, 1], "color": [
                     "#FF0000", "#FF4500", "#FF8C00", "#FFC700",
                     "#FFFF00", "#99CC33", "#00FF00", "#00FFAA",
                     "#00FFFF", "#00AAFF", "#0055FF", "#8A2BE2"
@@ -243,14 +257,14 @@ export function KeyDemo() {
             "name": "Current Key Indicator",
             "desc": "The active key glows brighter than others.",
             "elements": [
-                { "pos": [8, 0], "size": [1, 1], "color": "#FF0000" }
+                { "pos": [11, 0], "size": [1, 1], "color": "#FF0000" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Key Selection"
-        uiDescription="Columns 8-19: Select musical key (root note)"
+        uiDescription="Columns 11-22: Select musical key (root note)"
         uiElements={uiElements}
     />
 }
@@ -259,62 +273,62 @@ export function KeyDemo() {
 
 | Column | Note | Color |
 |--------|------|-------|
-| 8 | C | Red |
-| 9 | C# | Orange |
-| 10 | D | Dark Orange |
-| 11 | D# | Yellow-Orange |
-| 12 | E | Yellow |
-| 13 | F | Yellow-Green |
-| 14 | F# | Green |
-| 15 | G | Cyan-Green |
-| 16 | G# | Cyan |
-| 17 | A | Sky Blue |
-| 18 | A# | Blue |
-| 19 | B | Purple |
+| 11 | C | Red |
+| 12 | C# | Orange |
+| 13 | D | Dark Orange |
+| 14 | D# | Yellow-Orange |
+| 15 | E | Yellow |
+| 16 | F | Yellow-Green |
+| 17 | F# | Green |
+| 18 | G | Cyan-Green |
+| 19 | G# | Cyan |
+| 20 | A | Sky Blue |
+| 21 | A# | Blue |
+| 22 | B | Purple |
 
 Changing the key **transposes all notes** in the pattern to the new key.
 
 ---
 
-## Clear, Undo, Redo
+## Undo, Redo, and New Jam
 
 export function EditControlsDemo() {
     const uiElements = [
         {
-            "name": "Clear All",
-            "desc": "Column 20. Clears all notes from the current pattern.",
-            "elements": [
-                { "pos": [20, 0], "size": [1, 1], "color": "#FFFFFF" }
-            ]
-        },
-        {
             "name": "Undo",
-            "desc": "Column 21. Reverts the last change.",
+            "desc": "Column 4. Reverts the last change.",
             "elements": [
-                { "pos": [21, 0], "size": [1, 1], "color": "#888888" }
+                { "pos": [4, 0], "size": [1, 1], "color": "#878787" }
             ]
         },
         {
             "name": "Redo",
-            "desc": "Column 22. Re-applies an undone change.",
+            "desc": "Column 5. Re-applies an undone change.",
             "elements": [
-                { "pos": [22, 0], "size": [1, 1], "color": "#AAAAAA" }
+                { "pos": [5, 0], "size": [1, 1], "color": "#878787" }
+            ]
+        },
+        {
+            "name": "New Jam",
+            "desc": "Columns 40-43. Reset to defaults (clear all notes and settings).",
+            "elements": [
+                { "pos": [40, 0], "size": [4, 1], "color": "#662121" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Edit Controls"
-        uiDescription="Columns 20-22: Clear, Undo, Redo"
+        uiDescription="Col 4: Undo | Col 5: Redo | Cols 40-43: New Jam"
         uiElements={uiElements}
     />
 }
 
 <EditControlsDemo />
 
-- **Clear**: Removes all notes (can be undone)
-- **Undo**: Supports multiple levels
-- **Redo**: Restore undone changes
+- **Undo** (col 4): Reverts the last change. Supports multiple levels.
+- **Redo** (col 5): Re-applies an undone change.
+- **New Jam** (cols 40–43): Resets all notes and settings to defaults. (Tooltip: "NEW JAM")
 
 ---
 
@@ -324,9 +338,9 @@ export function GhostDemo() {
     const uiElements = [
         {
             "name": "Ghost Notes Toggle",
-            "desc": "Column 23. Shows faded notes from other sections for reference.",
+            "desc": "Column 24. Shows faded notes from other sections for reference.",
             "elements": [
-                { "pos": [23, 0], "size": [1, 1], "color": "#444444" }
+                { "pos": [24, 0], "size": [1, 1], "color": "#666666" }
             ]
         },
         {
@@ -342,7 +356,7 @@ export function GhostDemo() {
 
     return <MystrixVisualizer
         uiName="Ghost Notes"
-        uiDescription="Column 23: Toggle ghost note display"
+        uiDescription="Column 24: Toggle ghost note display"
         uiElements={uiElements}
     />
 }
