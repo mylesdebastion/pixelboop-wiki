@@ -106,7 +106,17 @@ const MystrixVisualizer: React.FC<UIProps> = ({ uiName, uiDescription, uiElement
 
                     for (let x = 0; x < displayElement.size[0]; x++) {
                         for (let y = 0; y < displayElement.size[1]; y++) {
-                            const keyID = getKeyID(displayElement.pos[0] as number + x, displayElement.pos[1] + y);
+                            // Mirror the iPad app's visual swap: for cols 0-35, row 0 ↔ row 23
+                            // (PixelGridUIView.swift:1019-1037 — "Top controls draw at bottom").
+                            // Cols 36-43 (USB/BT/section buttons) keep original positions.
+                            const dataCol = (displayElement.pos[0] as number) + x;
+                            const dataRow = displayElement.pos[1] + y;
+                            let visualRow = dataRow;
+                            if (dataCol >= 0 && dataCol <= 35) {
+                                if (dataRow === 0) visualRow = 23;
+                                else if (dataRow === 23) visualRow = 0;
+                            }
+                            const keyID = getKeyID(dataCol, visualRow);
                             if (keyID >= TOTAL_KEYS) continue; // Safety check
 
                             tempKeypadFunctions[keyID] = index;
