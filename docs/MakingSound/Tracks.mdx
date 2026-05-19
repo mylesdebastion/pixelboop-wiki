@@ -76,6 +76,50 @@ export function TracksDemo() {
 
 <TracksDemo />
 
+## Row 22 — Indicator Lane
+
+Row 22 sits between the Rhythm track (rows 18-21) and the bottom control row (row 23). It is the **Indicator Lane**: a single-row strip that gives you a live overview of your song's structure.
+
+**Hold anywhere on row 22 for ~500 ms** to cycle between two views:
+
+- **Track Colors** (default): each step column lights up with the spectral gradient color of whichever track has a note at that step. This gives you a quick snapshot of pattern density across all tracks.
+- **Key Automation**: each step column shows the root-note color recorded at that position. Use this to see how your key changes are distributed across the 32-step timeline.
+
+export function IndicatorLaneDemo() {
+    const uiElements = [
+        {
+            "name": "Track Colors view (default)",
+            "desc": "Row 22 in Track Colors mode: each lit column reflects the color of the loudest active track at that step.",
+            "elements": [
+                { "pos": [4, 22], "size": [8, 1], "color": "#4D2DF2" },
+                { "pos": [12, 22], "size": [4, 1], "color": "#00E68C" },
+                { "pos": [20, 22], "size": [6, 1], "color": "#F2E600" },
+                { "pos": [28, 22], "size": [4, 1], "color": "#FF3000" }
+            ]
+        },
+        {
+            "name": "Key Automation view",
+            "desc": "Row 22 in Key Automation mode: each lit column shows the chromatic color of the root note recorded at that step.",
+            "elements": [
+                { "pos": [4, 22], "size": [16, 1], "color": "#FF3B30" },
+                { "pos": [20, 22], "size": [16, 1], "color": "#34C759" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Row 22 — Indicator Lane"
+        uiDescription="Hold anywhere on row 22 to toggle between Track Colors and Key Automation views."
+        uiElements={uiElements}
+    />
+}
+
+<IndicatorLaneDemo />
+
+:::tip
+In v1.1.0 the cycling is two-state: **Track Colors → Key Automation → Track Colors**. A third state (Jam History) is planned for a future release.
+:::
+
 ## Toggling Steps
 
 Simply tap a pixel to toggle it on or off. The color of the pixel reflects the track it belongs to.
