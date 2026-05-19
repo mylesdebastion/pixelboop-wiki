@@ -154,7 +154,9 @@ export function HardwareDemo() {
         { "name": "Link Button", "desc": "Cols 5-7: Ableton Link timing sync", "elements": [{ "pos": [5, 23], "size": [3, 1], "color": "#5A5A5A" }] },
         { "name": "Mode Button", "desc": "Cols 8-9: Pattern/Song mode toggle", "elements": [{ "pos": [8, 23], "size": [2, 1], "color": "#4A4A4A" }] },
         { "name": "Sync Button", "desc": "Cols 10-12: Multi-device sync, middle pixel gold when host", "elements": [{ "pos": [10, 23], "size": [3, 1], "color": "#3A3A3A" }] },
-        { "name": "Device Indicators", "desc": "Cols 13-20: Shows up to 8 connected devices with colors", "elements": [{ "pos": [13, 23], "size": [8, 1], "color": "#1A1A1A" }] }
+        { "name": "Device Indicators", "desc": "Cols 12-35: Shows up to 24 connected devices with their assigned colors", "elements": [{ "pos": [12, 23], "size": [24, 1], "color": "#1A1A1A" }] },
+        { "name": "Section Play Button", "desc": "Row 23, cols 36-37: Toggle Section Play mode (bright green = on, dim green = off)", "elements": [{ "pos": [36, 23], "size": [2, 1], "color": "#1A4D26" }] },
+        { "name": "Clear All Sections Button", "desc": "Row 23, cols 38-43: Tap to clear active section, hold to clear all", "elements": [{ "pos": [38, 23], "size": [6, 1], "color": "#662121" }] }
     ];
 
     return <MystrixVisualizer
