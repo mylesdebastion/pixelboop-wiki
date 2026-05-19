@@ -204,6 +204,100 @@ This creates a **256-step song** (8 sections × 32 steps).
 
 ---
 
+## Section Play Button
+
+The **Section Play button** sits at the bottom-right corner of the grid (row 23, cols 36–37). Tap it to toggle Section Play mode on or off directly from the grid surface.
+
+export function SectionPlayButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Section Play Button (Active)",
+            "desc": "Row 23, cols 36-37. Bright green when section play is enabled.",
+            "elements": [
+                { "pos": [36, 23], "size": [2, 1], "color": "#33E54C" }
+            ]
+        },
+        {
+            "name": "Section Columns",
+            "desc": "Cols 36-43, rows 2-21: the 8 section columns.",
+            "elements": [
+                { "pos": [36, 2], "size": [8, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Section Play Button"
+        uiDescription="Row 23, cols 36-37 — tap to toggle section play"
+        uiElements={uiElements}
+    />
+}
+
+<SectionPlayButtonDemo />
+
+| State | Color | Hex |
+|-------|-------|-----|
+| Enabled | Bright green | `#33E54C` |
+| Disabled | Dim green | `#1A4D26` |
+
+**Gesture**: **Tap** toggles section play on/off. No hold behavior.
+
+> **Source**: `renderSectionPlayButton()` in `PixelGridUIView.swift` (line 2475);
+> touch handler in `PixelGridUIView+Touch.swift` (line 2422 — `toggleSectionPlay()`).
+
+---
+
+## Clear All Sections Button
+
+The **Clear All Sections button** occupies row 23, cols 38–43 — the six cells immediately to the right of the Section Play button. It provides a fast way to wipe section content without navigating menus.
+
+export function ClearSectionsButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Clear All Sections Button",
+            "desc": "Row 23, cols 38-43. Dark red — tap to clear active section, hold to clear all.",
+            "elements": [
+                { "pos": [38, 23], "size": [6, 1], "color": "#662121" }
+            ]
+        },
+        {
+            "name": "Section Play Button",
+            "desc": "Row 23, cols 36-37. Shown here for context.",
+            "elements": [
+                { "pos": [36, 23], "size": [2, 1], "color": "#1A4D26" }
+            ]
+        },
+        {
+            "name": "Section Columns",
+            "desc": "Cols 36-43, rows 2-21: the 8 section columns.",
+            "elements": [
+                { "pos": [36, 2], "size": [8, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Clear All Sections Button"
+        uiDescription="Row 23, cols 38-43 — tap: clear active section · hold: clear ALL"
+        uiElements={uiElements}
+    />
+}
+
+<ClearSectionsButtonDemo />
+
+| Gesture | Action |
+|---------|--------|
+| **Tap** | Clears the **active section** only |
+| **Hold (400 ms)** | Clears **all 8 sections** (shows "CLR ALL!" tooltip) |
+
+> **Tip**: Hold is intentionally hard to trigger — the 400 ms threshold prevents accidental full clears.
+
+> **Source**: `renderClearAllSectionsButton()` in `PixelGridUIView.swift` (line 2496);
+> touch handler in `PixelGridUIView+Touch.swift` (lines 2472–2484 for tap, 3182–3206 for hold).
+> Button color: `COLOR_CLEAR_SECTIONS` = `UIColor(red: 0.4, green: 0.13, blue: 0.13)`.
+
+---
+
 ## Building a Song
 
 ### Workflow
