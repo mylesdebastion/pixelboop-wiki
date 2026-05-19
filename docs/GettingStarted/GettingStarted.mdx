@@ -18,12 +18,12 @@ While Pixelboop is a digital app, it is designed with a tactile, physical feel. 
 Below is a live simulation of the Pixelboop grid. You can hover over the pixels to see them respond, simulating the physical touch interface.
 
 export function HardwareDemo() {
-    // Exact colors from PixelGridUIView.swift
+    // Spectral gradient track colors from PixelGridUIView.swift (AppColors.trackColors)
     const trackColors = {
-        melody: "#F7DC6F",    // Yellow
-        chords: "#4ECDC4",    // Teal
-        bass: "#45B7D1",      // Blue
-        rhythm: "#FF6B6B"     // Red
+        melody: "#4D2DF2",    // Blue-Purple
+        chords: "#00E68C",    // Cyan-Green
+        bass: "#F2E600",      // Yellow
+        rhythm: "#FF3000"     // Red-Orange
     };
     
     const chromaticColors = [
@@ -55,7 +55,7 @@ export function HardwareDemo() {
         { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
         { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
         { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#4080FF" }] },
-        { "name": "Clear Pattern", "desc": "Cols 40-43: Clear all notes", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#662121" }] },
+        { "name": "New Jam", "desc": "Cols 40-43: Reset to defaults (New Jam)", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#662121" }] },
 
         // Row 1 - Timeline/Beat Markers
         { "name": "Track Labels", "desc": "Cols 0-3: Track control area", "elements": [{ "pos": [0, 1], "size": [4, 1], "color": "#212121" }] },
