@@ -59,27 +59,27 @@ You can change the MIDI transmit channel for each track using **Config Mode**.
 export function ConfigModeDemo() {
     const uiElements = [
         {
-            "name": "Bluetooth MIDI Indicator (Config Entry)",
-            "desc": "Tap cols 38-39 (row 0) while a Bluetooth MIDI device is connected to enter MIDI Channel Config mode.",
+            "name": "MIDI Channel Column (Hold to Enter Edit Mode)",
+            "desc": "Hold col 2 (the MIDI channel / VU column, immediately left of the interval column) for ~0.5 s while a Bluetooth MIDI device is connected. The track label shows 'MIDI Ch[N] Edit On'.",
             "elements": [
-                { "pos": [38, 0], "size": [2, 1], "color": "#4080FF" }
+                { "pos": [2, 2], "size": [1, 6], "color": "#4080FF" },
+                { "pos": [2, 8], "size": [1, 6], "color": "#4080FF" },
+                { "pos": [2, 14], "size": [1, 4], "color": "#4080FF" },
+                { "pos": [2, 18], "size": [1, 4], "color": "#4080FF" }
             ]
         },
         {
-            "name": "Mute Column (Channel Cycle)",
-            "desc": "Once in config mode, tap any track's mute column to cycle that track's MIDI channel.",
+            "name": "Tap to Cycle Channel",
+            "desc": "Once edit mode is active, tap col 2 on any track to cycle that track's MIDI channel (1–16).",
             "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#FFFF00" },
-                { "pos": [0, 8], "size": [1, 6], "color": "#333333" },
-                { "pos": [0, 14], "size": [1, 4], "color": "#333333" },
-                { "pos": [0, 18], "size": [1, 4], "color": "#333333" }
+                { "pos": [2, 2], "size": [1, 6], "color": "#FFFF00" }
             ]
         }
     ];
 
     return <MystrixVisualizer
-        uiName="MIDI Config Mode"
-        uiDescription="Tap the Bluetooth MIDI indicator to enter config mode, then tap mute columns to set channels"
+        uiName="MIDI Channel Config"
+        uiDescription="Hold col 2 (~0.5 s) to enter MIDI channel edit mode, then tap col 2 to cycle channels"
         uiElements={uiElements}
     />
 }
@@ -89,38 +89,31 @@ export function ConfigModeDemo() {
 ### How to Change MIDI Channels
 
 1. **Connect a Bluetooth MIDI device** to Pixelboop.
-2. **Enter MIDI Channel Config Mode**: Tap the **Bluetooth MIDI indicator** (blue button, cols 38–39, row 0).
-3. **Cycle a track's channel**: Tap any track's **mute column** (col 0) to cycle that track's MIDI channel (1–16).
-4. **Exit Config Mode**: Tap the Bluetooth MIDI indicator again, or wait for the timeout.
+2. **Enter MIDI Channel Edit Mode**: **Hold col 2** (the MIDI channel / VU column — immediately left of the interval column) on any track for about half a second. The track label will confirm with **"MIDI Ch[N] Edit On"**.
+3. **Cycle a track's channel**: While edit mode is active, **tap col 2** on that track to cycle its MIDI channel (1–16).
+4. **Exit Edit Mode**: Hold col 2 again, or wait for the timeout.
 
 export function ChannelCycleDemo() {
     const uiElements = [
         {
-            "name": "Track Selected",
-            "desc": "Melody track selected for channel configuration.",
+            "name": "Col 2 — Edit Mode Active (Melody)",
+            "desc": "Hold col 2 on the Melody track for ~0.5 s. The column lights up to show edit mode is on.",
             "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#FFFF00" }
+                { "pos": [2, 2], "size": [1, 6], "color": "#4080FF" }
             ]
         },
         {
-            "name": "Channel Display",
-            "desc": "Rows light up to show current channel (1-6 in first 6 rows).",
+            "name": "Tap to Cycle",
+            "desc": "Tap col 2 on the Melody track to advance to the next MIDI channel. Repeat to reach your target channel (1–16).",
             "elements": [
-                { "pos": [0, 2], "size": [1, 1], "color": "#FFFFFF" }
-            ]
-        },
-        {
-            "name": "Channel 1 Active",
-            "desc": "Currently set to channel 1. Tap to cycle to next channel.",
-            "elements": [
-                { "pos": [2, 0], "size": [1, 1], "color": "#00FF00" }
+                { "pos": [2, 2], "size": [1, 6], "color": "#00FF00" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Cycling MIDI Channels"
-        uiDescription="Tap to cycle through channels 1-16"
+        uiDescription="Hold col 2 to enter edit mode, then tap to cycle channels 1–16"
         uiElements={uiElements}
     />
 }
