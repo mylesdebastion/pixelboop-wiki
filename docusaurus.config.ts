@@ -38,7 +38,7 @@ const config: Config = {
           routeBasePath: '/', // Make docs the site root
           versions: {
             current: {
-              label: '1.1.0 b3',
+              label: '1.1.1 b3',
             },
           },
         },
