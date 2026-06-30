@@ -125,7 +125,7 @@ const config: Config = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Pixelboop Wiki Content - Audiolux Devices and dbinc. <br/> Documentation framework based on <a href="https://github.com/203-Systems/Matrix-Wiki" target="_blank">203 Systems' Docusaurus template</a>.`,
     },
-    image: 'img/social-card.jpg',
+    image: 'img/pixelboop-social.png',
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.vsDark,
