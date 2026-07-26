@@ -1,0 +1,430 @@
+---
+sidebar_position: 11
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Multi-Device Sync
+
+Pixelboop supports real-time collaboration between multiple iOS devices on the same local network. Play together with synchronized playback, share patterns, and collaborate as host and followers.
+
+## Overview
+
+export function SyncOverview() {
+    const uiElements = [
+        {
+            "name": "Sync Button",
+            "desc": "Columns 10-12, Row 23. Tap to open sync interface, long-press for quick join/leave.",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+            ]
+        },
+        {
+            "name": "Device Indicators",
+            "desc": "Columns 13-20, Row 23. Shows connected devices (up to 8).",
+            "elements": [
+                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" }
+            ]
+        },
+        {
+            "name": "Link Button",
+            "desc": "Columns 5-7, Row 23. Toggle Ableton Link for timing sync.",
+            "elements": [
+                { "pos": [5, 23], "size": [3, 1], "color": "#FFFFFF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Multi-Device Sync Controls"
+        uiDescription="Row 23 contains sync and collaboration controls"
+        uiElements={uiElements}
+    />
+}
+
+<SyncOverview />
+
+### Key Features
+- **WiFi Sync**: Local network synchronization (no internet required)
+- **Orchestra Mode**: Host/follower collaboration model
+- **Step Sync**: Real-time pattern editing synchronization
+- **Playback Sync**: All devices play in perfect time
+
+---
+
+## Quick Start
+
+### Starting a Session (Host)
+
+export function HostSession() {
+    const uiElements = [
+        {
+            "name": "Sync Button (Gold = Host)",
+            "desc": "Tap to start a session. Gold color indicates you're the host.",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+            ]
+        },
+        {
+            "name": "Connected Followers",
+            "desc": "Green indicators show connected followers.",
+            "elements": [
+                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Host Session"
+        uiDescription="Gold sync button = you're the host"
+        uiElements={uiElements}
+    />
+}
+
+<HostSession />
+
+1. **Tap the Sync button** (row 23, columns 10-12)
+2. **Choose "Start Session"**
+   - Device becomes host (gold indicator appears)
+3. **Set session options**:
+   - Session name (auto-generated or custom)
+   - Orchestra mode or Free mode
+4. **Wait for followers to join**
+   - You'll see green pixels appear for each connected device
+
+### Joining a Session (Follower)
+
+export function FollowerSession() {
+    const uiElements = [
+        {
+            "name": "Sync Button (Green = Follower)",
+            "desc": "Tap to join a session. Green color indicates you're connected.",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#00FF00" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Follower Session"
+        uiDescription="Green sync button = connected as follower"
+        uiElements={uiElements}
+    />
+}
+
+<FollowerSession />
+
+1. **Tap the Sync button**
+2. **See available sessions** in the list
+3. **Tap a session** to join
+   - Your device indicator turns green
+4. **Start playing together!**
+
+---
+
+## Sync Technologies
+
+Pixelboop uses two complementary sync technologies:
+
+### WiFi Sync (State Sync)
+- **Purpose**: Syncs musical state (tempo, key, scale, patterns)
+- **Transport**: WiFi direct connection (Multipeer Connectivity)
+- **Range**: Local network only (same WiFi or peer-to-peer)
+- **Latency**: Low (~20-50ms)
+
+:::note
+**Ableton Link** (timing sync) is not available in Pixelboop v1.1.0 and will be enabled in a future update. WiFi Sync handles both state and timing synchronization between devices.
+:::
+
+---
+
+## Sync Modes
+
+### Free Mode
+**Independent playback with optional tempo sync**
+
+- Each device has its own patterns
+- Shared tempo and key (optional)
+- Great for jamming with independent parts
+- Each musician controls their own patterns
+
+**Use cases:**
+- Live jamming sessions
+- Multiple musicians playing different parts
+- Improvisational performance
+
+### Orchestra Mode
+**Host-controlled collaborative mode**
+
+export function OrchestraMode() {
+    const uiElements = [
+        {
+            "name": "Host Device (Gold)",
+            "desc": "Host controls tempo, key, patterns. Edits sync to all followers.",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+            ]
+        },
+        {
+            "name": "Follower Devices (Green)",
+            "desc": "Followers receive patterns from host. Grid is locked.",
+            "elements": [
+                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Orchestra Mode"
+        uiDescription="Host (gold) controls everything, followers (green) receive patterns"
+        uiElements={uiElements}
+    />
+}
+
+<OrchestraMode />
+
+#### Orchestra Host
+- Controls tempo, key, and scale for all devices
+- Edits the master pattern
+- All changes sync to followers in real-time
+- Gold indicator shows host status
+
+**Host can:**
+- Edit all patterns (changes sync immediately)
+- Change tempo (all devices follow)
+- Change key/scale (all devices follow)
+- Use all gestures and controls normally
+
+#### Orchestra Follower
+- Receives patterns from host
+- Cannot edit pattern grid (locked)
+- Can still control local settings (volume, mute/solo)
+- Green indicator shows follower status
+
+**Follower can:**
+- Adjust track volumes locally
+- Mute/solo tracks
+- Use section controls (local view only)
+- Access WLED settings
+- **Cannot edit** pattern notes (grid locked)
+
+**Use cases:**
+- Teaching/learning scenarios
+- Conducted ensemble performance
+- Live sets where one person controls the patterns
+
+---
+
+## Sync Button (Row 23, Cols 10-12)
+
+export function SyncButtonStates() {
+    const uiElements = [
+        {
+            "name": "Disconnected (Gray)",
+            "desc": "No active session. Tap to open sync interface.",
+            "elements": [
+                { "pos": [10, 23], "size": [3, 1], "color": "#444444" }
+            ]
+        },
+        {
+            "name": "Host (Gold)",
+            "desc": "You're the host. You control the session.",
+            "elements": [
+                { "pos": [10, 22], "size": [3, 1], "color": "#FFD700" }
+            ]
+        },
+        {
+            "name": "Follower (Green)",
+            "desc": "Connected to a host. Receiving patterns.",
+            "elements": [
+                { "pos": [10, 21], "size": [3, 1], "color": "#00FF00" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Sync Button States"
+        uiDescription="Color indicates connection status"
+        uiElements={uiElements}
+    />
+}
+
+<SyncButtonStates />
+
+### Tap: Open Sync Interface
+Shows sync control panel with options:
+- **Start Session**: Become host
+- **Join Session**: See available sessions and join
+- **Leave Session**: Disconnect from current session
+- **Session Settings**: Configure sync options
+
+### Long-Press: Quick Join/Leave
+- **When disconnected**: Quick-join first available session
+- **When connected**: Quick-leave current session
+- Useful for rapid session switching
+
+| Color | Meaning | Details |
+|-------|---------|---------|
+| **Gray** | Disconnected | No active session |
+| **Gold** | Host | You're controlling the session |
+| **Green** | Follower | Connected to host |
+
+---
+
+## Device Indicators (Row 23, Cols 13-20)
+
+export function DeviceIndicators() {
+    const uiElements = [
+        {
+            "name": "8 Device Slots",
+            "desc": "Each connected device gets a unique color indicator.",
+            "elements": [
+                { "pos": [13, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00AAFF" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#FF00FF" },
+                { "pos": [16, 23], "size": [1, 1], "color": "#FFFF00" },
+                { "pos": [17, 23], "size": [1, 1], "color": "#FF6600" },
+                { "pos": [18, 23], "size": [1, 1], "color": "#00FFAA" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Device Indicators"
+        uiDescription="Shows up to 8 connected devices with unique colors"
+        uiElements={uiElements}
+    />
+}
+
+<DeviceIndicators />
+
+### What They Show
+Each connected device gets a colored pixel indicator
+
+- **Unique color per device**: Auto-assigned
+- **Brightness**: Indicates connection strength
+- **Position**: First available column (left-to-right)
+
+### Tap Device Indicator
+- Shows device name tooltip
+- Example: "iPhone 15 Pro"
+- Displays for 2 seconds
+
+### Maximum Devices
+- Up to 8 devices can connect simultaneously
+- Indicator positions: columns 13-20
+
+---
+
+## Ableton Link Integration
+
+:::note
+**Ableton Link** is not available in Pixelboop v1.1.0. It will be enabled in a future update.
+:::
+
+---
+
+## Troubleshooting
+
+### Can't See Sessions
+
+**Check:**
+- All devices on same WiFi network
+- WiFi is enabled (even for peer-to-peer)
+- Bluetooth is enabled (for discovery)
+- Pixelboop is open on host device
+
+**Try:**
+- Pull down to refresh session list
+- Restart Pixelboop on both devices
+- Check WiFi doesn't block multicast
+
+### Connection Keeps Dropping
+
+**Common causes:**
+- Weak WiFi signal
+- Router blocking multicast
+- Too many devices (>8 limit)
+- Background app is suspending Pixelboop
+
+**Solutions:**
+- Move closer to WiFi router
+- Use peer-to-peer mode instead
+- Reduce number of connected devices
+- Keep Pixelboop in foreground
+
+### Patterns Not Syncing
+
+**Check:**
+- You're in Orchestra mode (not Free mode)
+- You're the host (gold indicator)
+- Follower's indicator is green (connected)
+
+**Try:**
+- Leave and rejoin session
+- Restart session
+- Check pattern wasn't edited locally on follower
+
+### Timing Is Slightly Off
+
+**Check:**
+- WiFi latency is low (under 50ms)
+- All devices are on the same local network
+
+**Try:**
+- Move closer to WiFi router
+- Close other bandwidth-heavy apps
+- Restart Pixelboop on all devices
+
+---
+
+## Best Practices
+
+### For Hosts
+- Start session before followers arrive
+- Use custom room codes for recurring jams
+- Test pattern edits before big changes
+- Communicate tempo/key changes to band
+
+### For Followers
+- Join session early to sync patterns
+- Don't try to edit patterns in Orchestra mode
+- Use local mute/solo for your mix
+- Keep Pixelboop in foreground
+
+### For All Users
+- Use strong WiFi signal
+- Keep devices close together
+- Test connection before performance
+
+---
+
+## What Gets Synced
+
+### Always Synced (All Modes)
+- **Tempo (BPM)**: 60–200 BPM
+- **Root Key**: C through B
+- **Scale**: Major, Minor, Pentatonic
+
+### Orchestra Mode Only
+- **Patterns**: All track patterns sync from host to followers
+- **Pattern edits**: Real-time sync as host edits
+- **Section changes**: Active section syncs
+
+### Never Synced (Always Local)
+- Track volumes
+- Mute/solo states
+- WLED settings
+- MIDI settings
+
+---
+
+**See Also:**
+- [Top Controls](../MakingSound/TopControls.mdx) - Row 0 controls
+- [Gestures](../MakingSound/Gestures.mdx) - Touch gestures
+- [Song Sections](../MakingSound/SongSections.mdx) - Section management

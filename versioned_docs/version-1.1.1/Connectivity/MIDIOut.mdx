@@ -1,0 +1,33 @@
+---
+sidebar_position: 10
+---
+
+# MIDI Out to AUM & other apps
+
+Pixelboop can send the notes it plays out as **MIDI**, so other music apps on your device (like **AUM**, or any AUv3 synth) can be driven by your Pixelboop jam. Use Pixelboop as a step sequencer for a whole rig of other instruments.
+
+:::info Available in TestFlight
+MIDI output is currently rolling out to testers. Want it early? Join the **[Early Creator program](https://pixelboop.com/community)** to help shape Pixelboop.
+:::
+
+## How it works
+
+When enabled, Pixelboop publishes a virtual MIDI source named **"Pixelboop."** Any MIDI-capable app on the same device can subscribe to it and receive note on/off as your jam plays, step by step. Each of Pixelboop's four tracks (melody, chords, bass, drums) sends on its own MIDI channel.
+
+## Drive a synth in AUM
+
+1. Open **AUM** and add an instrument (any AUv3 synth) on a channel.
+2. In AUM's MIDI routing, set the input source to **"Pixelboop."**
+3. Play a jam in Pixelboop. AUM's instrument plays the jam's notes in time.
+
+## Verify the MIDI stream
+
+To see exactly what Pixelboop is sending, use a free MIDI monitor app (such as **Protokol**):
+
+1. Open the monitor and select **"Pixelboop"** as the input source.
+2. Play a jam. You will see Note On and Note Off events stream in, one per note as each step triggers.
+3. Confirm each track lands on its own channel and the drums fire their kit notes.
+
+:::tip
+Both apps must be on the **same device** (the virtual source is inter-app, on-device), and Pixelboop must be running for "Pixelboop" to appear in the other app.
+:::

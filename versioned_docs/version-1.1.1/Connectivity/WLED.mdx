@@ -1,0 +1,296 @@
+---
+sidebar_position: 2
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Lighting Up LED Strips with WLED
+
+Pixelboop can control external LED strips in real-time, creating synchronized light shows that mirror your musical patterns. This guide shows you how to set up and use WLED with Pixelboop.
+
+## What is WLED?
+
+**WLED** is an open-source firmware for ESP8266/ESP32 microcontrollers that controls addressable LED strips (WS2812B, SK6812, etc.). It's widely used, easy to set up, and works perfectly with Pixelboop over WiFi.
+
+### Why Use WLED with Pixelboop?
+
+- 🎨 **Visual feedback**: See your patterns light up in real-time
+- 🎭 **Live performances**: Add stunning visuals to your shows
+- 🎓 **Learning**: Visual representation helps understand musical patterns
+- 🎉 **Fun**: Turn any space into a music-reactive light installation
+
+## What You'll Need
+
+### Hardware
+1. **ESP8266 or ESP32 board** ($3-10)
+   - NodeMCU, Wemos D1 Mini, or similar
+   - Pre-flashed WLED controllers also available ($10-20)
+
+2. **Addressable LED strip** ($10-30)
+   - WS2812B (most common)
+   - SK6812, APA102, or other WLED-compatible strips
+   - 30-144 LEDs/meter (60 recommended for Pixelboop)
+
+3. **Power supply** ($10-20)
+   - 5V DC power supply
+   - Calculate: ~60mA per LED at full brightness
+   - Example: 60 LEDs × 60mA = 3.6A → use 5V 5A supply
+
+4. **Basic wiring**
+   - Jumper wires or soldering kit
+   - Optional: enclosure/mounting
+
+### Software
+- **WLED firmware**: Free, pre-installed or flash yourself
+- **Pixelboop iOS app**: Available on the App Store
+
+## WLED Button Location
+
+export function WLEDButtonDemo() {
+    const uiElements = [
+        { 
+            "name": "WLED Button", 
+            "desc": "Cols 0-3, Row 23: Rainbow gradient when enabled. Tap to toggle, hold Play button for config.", 
+            "elements": [
+                { "pos": [0, 23], "size": [1, 1], "color": "#FF0000" },
+                { "pos": [1, 23], "size": [1, 1], "color": "#FF8800" },
+                { "pos": [2, 23], "size": [1, 1], "color": "#00FF00" },
+                { "pos": [3, 23], "size": [1, 1], "color": "#00FFAA" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="WLED Button (Row 23)"
+        uiDescription="Bottom-left corner shows WLED status and control"
+        uiElements={uiElements}
+    />
+}
+
+<WLEDButtonDemo />
+
+**Location:** Row 23 (bottom), Columns 0-3 (far left)
+
+| State | Color | Description |
+|-------|-------|-------------|
+| Enabled | 🌈 Rainbow gradient | WLED is active and sending data |
+| Disabled | ⚫ Dark | WLED is off |
+
+---
+
+## Quick Setup Guide
+
+### Step 1: Get WLED Running
+
+**Option A: Buy Pre-Made** (Easiest)
+1. Search "WLED controller" on Amazon/AliExpress
+2. Plug in LED strip
+3. Power it up
+4. Done! Skip to Step 2
+
+**Option B: Flash It Yourself** (DIY)
+1. Go to [install.wled.me](https://install.wled.me)
+2. Connect ESP board via USB
+3. Click "Install" and follow prompts
+4. Wire your LED strip:
+   - LED Data → ESP Pin D4 (GPIO2)
+   - LED 5V → Power supply +
+   - LED GND → Power supply - AND ESP GND
+
+### Step 2: Connect to WLED WiFi
+
+1. Power up your WLED device
+2. Look for WiFi network named `WLED-AP`
+3. Connect to it (password: `wled1234`)
+4. Browser opens automatically to setup page
+5. Configure your home WiFi credentials
+6. WLED reboots and connects to your network
+
+### Step 3: Find WLED IP Address
+
+**Option A: WLED App** (Recommended)
+1. Download **WLED** app (iOS/Android)
+2. It auto-discovers devices on your network
+3. Note the IP address (e.g., `192.168.1.100`)
+
+**Option B: Router Admin**
+1. Log into your router
+2. Find device named "WLED-..." in connected devices
+3. Note its IP address
+
+### Step 4: Configure Pixelboop
+
+1. **Open Pixelboop**
+2. **Tap the WLED Rainbow button** (row 23, cols 0-3) on the bottom control bar
+3. **WLED config dialog appears**
+4. **Enter WLED IP address** (e.g., `192.168.1.100`)
+5. **Test connection** → Rainbow gradient should appear on LEDs
+6. **Save**
+
+### Step 5: Enable WLED
+
+1. **Hold the WLED Rainbow button** (row 23, cols 0-3) to toggle WLED on/off
+2. Button shows **rainbow gradient** when active
+3. Your LED strip now mirrors Pixelboop patterns!
+
+---
+
+## How It Works
+
+### Pattern Mapping
+
+Pixelboop sends the **entire 44×24 grid** to your LED strip in real-time:
+
+- **Each column** → multiple LEDs (depends on strip length)
+- **Colors match exactly** → What you see on screen appears on the strip
+- **Track colors** → Melody (yellow), Chords (teal), Bass (blue), Rhythm (red)
+- **Updates** → 20-30 times per second for smooth animations
+
+### Strip Length Recommendations
+
+| LED Count | Pixelboop Grid Mapping | Best For |
+|-----------|------------------------|----------|
+| 44 LEDs | 1 LED per column (exact 1:1) | Desktop/small setups |
+| 88 LEDs | 2 LEDs per column | Recommended sweet spot |
+| 132 LEDs | 3 LEDs per column | Bright, immersive shows |
+| 176 LEDs | 4 LEDs per column | Large installations |
+
+**Note:** More LEDs = brighter and more visible from a distance, but requires more power.
+
+---
+
+## Advanced Configuration
+
+### WLED Settings (Optional)
+
+Access WLED web interface at `http://[YOUR_IP]`:
+
+1. **LED Settings**
+   - Set LED count (44, 88, 132, etc.)
+   - Choose LED type (WS2812B most common)
+   - Set GPIO pin (usually D4/GPIO2)
+
+2. **WiFi Settings**
+   - Set static IP (recommended for reliability)
+   - Disable AP mode after setup
+
+3. **Sync Settings**
+   - Enable "Realtime" mode
+   - Set UDP port (usually 21324)
+
+### Multiple WLED Devices
+
+Want multiple LED strips synced to Pixelboop?
+
+1. **Set up each WLED separately** (unique IPs)
+2. **In Pixelboop**: Currently supports one device at a time
+3. **Alternative**: Use WLED's built-in sync feature to mirror one controller to others
+
+---
+
+:::note
+The **Instrument Visualizations** section is not yet enabled. The **LiteJam** LED guitar is rolling out to testers; see **[LiteJam LED Guitar](/Connectivity/LiteJamGuitar)**.
+:::
+
+---
+
+## Troubleshooting
+
+### Rainbow gradient not showing?
+
+**Check:**
+- ✅ Pixelboop and WLED on same WiFi network
+- ✅ WLED IP address entered correctly
+- ✅ WLED button enabled (rainbow gradient visible)
+- ✅ LED strip powered properly
+
+**Test:**
+1. Open WLED web interface (`http://[YOUR_IP]`)
+2. Manually set colors → If this works, issue is with Pixelboop config
+3. If manual control fails → Check LED strip wiring
+
+### LEDs flicker or glitch?
+
+**Solutions:**
+- **Add capacitor**: 1000µF capacitor across power lines (near ESP board)
+- **Shorter wires**: Keep LED data wire under 1 meter if possible
+- **Level shifter**: If using 3.3V ESP with 5V LEDs, add 74HCT245 level shifter
+- **Power injection**: For strips over 100 LEDs, inject power every 50-100 LEDs
+
+### WiFi drops frequently?
+
+**Try:**
+- Move ESP closer to router
+- Set static IP in router
+- Disable power-saving mode in WLED WiFi settings
+- Use 2.4GHz WiFi (not 5GHz - ESP8266 doesn't support 5GHz)
+
+### Colors don't match?
+
+**Check:**
+- WLED LED type setting (WS2812B vs SK6812 have different color orders)
+- Try different color order: RGB, GRB, BRG, etc.
+- Gamma correction in WLED settings
+
+---
+
+## Creative Ideas
+
+### Performance Setup
+- **Backdrop**: Mount LED strip behind you on stage
+- **Floor lighting**: Line the stage edge for crowd-facing visuals
+- **Instrument lighting**: Wrap your synth/keyboard stand
+
+### Studio Setup
+- **Monitor backlight**: Reduce eye strain, add ambiance
+- **Desk strip**: See patterns while you work
+- **Room lighting**: Full wall/ceiling installation for immersive production
+
+### Mobile Setup
+- **Battery pack**: Use USB power bank for portable LED setup
+- **Compact strip**: 44-88 LEDs on a small frame
+- **Clip anywhere**: Mount to music stand, laptop screen, etc.
+
+---
+
+## Safety Tips
+
+⚠️ **Important:**
+- ✅ **Never exceed LED strip voltage** (most are 5V, check yours)
+- ✅ **Use adequate power supply** (calculate current properly)
+- ✅ **Don't power 100+ LEDs from ESP** (use external supply)
+- ✅ **Add fuse** (1-5A fuse inline with power recommended)
+- ✅ **Keep wiring neat** (secure all connections, no exposed wires)
+- ✅ **Heat management** (high-power setups can get warm, ensure ventilation)
+
+---
+
+## Resources
+
+### Official Documentation
+- **WLED GitHub**: [github.com/Aircoookie/WLED](https://github.com/Aircoookie/WLED)
+- **WLED Knowledge Base**: [kno.wled.ge](https://kno.wled.ge)
+- **Pixelboop Wiki**: You're here!
+
+### Where to Buy
+- **LED Strips**: Amazon, AliExpress (search "WS2812B LED strip")
+- **ESP Boards**: Amazon, AliExpress (search "ESP8266 NodeMCU" or "ESP32")
+- **Pre-Made WLED**: Amazon (search "WLED controller")
+- **Power Supplies**: Any 5V DC supply rated for your LED count
+
+### Community
+- **WLED Discord**: [discord.gg/KuqP7NE](https://discord.gg/KuqP7NE)
+- **r/WLED**: [reddit.com/r/WLED](https://reddit.com/r/WLED)
+- **Pixelboop Support**: [support@audiolux.app](mailto:support@audiolux.app)
+
+---
+
+## See Also
+
+- [Bottom Controls](../MakingSound/BottomControls.mdx) - Full Row 23 reference
+- [Connectivity](./Connectivity.mdx) - MIDI and other connections
+- [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) - Sync multiple Pixelboops
+
+---
+
+**Questions?** Join our community or email [support@audiolux.app](mailto:support@audiolux.app)!

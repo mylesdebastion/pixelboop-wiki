@@ -1,0 +1,510 @@
+---
+sidebar_position: 9
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Song Sections
+
+Pixelboop supports **8 song sections** (pattern banks) for building complete songs. Each section stores an independent pattern for all 4 tracks.
+
+## Section Overview
+
+export function SectionOverview() {
+    const sectionColors = [
+        "#FF0000", "#FF8C00", "#FFFF00", "#00FF00",
+        "#00FFFF", "#0088FF", "#8800FF", "#FF00FF"
+    ];
+    
+    const uiElements = [
+        {
+            "name": "Section Columns",
+            "desc": "Columns 36-43. Each column triggers a different section.",
+            "elements": sectionColors.map((color, i) => ({
+                "pos": [36 + i, 2],
+                "size": [1, 20],
+                "color": color
+            }))
+        },
+        {
+            "name": "Current Section",
+            "desc": "The active section glows brighter. Tap another to switch.",
+            "elements": [
+                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Pattern Grid",
+            "desc": "Columns 4-35. Shows notes for the current section.",
+            "elements": [
+                { "pos": [4, 2], "size": [32, 20], "color": "#222222" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Song Sections"
+        uiDescription="8 sections (columns 36-43) for building full songs"
+        uiElements={uiElements}
+    />
+}
+
+<SectionOverview />
+
+---
+
+## Switching Sections
+
+**Tap** any section column (36-43) to switch to that section.
+
+export function SwitchDemo() {
+    const uiElements = [
+        {
+            "name": "Section 1 (Active)",
+            "desc": "Column 36. Currently active section.",
+            "elements": [
+                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Section 2",
+            "desc": "Column 37. Tap to switch.",
+            "elements": [
+                { "pos": [37, 2], "size": [1, 20], "color": "#663600" }
+            ]
+        },
+        {
+            "name": "Section 3",
+            "desc": "Column 38. Tap to switch.",
+            "elements": [
+                { "pos": [38, 2], "size": [1, 20], "color": "#666600" }
+            ]
+        },
+        {
+            "name": "Other Sections",
+            "desc": "Columns 39-43. 5 more sections available.",
+            "elements": [
+                { "pos": [39, 2], "size": [5, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Switching Sections"
+        uiDescription="Tap a section column to switch patterns"
+        uiElements={uiElements}
+    />
+}
+
+<SwitchDemo />
+
+Each section is **independent**:
+- Switching sections changes which pattern is displayed and playing
+- Notes you place are saved to the current section
+- All 4 tracks are switched together
+
+---
+
+## Section Thumbnails
+
+Each section column shows a **thumbnail preview** of the notes in that section.
+
+export function ThumbnailDemo() {
+    const uiElements = [
+        {
+            "name": "Section 1 Preview",
+            "desc": "Shows a condensed view of notes in section 1.",
+            "elements": [
+                { "pos": [36, 3], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [36, 5], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [36, 10], "size": [1, 1], "color": "#00E68C" },
+                { "pos": [36, 15], "size": [1, 1], "color": "#F2E600" },
+                { "pos": [36, 19], "size": [1, 1], "color": "#FF3000" }
+            ]
+        },
+        {
+            "name": "Section 2 Preview",
+            "desc": "Different notes in section 2.",
+            "elements": [
+                { "pos": [37, 4], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [37, 9], "size": [1, 1], "color": "#00E68C" },
+                { "pos": [37, 11], "size": [1, 1], "color": "#00E68C" },
+                { "pos": [37, 18], "size": [1, 1], "color": "#FF3000" },
+                { "pos": [37, 20], "size": [1, 1], "color": "#FF3000" }
+            ]
+        },
+        {
+            "name": "Empty Section",
+            "desc": "Section 3 has no notes yet.",
+            "elements": [
+                { "pos": [38, 2], "size": [1, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Section Thumbnails"
+        uiDescription="Each section shows a preview of its contents"
+        uiElements={uiElements}
+    />
+}
+
+<ThumbnailDemo />
+
+Thumbnails use **track colors** to show where notes are:
+- 🟡 Yellow = Melody notes
+- 🩵 Teal = Chord notes
+- 🩵 Blue = Bass notes
+- 🔴 Red = Rhythm hits
+
+---
+
+## Section Play Mode
+
+Enable **Section Play Mode** to automatically advance through all sections during playback.
+
+export function SectionPlayDemo() {
+    const uiElements = [
+        {
+            "name": "Section Play Toggle",
+            "desc": "Located in the control row. Tap to enable section play mode.",
+            "elements": [
+                { "pos": [24, 0], "size": [1, 1], "color": "#00FF00" }
+            ]
+        },
+        {
+            "name": "Playback Order",
+            "desc": "Sections play in order: 1 → 2 → 3 → ... → 8 → 1",
+            "elements": [
+                { "pos": [36, 22], "size": [1, 1], "color": "#FF0000" },
+                { "pos": [37, 22], "size": [1, 1], "color": "#666600" },
+                { "pos": [38, 22], "size": [1, 1], "color": "#006600" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Section Play Mode"
+        uiDescription="Auto-advance through sections during playback"
+        uiElements={uiElements}
+    />
+}
+
+<SectionPlayDemo />
+
+### Section Play Behavior
+
+When **Section Play Mode** is enabled:
+1. Pattern plays through all 32 steps
+2. At step 32, advances to the next section
+3. Cycles through all 8 sections
+4. Loops back to section 1 after section 8
+
+This creates a **256-step song** (8 sections × 32 steps).
+
+---
+
+## Section Play Button
+
+The **Section Play button** sits at the bottom-right corner of the grid (row 23, cols 36–37). Tap it to toggle Section Play mode on or off directly from the grid surface.
+
+export function SectionPlayButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Section Play Button (Active)",
+            "desc": "Row 23, cols 36-37. Bright green when section play is enabled.",
+            "elements": [
+                { "pos": [36, 23], "size": [2, 1], "color": "#33E54C" }
+            ]
+        },
+        {
+            "name": "Section Columns",
+            "desc": "Cols 36-43, rows 2-21: the 8 section columns.",
+            "elements": [
+                { "pos": [36, 2], "size": [8, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Section Play Button"
+        uiDescription="Row 23, cols 36-37 — tap to toggle section play"
+        uiElements={uiElements}
+    />
+}
+
+<SectionPlayButtonDemo />
+
+| State | Color | Hex |
+|-------|-------|-----|
+| Enabled | Bright green | `#33E54C` |
+| Disabled | Dim green | `#1A4D26` |
+
+**Gesture**: **Tap** toggles section play on/off. No hold behavior.
+
+> **Source**: `renderSectionPlayButton()` in `PixelGridUIView.swift` (line 2475);
+> touch handler in `PixelGridUIView+Touch.swift` (line 2422 — `toggleSectionPlay()`).
+
+---
+
+## Clear All Sections Button
+
+The **Clear All Sections button** occupies row 23, cols 38–43 — the six cells immediately to the right of the Section Play button. It provides a fast way to wipe section content without navigating menus.
+
+export function ClearSectionsButtonDemo() {
+    const uiElements = [
+        {
+            "name": "Clear All Sections Button",
+            "desc": "Row 23, cols 38-43. Dark red — tap to clear active section, hold to clear all.",
+            "elements": [
+                { "pos": [38, 23], "size": [6, 1], "color": "#662121" }
+            ]
+        },
+        {
+            "name": "Section Play Button",
+            "desc": "Row 23, cols 36-37. Shown here for context.",
+            "elements": [
+                { "pos": [36, 23], "size": [2, 1], "color": "#1A4D26" }
+            ]
+        },
+        {
+            "name": "Section Columns",
+            "desc": "Cols 36-43, rows 2-21: the 8 section columns.",
+            "elements": [
+                { "pos": [36, 2], "size": [8, 20], "color": "#333333" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Clear All Sections Button"
+        uiDescription="Row 23, cols 38-43 — tap: clear active section · hold: clear ALL"
+        uiElements={uiElements}
+    />
+}
+
+<ClearSectionsButtonDemo />
+
+| Gesture | Action |
+|---------|--------|
+| **Tap** | Clears the **active section** only |
+| **Hold (400 ms)** | Clears **all 8 sections** (shows "CLR ALL!" tooltip) |
+
+> **Tip**: Hold is intentionally hard to trigger — the 400 ms threshold prevents accidental full clears.
+
+> **Source**: `renderClearAllSectionsButton()` in `PixelGridUIView.swift` (line 2496);
+> touch handler in `PixelGridUIView+Touch.swift` (lines 2472–2484 for tap, 3182–3206 for hold).
+> Button color: `COLOR_CLEAR_SECTIONS` = `UIColor(red: 0.4, green: 0.13, blue: 0.13)`.
+
+---
+
+## Building a Song
+
+### Workflow
+
+1. **Start in Section 1**: Create your intro or verse pattern
+2. **Copy to Section 2**: Duplicate and modify for variation
+3. **Section 3**: Build a chorus or bridge
+4. **Continue**: Fill sections 4-8 with song parts
+5. **Enable Section Play**: Listen to the full song
+
+### Arrangement Ideas
+
+| Section | Purpose | Example |
+|---------|---------|---------|
+| 1 | Intro | Sparse melody, no drums |
+| 2 | Verse 1 | Add bass and light drums |
+| 3 | Chorus | Full energy, all tracks |
+| 4 | Verse 2 | Variation of section 2 |
+| 5 | Chorus | Same as section 3 |
+| 6 | Bridge | Different feel, buildup |
+| 7 | Chorus | Final chorus, extra energy |
+| 8 | Outro | Strip back, fade out |
+
+---
+
+## Section Reference
+
+| Section | Column | Default Color |
+|---------|--------|---------------|
+| 1 | 36 | Red |
+| 2 | 37 | Orange |
+| 3 | 38 | Yellow |
+| 4 | 39 | Green |
+| 5 | 40 | Cyan |
+| 6 | 41 | Blue |
+| 7 | 42 | Purple |
+| 8 | 43 | Magenta |
+
+---
+
+## Section Copy & Merge
+
+Pixelboop supports copying sections and merging them additively with other sections. This is perfect for creating variations and building up arrangements.
+
+### Copy a Section (Hold 1s)
+
+export function SectionCopyDemo() {
+    const uiElements = [
+        {
+            "name": "Hold Section Column",
+            "desc": "Hold any section column for 1 second to copy it.",
+            "elements": [
+                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+            ]
+        },
+        {
+            "name": "Tooltip Shows 'COPIED X'",
+            "desc": "Confirmation that section X was copied to clipboard.",
+            "elements": [
+                { "pos": [20, 11], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Copy Section"
+        uiDescription="Hold section column for 1s to copy"
+        uiElements={uiElements}
+    />
+}
+
+<SectionCopyDemo />
+
+**How to copy:**
+1. **Hold** any section column (36-43) for 1 second
+2. See **"COPIED X"** tooltip (where X is section number)
+3. Section is now in clipboard
+
+### Merge to Another Section (Tap)
+
+export function SectionMergeDemo() {
+    const uiElements = [
+        {
+            "name": "Source Section (Copied)",
+            "desc": "Section 1 was copied. It contains some notes.",
+            "elements": [
+                { "pos": [36, 3], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [36, 10], "size": [1, 1], "color": "#00E68C" }
+            ]
+        },
+        {
+            "name": "Target Section (Before Merge)",
+            "desc": "Section 2 has different notes.",
+            "elements": [
+                { "pos": [37, 5], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [37, 12], "size": [1, 1], "color": "#00E68C" }
+            ]
+        },
+        {
+            "name": "After Merge",
+            "desc": "Section 2 now has notes from BOTH sections (additive).",
+            "elements": [
+                { "pos": [37, 3], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [37, 5], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [37, 10], "size": [1, 1], "color": "#00E68C" },
+                { "pos": [37, 12], "size": [1, 1], "color": "#00E68C" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Merge Sections"
+        uiDescription="Tap target section to merge additively"
+        uiElements={uiElements}
+    />
+}
+
+<SectionMergeDemo />
+
+**How to merge:**
+1. **Copy** a section (hold 1s)
+2. **Tap** a different section column
+3. See **"MERGED"** tooltip
+4. Target section switches to active
+5. Target section now contains notes from **both** sections (additive merge)
+
+### Additive Merge Behavior
+
+When merging sections:
+- **Existing notes are preserved**: Notes in the target section stay
+- **New notes are added**: Notes from the copied section are added
+- **Overlapping notes**: If both sections have a note at the same position, the copied note replaces it
+- **All tracks merged**: Melody, Chords, Bass, and Rhythm all merge
+
+### Use Cases
+
+#### Creating Variations
+1. Copy section 1 (intro)
+2. Merge to section 2
+3. Add extra notes to section 2 (variation)
+
+#### Building Up Arrangements
+1. Section 1: Just melody
+2. Copy section 1, merge to section 2
+3. Add bass to section 2 (melody + bass)
+4. Copy section 2, merge to section 3
+5. Add drums to section 3 (melody + bass + drums)
+
+#### Combining Song Parts
+1. Section 1: Verse melody
+2. Section 2: Chorus chords
+3. Copy section 1, merge to section 3
+4. Copy section 2, merge to section 3
+5. Section 3 now has both verse melody AND chorus chords
+
+### Undo Support
+
+Merging is **fully undoable**:
+- Press **Undo** (row 0, column 21) to restore the pre-merge state
+- Or use **double-swipe left** gesture for quick undo
+
+### Section Variation (Tap-Tap)
+
+If you tap a section and then **tap an empty section**, you get a **variation** (not a merge):
+1. **Tap** section 1 (active)
+2. **Tap** section 2 (empty)
+3. See **"SEC VARIATION"** tooltip
+4. Section 2 gets a copy of section 1 (traditional copy, not merge)
+
+**Difference from Copy-Merge:**
+- **Variation**: Replaces target section (overwrite)
+- **Copy-Merge**: Adds to target section (additive)
+
+---
+
+## Ghost Notes
+
+Enable **Ghost Notes** to see faded notes from other sections while editing. This helps maintain continuity across sections.
+
+export function GhostDemo() {
+    const uiElements = [
+        {
+            "name": "Active Notes",
+            "desc": "Current section's notes are bright.",
+            "elements": [
+                { "pos": [10, 5], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [14, 4], "size": [1, 1], "color": "#4D2EF2" }
+            ]
+        },
+        {
+            "name": "Ghost Notes",
+            "desc": "Notes from other sections appear dim for reference.",
+            "elements": [
+                { "pos": [12, 6], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [16, 5], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [18, 3], "size": [1, 1], "color": "#3a3520" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Ghost Notes"
+        uiDescription="See notes from other sections for reference"
+        uiElements={uiElements}
+    />
+}
+
+<GhostDemo />
+
+Toggle ghost notes using the control in row 0 (see [Top Controls](TopControls)).
