@@ -1,0 +1,299 @@
+---
+sidebar_position: 8
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Synth Presets
+
+Each melodic track (Melody, Chords, Bass) has multiple synth presets you can select. Use the **long-press gesture** on the mute pixel to browse and select sounds.
+
+## Selecting a Preset
+
+export function PresetSelectionDemo() {
+    const uiElements = [
+        {
+            "name": "Mute Column",
+            "desc": "Column 0. Long-press any track's mute pixel to enter preset selection.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#F7DC6F" },
+                { "pos": [0, 8], "size": [1, 6], "color": "#4ECDC4" },
+                { "pos": [0, 14], "size": [1, 4], "color": "#45B7D1" },
+                { "pos": [0, 18], "size": [1, 4], "color": "#FF6B6B" }
+            ]
+        },
+        {
+            "name": "Preset Indicator",
+            "desc": "During selection, a bright pixel climbs through available presets.",
+            "elements": [
+                { "pos": [0, 4], "size": [1, 1], "color": "#FFFFFF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Preset Selection"
+        uiDescription="Long-press the mute column to select synth presets"
+        uiElements={uiElements}
+    />
+}
+
+<PresetSelectionDemo />
+
+### How to Change Presets
+
+1. **Long-press** the mute pixel (column 0) for the track you want to change
+2. After **0.5 seconds**, preset selection mode activates
+3. A **bright indicator** appears at the current preset
+4. **Continue holding** — the indicator moves to the next preset every 0.7 seconds
+5. **Release** when you hear the sound you want
+
+The sound **previews automatically** as you cycle through presets.
+
+---
+
+## Melody Presets (6 sounds)
+
+export function MelodyPresetsDemo() {
+    const presetColors = ["#FFE066", "#FFCC00", "#FFB833", "#FFA500", "#FF8C00", "#FF6600"];
+    const uiElements = [
+        {
+            "name": "Melody Preset Zone",
+            "desc": "6 presets available. Long-press column 0, rows 2-7.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": presetColors }
+            ]
+        },
+        {
+            "name": "Gliss Lead (Preset 0)",
+            "desc": "Smooth gliding lead synth with portamento.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 1], "color": "#FFE066" }
+            ]
+        },
+        {
+            "name": "Bell (Preset 1)",
+            "desc": "Bright FM bell tone with harmonic overtones.",
+            "elements": [
+                { "pos": [0, 3], "size": [1, 1], "color": "#FFCC00" }
+            ]
+        },
+        {
+            "name": "Flute (Preset 2)",
+            "desc": "Soft, breathy wind instrument sound.",
+            "elements": [
+                { "pos": [0, 4], "size": [1, 1], "color": "#FFB833" }
+            ]
+        },
+        {
+            "name": "Square Lead (Preset 3)",
+            "desc": "Classic chiptune-style square wave lead.",
+            "elements": [
+                { "pos": [0, 5], "size": [1, 1], "color": "#FFA500" }
+            ]
+        },
+        {
+            "name": "PWM (Preset 4)",
+            "desc": "Pulse width modulation for lush, evolving sound.",
+            "elements": [
+                { "pos": [0, 6], "size": [1, 1], "color": "#FF8C00" }
+            ]
+        },
+        {
+            "name": "Sync Lead (Preset 5)",
+            "desc": "Hard sync oscillator for aggressive, cutting lead.",
+            "elements": [
+                { "pos": [0, 7], "size": [1, 1], "color": "#FF6600" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Melody Presets"
+        uiDescription="6 lead synth sounds for the melody track"
+        uiElements={uiElements}
+    />
+}
+
+<MelodyPresetsDemo />
+
+| # | Preset | Character | Best For |
+|---|--------|-----------|----------|
+| 0 | **Gliss Lead** | Smooth, gliding | Expressive melodies |
+| 1 | **Bell** | Bright, harmonic | Arpeggios, hooks |
+| 2 | **Flute** | Soft, breathy | Ambient, chill |
+| 3 | **Square Lead** | Chiptune, retro | 8-bit style |
+| 4 | **PWM** | Lush, evolving | Pads, textures |
+| 5 | **Sync Lead** | Aggressive, cutting | Solos, energy |
+
+---
+
+## Chords Presets (6 sounds)
+
+The default Chords preset is **Pad** (preset 0).
+
+export function ChordsPresetsDemo() {
+    const presetColors = ["#66E0C4", "#4ECDC4", "#3DBDB4", "#2CADA4", "#1B9D94", "#0A8D84"];
+    const uiElements = [
+        {
+            "name": "Chords Preset Zone",
+            "desc": "6 presets available. Long-press column 0, rows 8-13.",
+            "elements": [
+                { "pos": [0, 8], "size": [1, 6], "color": presetColors }
+            ]
+        },
+        {
+            "name": "Pad (Preset 0, default)",
+            "desc": "Warm sustained pad.",
+            "elements": [
+                { "pos": [0, 8], "size": [1, 1], "color": "#66E0C4" }
+            ]
+        },
+        {
+            "name": "Piano (Preset 1)",
+            "desc": "Acoustic piano timbre.",
+            "elements": [
+                { "pos": [0, 9], "size": [1, 1], "color": "#4ECDC4" }
+            ]
+        },
+        {
+            "name": "Rhodes EP (Preset 2)",
+            "desc": "Electric piano with Rhodes character.",
+            "elements": [
+                { "pos": [0, 10], "size": [1, 1], "color": "#3DBDB4" }
+            ]
+        },
+        {
+            "name": "Wurlitzer (Preset 3)",
+            "desc": "Wurlitzer electric piano.",
+            "elements": [
+                { "pos": [0, 11], "size": [1, 1], "color": "#2CADA4" }
+            ]
+        },
+        {
+            "name": "Pluck (Preset 4)",
+            "desc": "Plucked string/mallet sound.",
+            "elements": [
+                { "pos": [0, 12], "size": [1, 1], "color": "#1B9D94" }
+            ]
+        },
+        {
+            "name": "Organ (Preset 5)",
+            "desc": "Hammond-style organ.",
+            "elements": [
+                { "pos": [0, 13], "size": [1, 1], "color": "#0A8D84" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Chords Presets"
+        uiDescription="6 harmonic sounds for the chords track"
+        uiElements={uiElements}
+    />
+}
+
+<ChordsPresetsDemo />
+
+| # | Name | Description |
+|---|------|-------------|
+| 0 | **Pad** | Warm sustained pad (default) |
+| 1 | **Piano** | Acoustic piano timbre |
+| 2 | **Rhodes EP** | Electric piano with Rhodes character |
+| 3 | **Wurlitzer** | Wurlitzer electric piano |
+| 4 | **Pluck** | Plucked string/mallet sound |
+| 5 | **Organ** | Hammond-style organ |
+
+---
+
+## Bass Presets (4 sounds)
+
+The default Bass preset is **Acid Bass** (preset 0).
+
+export function BassPresetsDemo() {
+    const presetColors = ["#66C7D1", "#45B7D1", "#34A7C1", "#2397B1"];
+    const uiElements = [
+        {
+            "name": "Bass Preset Zone",
+            "desc": "4 presets available. Long-press column 0, rows 14-17.",
+            "elements": [
+                { "pos": [0, 14], "size": [1, 4], "color": presetColors }
+            ]
+        },
+        {
+            "name": "Acid Bass (Preset 0, default)",
+            "desc": "Classic 303-style acid bass.",
+            "elements": [
+                { "pos": [0, 14], "size": [1, 1], "color": "#66C7D1" }
+            ]
+        },
+        {
+            "name": "FM Bass (Preset 1)",
+            "desc": "FM synthesis bass.",
+            "elements": [
+                { "pos": [0, 15], "size": [1, 1], "color": "#45B7D1" }
+            ]
+        },
+        {
+            "name": "Saw Bass (Preset 2)",
+            "desc": "Sawtooth wave bass.",
+            "elements": [
+                { "pos": [0, 16], "size": [1, 1], "color": "#34A7C1" }
+            ]
+        },
+        {
+            "name": "Electric Bass (Preset 3)",
+            "desc": "Electric bass guitar timbre.",
+            "elements": [
+                { "pos": [0, 17], "size": [1, 1], "color": "#2397B1" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Bass Presets"
+        uiDescription="4 bass synth sounds"
+        uiElements={uiElements}
+    />
+}
+
+<BassPresetsDemo />
+
+| # | Name | Description |
+|---|------|-------------|
+| 0 | **Acid Bass** | Classic 303-style acid bass (default) |
+| 1 | **FM Bass** | FM synthesis bass |
+| 2 | **Saw Bass** | Sawtooth wave bass |
+| 3 | **Electric Bass** | Electric bass guitar timbre |
+
+---
+
+## Rhythm Track
+
+The **Rhythm track** does not have synth presets — it uses sampled drums. See [Drum Banks](#) for information about the drum sounds.
+
+export function RhythmNoteDemo() {
+    const uiElements = [
+        {
+            "name": "Rhythm Track",
+            "desc": "Rows 18-21. Uses drum samples, not synth presets.",
+            "elements": [
+                { "pos": [0, 18], "size": [1, 4], "color": "#FF6B6B" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Rhythm (No Presets)"
+        uiDescription="Rhythm track uses drum samples instead of synth presets"
+        uiElements={uiElements}
+    />
+}
+
+<RhythmNoteDemo />
+
+---
+
+## Preset Persistence
+
+Your preset selections are **automatically saved** and restored when you reopen the app. Each track remembers its last selected preset independently.
