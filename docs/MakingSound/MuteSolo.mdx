@@ -222,31 +222,40 @@ export function MultiSoloDemo() {
 
 ---
 
-## Long-Press for Presets
+## Long-Press for Sounds
 
 **Long-press** on the mute column (column 0) to enter [Synth Preset Selection](SynthPresets). This lets you change the sound of each track.
+
+While cycling, the column switches to a **bank-style display**: a dim pixel marks which bank of sounds you're in, and a brighter pixel marks your position within it — brightest when the two coincide.
 
 export function LongPressNote() {
     const uiElements = [
         {
             "name": "Long-Press Zone",
-            "desc": "Hold for 0.5s to enter preset selection mode.",
+            "desc": "Hold for 0.5s to enter sound selection mode.",
             "elements": [
                 { "pos": [0, 2], "size": [1, 6], "color": "#4D2EF2" }
             ]
         },
         {
-            "name": "Preset Indicator",
-            "desc": "A bright pixel shows the current preset during selection.",
+            "name": "Bank Marker (dim)",
+            "desc": "Marks which bank of sounds is active.",
             "elements": [
-                { "pos": [0, 3], "size": [1, 1], "color": "#FFFFFF" }
+                { "pos": [0, 3], "size": [1, 1], "color": "#2A2276" }
+            ]
+        },
+        {
+            "name": "Active Pixel (bright)",
+            "desc": "Marks the current sound within the bank.",
+            "elements": [
+                { "pos": [0, 5], "size": [1, 1], "color": "#FFFFFF" }
             ]
         }
     ];
 
     return <MystrixVisualizer
-        uiName="Preset Selection"
-        uiDescription="Long-press mute column to select synth presets"
+        uiName="Sound Selection"
+        uiDescription="Long-press mute column to select sounds; bank-style display while cycling"
         uiElements={uiElements}
     />
 }
