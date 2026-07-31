@@ -9,7 +9,7 @@ import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVis
 Each melodic track (Melody, Chords, Bass) has a library of synth sounds you can select. Use the **long-press gesture** on the mute pixel to browse and cycle through sounds.
 
 :::info New in 1.1.2
-The free sound library is bigger, **Pixelboop Pro** unlocks even more sounds, all sounds are level-matched with each other, and jams (including community jams) now remember each track's sound.
+The sound library is much bigger: 48 sounds across Melody, Chords, and Bass, all included. All sounds are level-matched with each other, and jams (including community jams) now remember each track's sound.
 :::
 
 ## Selecting a Sound
@@ -52,13 +52,13 @@ export function PresetSelectionDemo() {
 3. **Continue holding** — the display cycles to the next sound roughly every 0.7 seconds.
 4. **Release** when you hear the sound you want.
 
-The sound **previews automatically** as you cycle through the library. Free accounts cycle through the free sounds only — locked Pixelboop Pro sounds simply don't appear until [Pixelboop Pro](../GettingStarted/PixelboopPro) is unlocked.
+The sound **previews automatically** as you cycle through the library.
 
 ---
 
 ## The Bank-Style Display
 
-While cycling, column 0 no longer shows a single climbing dot — the free/Pro libraries are too big to fit one-pixel-per-sound in a 4-6 pixel column. Instead it shows two markers:
+While cycling, column 0 no longer shows a single climbing dot: the sound library is too big to fit one-pixel-per-sound in a 4-6 pixel column. Instead it shows two markers:
 
 - A **dim pixel** marking which bank of sounds you're currently in.
 - A **brighter pixel** marking your position within that bank.
@@ -104,7 +104,7 @@ export function BankDisplayDemo() {
 ## Melody Sounds
 
 export function MelodySoundsDemo() {
-    const freeSounds = [
+    const sounds = [
         ["Gliss Lead", "#FFE066", "Smooth gliding lead with portamento"],
         ["Bell", "#FFCC00", "Bright FM bell tone with harmonic overtones"],
         ["Flute", "#FFB833", "Soft, breathy wind instrument sound"],
@@ -113,9 +113,7 @@ export function MelodySoundsDemo() {
         ["Sync Lead", "#FF6600", "Hard sync oscillator, aggressive and cutting"],
         ["Stab", "#FF5533", "Short, percussive stab"],
         ["Swell", "#FF4411", "Slow-attack, swelling lead"],
-        ["Glass", "#FF3300", "Glassy, bell-like tone"]
-    ];
-    const proSounds = [
+        ["Glass", "#FF3300", "Glassy, bell-like tone"],
         ["Pop", "#C280FF", "Bright, snappy pluck-lead"],
         ["Growl", "#B266FF", "Growling, distorted lead"],
         ["Drone", "#A44DFF", "Sustained drone tone"],
@@ -127,54 +125,44 @@ export function MelodySoundsDemo() {
 
     const uiElements = [
         {
-            "name": "Free Sounds",
-            "desc": "9 sounds included free.",
-            "elements": freeSounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
+            "name": "Melody Sounds",
+            "desc": "16 sounds, all included.",
+            "elements": sounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
         },
-        {
-            "name": "Pixelboop Pro Sounds",
-            "desc": "7 more sounds unlocked with Pixelboop Pro.",
-            "elements": proSounds.map((s, i) => ({ "pos": [freeSounds.length + i, 0], "size": [1, 1], "color": s[1] }))
-        },
-        ...freeSounds.map((s, i) => ({
+        ...sounds.map((s, i) => ({
             "name": s[0],
             "desc": s[2],
             "elements": [{ "pos": [i, 0], "size": [1, 1], "color": s[1] }]
-        })),
-        ...proSounds.map((s, i) => ({
-            "name": s[0] + " (Pixelboop Pro)",
-            "desc": s[2],
-            "elements": [{ "pos": [freeSounds.length + i, 0], "size": [1, 1], "color": s[1] }]
         }))
     ];
 
     return <MystrixVisualizer
         uiName="Melody Sound Library"
-        uiDescription="9 free sounds, plus 7 more with Pixelboop Pro (purple)"
+        uiDescription="16 melody sounds, all included"
         uiElements={uiElements}
     />
 }
 
 <MelodySoundsDemo />
 
-| Sound | Tier | Character |
-|-------|------|-----------|
-| **Gliss Lead** | Free | Smooth, gliding |
-| **Bell** | Free | Bright, harmonic |
-| **Flute** | Free | Soft, breathy |
-| **Square Lead** | Free | Chiptune, retro |
-| **PWM** | Free | Lush, evolving |
-| **Sync Lead** | Free | Aggressive, cutting |
-| **Stab** | Free | Short, percussive |
-| **Swell** | Free | Slow-attack, swelling |
-| **Glass** | Free | Glassy, bell-like |
-| **Pop** | Pixelboop Pro | Bright, snappy |
-| **Growl** | Pixelboop Pro | Growling, distorted |
-| **Drone** | Pixelboop Pro | Sustained drone |
-| **Clang** | Pixelboop Pro | Metallic, clanging |
-| **Reed** | Pixelboop Pro | Reedy, woodwind-like |
-| **Wisp** | Pixelboop Pro | Soft, airy |
-| **Harp** | Pixelboop Pro | Plucked, harp-like |
+| Sound | Character |
+|-------|-----------|
+| **Gliss Lead** | Smooth, gliding |
+| **Bell** | Bright, harmonic |
+| **Flute** | Soft, breathy |
+| **Square Lead** | Chiptune, retro |
+| **PWM** | Lush, evolving |
+| **Sync Lead** | Aggressive, cutting |
+| **Stab** | Short, percussive |
+| **Swell** | Slow-attack, swelling |
+| **Glass** | Glassy, bell-like |
+| **Pop** | Bright, snappy |
+| **Growl** | Growling, distorted |
+| **Drone** | Sustained drone |
+| **Clang** | Metallic, clanging |
+| **Reed** | Reedy, woodwind-like |
+| **Wisp** | Soft, airy |
+| **Harp** | Plucked, harp-like |
 
 ---
 
@@ -183,7 +171,7 @@ export function MelodySoundsDemo() {
 The default Chords sound is **Pad**.
 
 export function ChordsSoundsDemo() {
-    const freeSounds = [
+    const sounds = [
         ["Pad", "#66E0C4", "Warm sustained pad"],
         ["Piano", "#4ECDC4", "Acoustic piano timbre"],
         ["Electric Piano", "#3DBDB4", "Warm FM electric piano"],
@@ -192,9 +180,7 @@ export function ChordsSoundsDemo() {
         ["Organ", "#0A8D84", "Drawbar organ"],
         ["Bloom", "#0A7D74", "Slow-blooming, evolving pad"],
         ["Mallet", "#0A6D64", "Soft mallet/percussion timbre"],
-        ["Brass", "#0A5D54", "Warm brass ensemble"]
-    ];
-    const proSounds = [
+        ["Brass", "#0A5D54", "Warm brass ensemble"],
         ["Reso", "#C280FF", "Resonant, filter-swept pad"],
         ["Dream", "#B266FF", "Airy, dreamlike pad"],
         ["Glass Pad", "#A44DFF", "Glassy, shimmering pad"],
@@ -206,54 +192,44 @@ export function ChordsSoundsDemo() {
 
     const uiElements = [
         {
-            "name": "Free Sounds",
-            "desc": "9 sounds included free.",
-            "elements": freeSounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
+            "name": "Chords Sounds",
+            "desc": "16 sounds, all included.",
+            "elements": sounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
         },
-        {
-            "name": "Pixelboop Pro Sounds",
-            "desc": "7 more sounds unlocked with Pixelboop Pro.",
-            "elements": proSounds.map((s, i) => ({ "pos": [freeSounds.length + i, 0], "size": [1, 1], "color": s[1] }))
-        },
-        ...freeSounds.map((s, i) => ({
+        ...sounds.map((s, i) => ({
             "name": s[0],
             "desc": s[2],
             "elements": [{ "pos": [i, 0], "size": [1, 1], "color": s[1] }]
-        })),
-        ...proSounds.map((s, i) => ({
-            "name": s[0] + " (Pixelboop Pro)",
-            "desc": s[2],
-            "elements": [{ "pos": [freeSounds.length + i, 0], "size": [1, 1], "color": s[1] }]
         }))
     ];
 
     return <MystrixVisualizer
         uiName="Chords Sound Library"
-        uiDescription="9 free sounds, plus 7 more with Pixelboop Pro (purple)"
+        uiDescription="16 chords sounds, all included"
         uiElements={uiElements}
     />
 }
 
 <ChordsSoundsDemo />
 
-| Sound | Tier | Character |
-|-------|------|-----------|
-| **Pad** | Free | Warm sustained pad (default) |
-| **Piano** | Free | Acoustic piano timbre |
-| **Electric Piano** | Free | Warm FM electric piano |
-| **Combo Organ** | Free | Bright combo organ with chorus character |
-| **Pluck** | Free | Plucked string/mallet sound |
-| **Organ** | Free | Drawbar organ |
-| **Bloom** | Free | Slow-blooming, evolving pad |
-| **Mallet** | Free | Soft mallet/percussion timbre |
-| **Brass** | Free | Warm brass ensemble |
-| **Reso** | Pixelboop Pro | Resonant, filter-swept pad |
-| **Dream** | Pixelboop Pro | Airy, dreamlike pad |
-| **Glass Pad** | Pixelboop Pro | Glassy, shimmering pad |
-| **Aurora** | Pixelboop Pro | Wide, shimmering evolving pad |
-| **Core** | Pixelboop Pro | Solid, centered sustained tone |
-| **Snap** | Pixelboop Pro | Tight, snappy chord stab |
-| **Drawn** | Pixelboop Pro | Sustained, organ-like tone |
+| Sound | Character |
+|-------|-----------|
+| **Pad** | Warm sustained pad (default) |
+| **Piano** | Acoustic piano timbre |
+| **Electric Piano** | Warm FM electric piano |
+| **Combo Organ** | Bright combo organ with chorus character |
+| **Pluck** | Plucked string/mallet sound |
+| **Organ** | Drawbar organ |
+| **Bloom** | Slow-blooming, evolving pad |
+| **Mallet** | Soft mallet/percussion timbre |
+| **Brass** | Warm brass ensemble |
+| **Reso** | Resonant, filter-swept pad |
+| **Dream** | Airy, dreamlike pad |
+| **Glass Pad** | Glassy, shimmering pad |
+| **Aurora** | Wide, shimmering evolving pad |
+| **Core** | Solid, centered sustained tone |
+| **Snap** | Tight, snappy chord stab |
+| **Drawn** | Sustained, organ-like tone |
 
 ---
 
@@ -262,16 +238,14 @@ export function ChordsSoundsDemo() {
 The default Bass sound is **Acid Bass**.
 
 export function BassSoundsDemo() {
-    const freeSounds = [
+    const sounds = [
         ["Acid Bass", "#66C7D1", "Classic 303-style acid bass"],
         ["FM Bass", "#45B7D1", "FM synthesis bass"],
         ["Saw Bass", "#34A7C1", "Sawtooth wave bass"],
         ["Electric Bass", "#2397B1", "Electric bass guitar timbre"],
         ["Sub Bass", "#128797", "Deep, sine-heavy sub bass"],
         ["Ring Bass", "#017787", "Ring-modulated bass"],
-        ["Punch Bass", "#006777", "Short, punchy transient bass"]
-    ];
-    const proSounds = [
+        ["Punch Bass", "#006777", "Short, punchy transient bass"],
         ["Grit Bass", "#CC99FF", "Overdriven, gritty bass"],
         ["Hollow Bass", "#C280FF", "Hollow, woody bass"],
         ["Formant Bass", "#B266FF", "Vowel-like formant bass"],
@@ -285,69 +259,52 @@ export function BassSoundsDemo() {
 
     const uiElements = [
         {
-            "name": "Free Sounds",
-            "desc": "7 sounds included free.",
-            "elements": freeSounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
+            "name": "Bass Sounds",
+            "desc": "16 sounds, all included.",
+            "elements": sounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
         },
-        {
-            "name": "Pixelboop Pro Sounds",
-            "desc": "9 more sounds unlocked with Pixelboop Pro.",
-            "elements": proSounds.map((s, i) => ({ "pos": [freeSounds.length + i, 0], "size": [1, 1], "color": s[1] }))
-        },
-        ...freeSounds.map((s, i) => ({
+        ...sounds.map((s, i) => ({
             "name": s[0],
             "desc": s[2],
             "elements": [{ "pos": [i, 0], "size": [1, 1], "color": s[1] }]
-        })),
-        ...proSounds.map((s, i) => ({
-            "name": s[0] + " (Pixelboop Pro)",
-            "desc": s[2],
-            "elements": [{ "pos": [freeSounds.length + i, 0], "size": [1, 1], "color": s[1] }]
         }))
     ];
 
     return <MystrixVisualizer
         uiName="Bass Sound Library"
-        uiDescription="7 free sounds, plus 9 more with Pixelboop Pro (purple)"
+        uiDescription="16 bass sounds, all included"
         uiElements={uiElements}
     />
 }
 
 <BassSoundsDemo />
 
-| Sound | Tier | Character |
-|-------|------|-----------|
-| **Acid Bass** | Free | Classic 303-style acid bass (default) |
-| **FM Bass** | Free | FM synthesis bass |
-| **Saw Bass** | Free | Sawtooth wave bass |
-| **Electric Bass** | Free | Electric bass guitar timbre |
-| **Sub Bass** | Free | Deep, sine-heavy sub bass |
-| **Ring Bass** | Free | Ring-modulated bass |
-| **Punch Bass** | Free | Short, punchy transient bass |
-| **Grit Bass** | Pixelboop Pro | Overdriven, gritty bass |
-| **Hollow Bass** | Pixelboop Pro | Hollow, woody bass |
-| **Formant Bass** | Pixelboop Pro | Vowel-like formant bass |
-| **Muted Pick** | Pixelboop Pro | Muted, picked bass |
-| **Rubber Bass** | Pixelboop Pro | Bouncy, rubbery bass |
-| **Driven Bass** | Pixelboop Pro | Driven, saturated bass |
-| **Velvet Bass** | Pixelboop Pro | Smooth, mellow bass |
-| **Layer Bass** | Pixelboop Pro | Layered, thick bass |
-| **Gated Bass** | Pixelboop Pro | Choppy, gated bass |
+| Sound | Character |
+|-------|-----------|
+| **Acid Bass** | Classic 303-style acid bass (default) |
+| **FM Bass** | FM synthesis bass |
+| **Saw Bass** | Sawtooth wave bass |
+| **Electric Bass** | Electric bass guitar timbre |
+| **Sub Bass** | Deep, sine-heavy sub bass |
+| **Ring Bass** | Ring-modulated bass |
+| **Punch Bass** | Short, punchy transient bass |
+| **Grit Bass** | Overdriven, gritty bass |
+| **Hollow Bass** | Hollow, woody bass |
+| **Formant Bass** | Vowel-like formant bass |
+| **Muted Pick** | Muted, picked bass |
+| **Rubber Bass** | Bouncy, rubbery bass |
+| **Driven Bass** | Driven, saturated bass |
+| **Velvet Bass** | Smooth, mellow bass |
+| **Layer Bass** | Layered, thick bass |
+| **Gated Bass** | Choppy, gated bass |
 
 ---
 
-## Rhythm Track: Drum Kits
+## Rhythm Track: Drums
 
-The **Rhythm track** does not have synth sounds. Instead it has **drum kits**, selected with the same long-press gesture on the rhythm track's mute pixel. The free **Synth** kit is the default; three sampled kits come with Pixelboop Pro.
+The **Rhythm track** does not have synth sounds. Instead it plays the classic **Synth** drum kit: synthesized drums organized into 4 banks. See [Drum Banks](DrumBanks) for information about the drum sounds.
 
-| Kit | Tier | Character |
-|-----|------|-----------|
-| **Synth** | Free | Synthesized drums (default) |
-| **Pulse** | Pixelboop Pro | Tight, electronic sampled kit |
-| **Room** | Pixelboop Pro | Live room acoustic sampled kit |
-| **Dusty** | Pixelboop Pro | Lo-fi, dusty sampled kit |
-
-Within a kit, the drum sounds are organized into 4 banks. See [Drum Banks](DrumBanks) for information about the drum sounds.
+Extra sampled drum kits arrive with **[Pixelboop Pro](../GettingStarted/PixelboopPro)** in a future update.
 
 export function RhythmNoteDemo() {
     const uiElements = [
@@ -381,6 +338,6 @@ Your sound selections are **automatically saved** and restored when you reopen t
 
 ---
 
-## Unlocking More Sounds
+## Everything Included
 
-The 25 free sounds above cover every track. To unlock the 23 additional sounds and the three extra drum kits (plus other Pixelboop Pro features), see **[Pixelboop Pro](../GettingStarted/PixelboopPro)**.
+All 48 sounds above are included with Pixelboop. Extra drum kits and more arrive with **[Pixelboop Pro](../GettingStarted/PixelboopPro)** in a future update.

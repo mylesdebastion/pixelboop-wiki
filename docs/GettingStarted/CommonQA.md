@@ -80,6 +80,6 @@ Pattern export/import is on the roadmap. For now, patterns are saved locally. Mu
 
 ### Q: Does Pixelboop cost money?
 
-Pixelboop is available on the **App Store** and includes a full free sound library — 25 sounds across Melody, Chords, and Bass — right out of the box.
+Pixelboop is available on the **App Store**, and everything in the current version is included free: all 48 sounds across Melody, Chords, and Bass, right out of the box.
 
-An optional one-time in-app purchase, **[Pixelboop Pro](../GettingStarted/PixelboopPro)**, unlocks the rest of the sound library plus LiteJam Guitar support and per-instrument WLED visualizations. It's a one-time purchase, not a subscription, and it restores across your devices with Restore Purchases.
+**[Pixelboop Pro](../GettingStarted/PixelboopPro)**, an optional one-time purchase (not a subscription), arrives in a future update. It will add extra drum kits, LiteJam Guitar support, and per-instrument hardware visualizations.

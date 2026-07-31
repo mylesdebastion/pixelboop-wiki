@@ -19,7 +19,7 @@ Pixelboop interprets your touch gestures based on:
 
 ### Tap (All Tracks)
 
-The simplest gesture — tap any pixel to place a single note.
+The simplest gesture: tap any empty pixel to place a single note. Tap an existing note to **delete** it (a sustained note's whole chain is removed together).
 
 export function TapDemo() {
     const uiElements = [
@@ -56,15 +56,15 @@ export function TapDemo() {
 
 <TapDemo />
 
-### Accent (Hold)
+### Accent (Double-Tap)
 
-Hold a pixel for **400ms+** to place an accented (louder) note.
+**Double-tap** a note to accent it (louder).
 
 export function AccentDemo() {
     const uiElements = [
         {
             "name": "Accented Note",
-            "desc": "Hold 400ms+ for a louder note (velocity 96 vs 64).",
+            "desc": "Double-tap for a louder note (velocity 96 vs 64).",
             "elements": [
                 {
                     "pos": [12, 4],
@@ -88,7 +88,7 @@ export function AccentDemo() {
 
     return <MystrixVisualizer
         uiName="Accent Gesture"
-        uiDescription="Hold longer for accented notes (brighter = louder)"
+        uiDescription="Double-tap for accented notes (brighter = louder)"
         uiElements={uiElements}
     />
 }
@@ -460,9 +460,9 @@ Progression Fill uses chord intelligence to suggest musically coherent sequences
 
 ## Special Gestures
 
-### Sustain (Hold + Drag)
+### Sustain (Drag Right)
 
-**Hold** a note for 400ms, then **drag horizontally** to create a sustained note across multiple steps.
+From a note on the **Melody track**, **drag right along its lane** (same row) to extend it into a long, sustained note across multiple steps. Tapping any part of the sustained note deletes the whole chain.
 
 export function SustainDemo() {
     const uiElements = [
@@ -480,16 +480,20 @@ export function SustainDemo() {
 
     return <MystrixVisualizer
         uiName="Sustained Note"
-        uiDescription="Hold + drag = sustained note"
+        uiDescription="Drag right along the lane = sustained note"
         uiElements={uiElements}
     />
 }
 
 <SustainDemo />
 
-### Erase (Double-Tap)
+### Chord Cycling (Hold)
 
-**Double-tap** any pixel to erase the note at that position.
+On the **Chords track**, **hold** an existing chord to cycle through chord voicings/types. Release when you hear the one you want.
+
+### Erase (Tap)
+
+**Tap** an existing note to erase it. Sustained notes are removed as a whole chain.
 
 ### Clear (Shake)
 
@@ -506,10 +510,12 @@ export function SustainDemo() {
 
 | Gesture | Direction | Melody | Chords | Bass | Rhythm |
 |---------|-----------|--------|--------|------|--------|
-| Tap | Point | Note | Note | Note | Drum hit |
-| Hold | Point | Accent | Accent | Accent | Accent |
+| Tap (empty pixel) | Point | Note | Note | Note | Drum hit |
+| Tap (existing note) | Point | Delete | Delete | Delete | Delete |
+| Double-tap | Point | Accent | Accent | Accent | Accent |
+| Hold (existing note) | Point | — | Cycle chord | — | — |
 | Horizontal | ← → | Arpeggio | Single-note sustain | Walking | Roll |
 | Vertical | ↑ ↓ | Chord stack | Chord stack | Ba-dum (sequential) | Multi-drum |
 | Diagonal | ↗ ↘ | Phrase | Phrase | Bass walk | Fill |
-| Hold+Drag | Hold → | Sustain | Sustain chord | Sustain | — |
+| Drag right from note | → | Sustain | Sustain chord | Sustain | — |
 | Hold+Drag ↕ then ↔ | Hold ↕ → | — | Progression Fill | — | — |
