@@ -34,7 +34,7 @@ export function ControlRowOverview() {
         { "name": "BPM Display", "desc": "Col 27: Shows current BPM, pulses with beat", "elements": [{ "pos": [27, 0], "size": [1, 1], "color": "#595959" }] },
         { "name": "BPM +", "desc": "Col 28: Increase tempo", "elements": [{ "pos": [28, 0], "size": [1, 1], "color": "#454545" }] },
         { "name": "Length -", "desc": "Col 30: Decrease pattern length", "elements": [{ "pos": [30, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#7F7F7F" }] },
+        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#4526BF" }] },
         { "name": "Length +", "desc": "Col 32: Increase pattern length", "elements": [{ "pos": [32, 0], "size": [1, 1], "color": "#454545" }] },
         { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
         { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
@@ -59,9 +59,9 @@ export function PlayStopDemo() {
     const uiElements = [
         {
             "name": "Play/Stop Button",
-            "desc": "Green = playing, dim = stopped. Tap to toggle.",
+            "desc": "Green = stopped, red = playing. Tap to toggle.",
             "elements": [
-                { "pos": [0, 0], "size": [1, 1], "color": "#00FF00" }
+                { "pos": [0, 0], "size": [1, 1], "color": "#45FF45" }
             ]
         },
         {
@@ -84,8 +84,8 @@ export function PlayStopDemo() {
 
 | State | Color | Description |
 |-------|-------|-------------|
-| Playing | 🟢 Bright Green | Sequencer is running |
-| Stopped | ⚫ Dim | Sequencer is paused |
+| Stopped | 🟢 Green (#45FF45) | Ready to play, tap to start |
+| Playing | 🔴 Red (#FF4545) | Sequencer is running, tap to stop |
 
 ### Double-Tap: Restart to Step 1
 
@@ -148,8 +148,8 @@ export function BPMDemo() {
 
 - **Default**: 120 BPM
 - **Range**: 60–200 BPM
-- **Step**: ±5 BPM per tap
-- **Hold**: Continuous adjustment
+- **Tap**: ±5 BPM
+- **Hold**: fine adjustment, repeats ±1 BPM for as long as you hold
 
 ---
 
@@ -159,21 +159,21 @@ export function PatternLengthDemo() {
     const uiElements = [
         {
             "name": "Length Down",
-            "desc": "Column 30. Decrease pattern length (32→16→8).",
+            "desc": "Column 30. Shorten the pattern by 4 steps (minimum 8).",
             "elements": [
                 { "pos": [30, 0], "size": [1, 1], "color": "#FF8C00" }
             ]
         },
         {
             "name": "Length Display",
-            "desc": "Column 31. Shows current pattern length.",
+            "desc": "Column 31. Shows the current pattern length, the colour shifts as you change it.",
             "elements": [
-                { "pos": [31, 0], "size": [1, 1], "color": "#7F7F7F" }
+                { "pos": [31, 0], "size": [1, 1], "color": "#4526BF" }
             ]
         },
         {
             "name": "Length Up",
-            "desc": "Column 32. Increase pattern length (8→16→32).",
+            "desc": "Column 32. Lengthen the pattern by 4 steps (maximum 32).",
             "elements": [
                 { "pos": [32, 0], "size": [1, 1], "color": "#FFFF00" }
             ]
@@ -196,11 +196,7 @@ export function PatternLengthDemo() {
 
 <PatternLengthDemo />
 
-| Length | Steps | Use Case |
-|--------|-------|----------|
-| 8 | 8 steps | Quick loops, fills |
-| 16 | 16 steps | Standard patterns |
-| 32 | 32 steps | Extended phrases |
+Each tap changes the length by 4 steps, between 8 and 32: **8, 12, 16, 20, 24, 28, 32**. The default is 32. Column 31 shows the current length as a colour that shifts with the value.
 
 ---
 

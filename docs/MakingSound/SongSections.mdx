@@ -11,26 +11,22 @@ Pixelboop supports **8 song sections** (pattern banks) for building complete son
 ## Section Overview
 
 export function SectionOverview() {
-    const sectionColors = [
-        "#FF0000", "#FF8C00", "#FFFF00", "#00FF00",
-        "#00FFFF", "#0088FF", "#8800FF", "#FF00FF"
-    ];
-    
     const uiElements = [
         {
             "name": "Section Columns",
-            "desc": "Columns 36-43. Each column triggers a different section.",
-            "elements": sectionColors.map((color, i) => ({
-                "pos": [36 + i, 2],
-                "size": [1, 20],
-                "color": color
-            }))
+            "desc": "Each column is one section, drawn as a live thumbnail of the notes it holds. The active section is full brightness, the others dim to 40 percent.",
+            "elements": [
+                { "pos": [36, 2], "size": [8, 20], "color": "#1A1A1A" }
+            ]
         },
         {
             "name": "Current Section",
             "desc": "The active section glows brighter. Tap another to switch.",
             "elements": [
-                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+                { "pos": [36, 4], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [36, 9], "size": [1, 1], "color": "#00E68C" },
+                { "pos": [36, 16], "size": [1, 1], "color": "#F2E600" },
+                { "pos": [36, 20], "size": [1, 1], "color": "#FF3000" }
             ]
         },
         {
@@ -61,23 +57,29 @@ export function SwitchDemo() {
     const uiElements = [
         {
             "name": "Section 1 (Active)",
-            "desc": "Column 36. Currently active section.",
+            "desc": "Column 36. Currently active section, drawn at full brightness as a thumbnail of its notes.",
             "elements": [
-                { "pos": [36, 2], "size": [1, 20], "color": "#FF0000" }
+                { "pos": [36, 2], "size": [1, 20], "color": "#1A1A1A" },
+                { "pos": [36, 4], "size": [1, 1], "color": "#4D2EF2" },
+                { "pos": [36, 9], "size": [1, 1], "color": "#00E68C" },
+                { "pos": [36, 16], "size": [1, 1], "color": "#F2E600" },
+                { "pos": [36, 20], "size": [1, 1], "color": "#FF3000" }
             ]
         },
         {
             "name": "Section 2",
-            "desc": "Column 37. Tap to switch.",
+            "desc": "Column 37. Tap to switch. Its notes are drawn dim until it is active.",
             "elements": [
-                { "pos": [37, 2], "size": [1, 20], "color": "#663600" }
+                { "pos": [37, 2], "size": [1, 20], "color": "#1A1A1A" },
+                { "pos": [37, 6], "size": [1, 1], "color": "#1F1261" },
+                { "pos": [37, 12], "size": [1, 1], "color": "#005C38" }
             ]
         },
         {
             "name": "Section 3",
-            "desc": "Column 38. Tap to switch.",
+            "desc": "Column 38. Empty, so nothing is drawn in it.",
             "elements": [
-                { "pos": [38, 2], "size": [1, 20], "color": "#666600" }
+                { "pos": [38, 2], "size": [1, 20], "color": "#1A1A1A" }
             ]
         },
         {
@@ -167,9 +169,9 @@ export function SectionPlayDemo() {
     const uiElements = [
         {
             "name": "Section Play Toggle",
-            "desc": "Located in the control row. Tap to enable section play mode.",
+            "desc": "Row 23, cols 36-37. Tap to toggle section play mode.",
             "elements": [
-                { "pos": [24, 0], "size": [1, 1], "color": "#00FF00" }
+                { "pos": [36, 23], "size": [2, 1], "color": "#33E64D" }
             ]
         },
         {
@@ -242,8 +244,8 @@ export function SectionPlayButtonDemo() {
 
 **Gesture**: **Tap** toggles section play on/off. No hold behavior.
 
-> **Source**: `renderSectionPlayButton()` in `PixelGridUIView.swift` (line 2475);
-> touch handler in `PixelGridUIView+Touch.swift` (line 2422 — `toggleSectionPlay()`).
+> **Source**: `renderSectionPlayButton()` in `PixelGridUIView.swift` (line 3628);
+> touch handler in `PixelGridUIView+Touch.swift` (lines 574-577 and 2839-2841, `toggleSectionPlay()`).
 
 ---
 
@@ -292,8 +294,8 @@ export function ClearSectionsButtonDemo() {
 
 > **Tip**: Hold is intentionally hard to trigger — the 400 ms threshold prevents accidental full clears.
 
-> **Source**: `renderClearAllSectionsButton()` in `PixelGridUIView.swift` (line 2496);
-> touch handler in `PixelGridUIView+Touch.swift` (lines 2472–2484 for tap, 3182–3206 for hold).
+> **Source**: `renderClearAllSectionsButton()` in `PixelGridUIView.swift` (line 3649);
+> touch handlers in `PixelGridUIView+Touch.swift` (lines 582-586 and 2889-2896 for tap, 4227-4256 for hold).
 > Button color: `COLOR_CLEAR_SECTIONS` = `UIColor(red: 0.4, green: 0.13, blue: 0.13)`.
 
 ---
@@ -325,16 +327,16 @@ export function ClearSectionsButtonDemo() {
 
 ## Section Reference
 
-| Section | Column | Default Color |
-|---------|--------|---------------|
-| 1 | 36 | Red |
-| 2 | 37 | Orange |
-| 3 | 38 | Yellow |
-| 4 | 39 | Green |
-| 5 | 40 | Cyan |
-| 6 | 41 | Blue |
-| 7 | 42 | Purple |
-| 8 | 43 | Magenta |
+| Section | Column |
+|---------|--------|
+| 1 | 36 |
+| 2 | 37 |
+| 3 | 38 |
+| 4 | 39 |
+| 5 | 40 |
+| 6 | 41 |
+| 7 | 42 |
+| 8 | 43 |
 
 ---
 
@@ -456,7 +458,7 @@ When merging sections:
 ### Undo Support
 
 Merging is **fully undoable**:
-- Press **Undo** (row 0, column 21) to restore the pre-merge state
+- Press **Undo** (row 0, column 4) to restore the pre-merge state. Redo is the next pixel along, column 5.
 - Or use **double-swipe left** gesture for quick undo
 
 ### Section Variation (Tap-Tap)

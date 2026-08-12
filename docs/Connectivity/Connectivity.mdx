@@ -19,7 +19,7 @@ Pixelboop supports MIDI over Bluetooth Low Energy (BLE).
 4.  Connect to pair.
 
 **Technical Details:**
-- **Service UUID:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700`
+- **Service UUID Pixelboop scans for:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700` (the Bluetooth SIG standard BLE MIDI service). Any device advertising it shows up in the picker.
 - **Output:** Pixelboop sends Note On/Off messages and MIDI Clock.
 
 ## USB MIDI
@@ -30,7 +30,7 @@ Pixelboop acts as a standard class-compliant USB MIDI device when connected via 
 - **Plug & Play:** No drivers required on macOS or Windows.
 
 :::note
-USB MIDI is available for iOS only in v1.1.0. Android support is not yet available.
+USB MIDI is iOS only. There is no Android release.
 :::
 
 ---
@@ -124,10 +124,10 @@ export function ChannelCycleDemo() {
 
 | Track | Default TX | Configurable Range | Default RX |
 |-------|------------|-------------------|------------|
-| Melody | 1 | 1-16 | Same as TX |
-| Chords | 1 | 1-16 | Same as TX |
-| Bass | 2 | 1-16 | Same as TX |
-| Rhythm | 10 | 1-16 | Same as TX |
+| Melody | 1 | 1-16 | 1 |
+| Chords | 1 | 1-16 | 1 |
+| Bass | 2 | 1-16 | 2 |
+| Rhythm | 10 | 1-16 | 10 |
 
 ### Use Cases for Custom Channels
 

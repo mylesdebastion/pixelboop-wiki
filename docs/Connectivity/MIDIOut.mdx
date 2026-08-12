@@ -12,7 +12,7 @@ MIDI output is currently rolling out to testers. Want it early? Join the **[Earl
 
 ## How it works
 
-When enabled, Pixelboop publishes a virtual MIDI source named **"Pixelboop."** Any MIDI-capable app on the same device can subscribe to it and receive note on/off as your jam plays, step by step. Each of Pixelboop's four tracks (melody, chords, bass, drums) sends on its own MIDI channel.
+When enabled, Pixelboop publishes a virtual MIDI source named **"Pixelboop."** Any MIDI-capable app on the same device can subscribe to it and receive note on/off as your jam plays, step by step. Each track sends on its own configurable MIDI channel. Out of the box melody and chords share channel 1, bass is on channel 2 and drums are on channel 10 (the General MIDI drum channel).
 
 ## Drive a synth in AUM
 
@@ -26,7 +26,7 @@ To see exactly what Pixelboop is sending, use a free MIDI monitor app (such as *
 
 1. Open the monitor and select **"Pixelboop"** as the input source.
 2. Play a jam. You will see Note On and Note Off events stream in, one per note as each step triggers.
-3. Confirm each track lands on its own channel and the drums fire their kit notes.
+3. Confirm the drums fire on channel 10 and that melody and chords land where you expect (they share channel 1 by default).
 
 :::tip
 Both apps must be on the **same device** (the virtual source is inter-app, on-device), and Pixelboop must be running for "Pixelboop" to appear in the other app.
