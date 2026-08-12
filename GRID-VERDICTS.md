@@ -18,6 +18,9 @@ against the app built from tag v1.1.3, running in simulator pb-wiki-check.
   PER-GRID VERDICT
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
+  PER-GRID VERDICT
+    grid                       page                              ok   bad  empty  verdict
+    ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
     WLEDButtonDemo             Connectivity/WLED.mdx              0     4      0  NEEDS-STATE capture
     HardwareDemo               GettingStarted/GettingStarted.mdx   185   786     22  DEFECT, rewrite from source
@@ -27,7 +30,7 @@ against the app built from tag v1.1.3, running in simulator pb-wiki-check.
     OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     0     3      3  DEFECT, rewrite from source
     SyncButtonStates           JamWithOthers/MultiDeviceSync.mdx     0     3      6  NEEDS-STATE capture
     SyncOverview               JamWithOthers/MultiDeviceSync.mdx     3     3      3  NEEDS-STATE capture
-    BottomRowOverview          MakingSound/BottomControls.mdx     3    10      2  DEFECT, rewrite from source
+    BottomRowOverview          MakingSound/BottomControls.mdx     4     9      2  DEFECT, rewrite from source
     DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  NEEDS-STATE capture
     ModeButtonDemo             MakingSound/BottomControls.mdx     0     2      0  DEFECT, rewrite from source
     SyncButtonDemo             MakingSound/BottomControls.mdx     0     3      6  NEEDS-STATE capture
@@ -67,20 +70,20 @@ against the app built from tag v1.1.3, running in simulator pb-wiki-check.
     BankDisplayDemo            MakingSound/SynthPresets.mdx       0     3      0  DEFECT, rewrite from source
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
     RhythmNoteDemo             MakingSound/SynthPresets.mdx       0     4      0  DEFECT, rewrite from source
-    BPMDemo                    MakingSound/TopControls.mdx        1     2      0  DEFECT, rewrite from source
-    ControlRowOverview         MakingSound/TopControls.mdx       13    10      2  DEFECT, rewrite from source
-    EditControlsDemo           MakingSound/TopControls.mdx        0     6      0  DEFECT, rewrite from source
+    BPMDemo                    MakingSound/TopControls.mdx        3     0      0  VERIFIED
+    ControlRowOverview         MakingSound/TopControls.mdx       17     6      2  DEFECT, rewrite from source
+    EditControlsDemo           MakingSound/TopControls.mdx        2     4      0  DEFECT, rewrite from source
     GhostDemo                  MakingSound/TopControls.mdx        1     0      3  VERIFIED
-    KeyDemo                    MakingSound/TopControls.mdx        0    13      0  DEFECT, rewrite from source
-    PatternLengthDemo          MakingSound/TopControls.mdx      140    23      0  MOSTLY OK, spot-fix
+    KeyDemo                    MakingSound/TopControls.mdx        1    12      0  DEFECT, rewrite from source
+    PatternLengthDemo          MakingSound/TopControls.mdx      143    20      0  MOSTLY OK, spot-fix
     PlayStopDemo               MakingSound/TopControls.mdx        1     1     21  DEFECT, rewrite from source
-    ScaleDemo                  MakingSound/TopControls.mdx        2     1      0  DEFECT, rewrite from source
+    ScaleDemo                  MakingSound/TopControls.mdx        3     0      0  VERIFIED
     IndicatorLaneDemo          MakingSound/Tracks.mdx             0     0     54  ILLUSTRATIVE (drawn on empty grid)
     TracksDemo                 MakingSound/Tracks.mdx             0    60    820  DEFECT, rewrite from source
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       17  DEFECT, rewrite from source
+       15  DEFECT, rewrite from source
        13  NEEDS-STATE capture
         6  MOSTLY OK, spot-fix
-        4  VERIFIED
+        6  VERIFIED

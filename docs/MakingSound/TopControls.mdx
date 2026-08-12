@@ -21,10 +21,10 @@ export function ControlRowOverview() {
         { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, hold 3.5s for WLED config", "elements": [
             { "pos": [0, 0], "size": [3, 1], "color": "#45FF45" }  // Green when stopped
         ]},
-        { "name": "Undo", "desc": "Col 4: Undo last action", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
-        { "name": "Redo", "desc": "Col 5: Redo action", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#878787" }] },
+        { "name": "Undo", "desc": "Col 4: Undo last action", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#333333" }] },
+        { "name": "Redo", "desc": "Col 5: Redo action", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#333333" }] },
         { "name": "Major Scale", "desc": "Col 7: Select major scale", "elements": [{ "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }] },
-        { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00AAFF" }] },
+        { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00334D" }] },
         { "name": "Pentatonic", "desc": "Col 9: Select pentatonic scale", "elements": [{ "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }] },
         { "name": "Root Notes", "desc": "Cols 11-22: Select key (C through B)", "elements": chromaticColors.map((color, i) => ({
             "pos": [11 + i, 0], "size": [1, 1], "color": color
@@ -34,7 +34,7 @@ export function ControlRowOverview() {
         { "name": "BPM Display", "desc": "Col 27: Shows current BPM, pulses with beat", "elements": [{ "pos": [27, 0], "size": [1, 1], "color": "#595959" }] },
         { "name": "BPM +", "desc": "Col 28: Increase tempo", "elements": [{ "pos": [28, 0], "size": [1, 1], "color": "#454545" }] },
         { "name": "Length -", "desc": "Col 30: Decrease pattern length", "elements": [{ "pos": [30, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#4526BF" }] },
+        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }] },
         { "name": "Length +", "desc": "Col 32: Increase pattern length", "elements": [{ "pos": [32, 0], "size": [1, 1], "color": "#454545" }] },
         { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
         { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
@@ -118,7 +118,7 @@ export function BPMDemo() {
             "name": "BPM Down",
             "desc": "Column 26. Tap to decrease tempo by 5 BPM.",
             "elements": [
-                { "pos": [26, 0], "size": [1, 1], "color": "#FF6B6B" }
+                { "pos": [26, 0], "size": [1, 1], "color": "#454545" }
             ]
         },
         {
@@ -132,7 +132,7 @@ export function BPMDemo() {
             "name": "BPM Up",
             "desc": "Column 28. Tap to increase tempo by 5 BPM.",
             "elements": [
-                { "pos": [28, 0], "size": [1, 1], "color": "#4ECDC4" }
+                { "pos": [28, 0], "size": [1, 1], "color": "#454545" }
             ]
         }
     ];
@@ -161,21 +161,21 @@ export function PatternLengthDemo() {
             "name": "Length Down",
             "desc": "Column 30. Shorten the pattern by 4 steps (minimum 8).",
             "elements": [
-                { "pos": [30, 0], "size": [1, 1], "color": "#FF8C00" }
+                { "pos": [30, 0], "size": [1, 1], "color": "#454545" }
             ]
         },
         {
             "name": "Length Display",
             "desc": "Column 31. Shows the current pattern length, the colour shifts as you change it.",
             "elements": [
-                { "pos": [31, 0], "size": [1, 1], "color": "#4526BF" }
+                { "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }
             ]
         },
         {
             "name": "Length Up",
             "desc": "Column 32. Lengthen the pattern by 4 steps (maximum 32).",
             "elements": [
-                { "pos": [32, 0], "size": [1, 1], "color": "#FFFF00" }
+                { "pos": [32, 0], "size": [1, 1], "color": "#454545" }
             ]
         },
         {
@@ -215,7 +215,7 @@ export function ScaleDemo() {
             "name": "Minor Scale",
             "desc": "Column 8. Dark, emotional sound. Intervals: 0-2-3-5-7-8-10",
             "elements": [
-                { "pos": [8, 0], "size": [1, 1], "color": "#00AAFF" }
+                { "pos": [8, 0], "size": [1, 1], "color": "#00334D" }
             ]
         },
         {
@@ -265,7 +265,7 @@ export function KeyDemo() {
             "name": "Current Key Indicator",
             "desc": "The active key glows brighter than others.",
             "elements": [
-                { "pos": [11, 0], "size": [1, 1], "color": "#FF0000" }
+                { "pos": [11, 0], "size": [1, 1], "color": "#ED2B2B" }
             ]
         }
     ];
@@ -306,14 +306,14 @@ export function EditControlsDemo() {
             "name": "Undo",
             "desc": "Column 4. Reverts the last change.",
             "elements": [
-                { "pos": [4, 0], "size": [1, 1], "color": "#878787" }
+                { "pos": [4, 0], "size": [1, 1], "color": "#333333" }
             ]
         },
         {
             "name": "Redo",
             "desc": "Column 5. Re-applies an undone change.",
             "elements": [
-                { "pos": [5, 0], "size": [1, 1], "color": "#878787" }
+                { "pos": [5, 0], "size": [1, 1], "color": "#333333" }
             ]
         },
         {
