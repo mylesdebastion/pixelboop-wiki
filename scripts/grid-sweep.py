@@ -42,6 +42,8 @@ STATE_VERIFIED = {
     "MuteDemo": "muted state driven and all four bands sampled (~16% dim, gradient preserved)",
     "BankDisplayDemo": "simctl recordVideo during a 1.4s hold; 8 of 60 frames showed the cycling display",
     "LongPressNote": "same recordVideo capture as BankDisplayDemo; depicts the cycling state",
+    "SyncButtonDemo": "session opened on device; lane measured #00E6E6/#FFCC00/#00FF00, idle #004D66",
+    "ModeButtonDemo": "same capture; Mode pixels go #00E600 with a session running",
     "SoloDemo": "solo column sampled: #474747 soloed, #0F0F0F not",
     "MultiSoloDemo": "same capture as SoloDemo",
 }

@@ -129,6 +129,13 @@ export function ModeButtonDemo() {
             "elements": [
                 { "pos": [8, 23], "size": [2, 1], "color": "#C89600" }
             ]
+        },
+        {
+            "name": "Remote session active",
+            "desc": "With a session running the Mode pixels go bright green, measured #00E600.",
+            "elements": [
+                { "pos": [8, 22], "size": [2, 1], "color": "#00E600" }
+            ]
         }
     ];
 
@@ -160,24 +167,19 @@ The **Mode button** (cols 8–9, row 23) is the **Orchestra sync mode indicator*
 export function SyncButtonDemo() {
     const uiElements = [
         {
-            "name": "Disconnected",
-            "desc": "Gray = No active sync session",
+            "name": "No session (idle)",
+            "desc": "With no session running the three pixels sit at a dim teal.",
             "elements": [
-                { "pos": [10, 23], "size": [3, 1], "color": "#444444" }
+                { "pos": [10, 23], "size": [3, 1], "color": "#004D66" }
             ]
         },
         {
-            "name": "Host",
-            "desc": "Gold = You're hosting a session",
+            "name": "Session running",
+            "desc": "Once a session is open the three pixels light separately, measured on 1.1.3: cyan, gold and green rather than one colour for the whole button.",
             "elements": [
-                { "pos": [10, 22], "size": [3, 1], "color": "#FFD700" }
-            ]
-        },
-        {
-            "name": "Follower",
-            "desc": "Green = Connected to a host",
-            "elements": [
-                { "pos": [10, 21], "size": [3, 1], "color": "#00FF00" }
+                { "pos": [10, 22], "size": [1, 1], "color": "#00E6E6" },
+                { "pos": [11, 22], "size": [1, 1], "color": "#FFCC00" },
+                { "pos": [12, 22], "size": [1, 1], "color": "#00FF00" }
             ]
         }
     ];
