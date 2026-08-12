@@ -47,6 +47,10 @@ STATE_VERIFIED = {
     "SyncButtonStates": "colours derived from renderSyncButton at v1.1.3 and cross-checked against a live session",
     "HostSession": "renderSyncButton: gold #FFCC00 overwrites the MIDDLE sync pixel when isHost",
     "OrchestraMode": "renderModeButton: follower #9600C8, host #C800FF, remote #00E600",
+    "DeviceIndicatorsDemo": "renderDeviceIndicators: host #00FF00, follower #00B300, cols 12-35, nothing drawn with no participants",
+    "ConfigModeDemo": "config-mode render pass: headers cleared to #212121, blue #4080FF as a 2-row block at COL 1",
+    "ChannelCycleDemo": "same render pass; col 2 belongs to FX now, not config",
+    "FollowerSession": "renderSyncButton/renderModeButton at v1.1.3",
     "SoloDemo": "solo column sampled: #474747 soloed, #0F0F0F not",
     "MultiSoloDemo": "same capture as SoloDemo",
 }

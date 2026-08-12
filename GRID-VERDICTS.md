@@ -66,17 +66,17 @@ unit) attached, plus a second phone running Pixelboop. Both categories are
 measurable in minutes once the hardware is present.
   PER-GRID VERDICT
     grid                       page                              ok   bad  empty  verdict
-    ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
-    ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
+    ChannelCycleDemo           Connectivity/Connectivity.mdx      0    18      4  VERIFIED (state capture)
+    ConfigModeDemo             Connectivity/Connectivity.mdx      0    66      8  VERIFIED (state capture)
     HardwareDemo               GettingStarted/GettingStarted.mdx   201    20    766  MOSTLY OK, spot-fix
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
-    FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
+    FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  VERIFIED (state capture)
     HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  VERIFIED (state capture)
     OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     0     3      3  VERIFIED (state capture)
     SyncButtonStates           JamWithOthers/MultiDeviceSync.mdx     0     3      6  VERIFIED (state capture)
     SyncOverview               JamWithOthers/MultiDeviceSync.mdx     6     0      3  VERIFIED
     BottomRowOverview          MakingSound/BottomControls.mdx     9     0      2  VERIFIED
-    DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  NEEDS-STATE capture
+    DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  VERIFIED (state capture)
     ModeButtonDemo             MakingSound/BottomControls.mdx     2     0      6  VERIFIED (state capture)
     SyncButtonDemo             MakingSound/BottomControls.mdx     3     0      7  VERIFIED (state capture)
     Bank0Demo                  MakingSound/DrumBanks.mdx          0     0     11  ILLUSTRATIVE (drawn on empty grid)
@@ -128,6 +128,5 @@ measurable in minutes once the hardware is present.
     verdict counts:
        21  ILLUSTRATIVE (drawn on empty grid)
        21  VERIFIED
-       10  VERIFIED (state capture)
-        4  NEEDS-STATE capture
+       14  VERIFIED (state capture)
         2  MOSTLY OK, spot-fix

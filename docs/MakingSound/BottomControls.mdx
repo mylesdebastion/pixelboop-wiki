@@ -42,10 +42,10 @@ export function BottomRowOverview() {
         },
         {
             "name": "Device Indicators",
-            "desc": "Columns 12-35. Shows connected devices (up to 24). Only visible when devices are connected.",
+            "desc": "Columns 12-35, one pixel per participant, up to 24. The host is bright green #00FF00, followers dimmer #00B300. Nothing is drawn at all when there are no participants.",
             "elements": [
                 { "pos": [12, 23], "size": [1, 1], "color": "#004D66" },
-                { "pos": [13, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [13, 23], "size": [1, 1], "color": "#00B300" },
                 { "pos": [14, 23], "size": [1, 1], "color": "#00FF00" }
             ]
         }
@@ -263,9 +263,9 @@ export function DeviceIndicatorsDemo() {
             "desc": "Each device gets a green pixel. Up to 24 devices supported. Indicators only appear when devices are connected.",
             "elements": [
                 { "pos": [12, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [13, 23], "size": [1, 1], "color": "#00AA00" },
-                { "pos": [14, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [15, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [13, 23], "size": [1, 1], "color": "#00B300" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00B300" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#00B300" },
                 { "pos": [16, 23], "size": [1, 1], "color": "#00FF00" }
             ]
         }
