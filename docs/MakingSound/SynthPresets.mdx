@@ -30,8 +30,8 @@ export function PresetSelectionDemo() {
             "name": "Bank-Style Indicator",
             "desc": "During selection, the column switches to a dim bank pixel + a brighter active pixel.",
             "elements": [
-                { "pos": [0, 4], "size": [1, 1], "color": "#886600" },
-                { "pos": [0, 6], "size": [1, 1], "color": "#FFFFFF" }
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" },
+                { "pos": [0, 2], "size": [1, 1], "color": "#6B13AE" }
             ]
         }
     ];
@@ -68,24 +68,24 @@ When the two land on the same pixel, it lights at its **brightest**.
 export function BankDisplayDemo() {
     const uiElements = [
         {
+            "name": "Unlit cells",
+            "desc": "While cycling, the rest of the column drops to a very dark tint of the track colour.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#130821" }
+            ]
+        },
+        {
             "name": "Bank Marker (dim)",
             "desc": "Marks which bank of sounds is active.",
             "elements": [
-                { "pos": [0, 3], "size": [1, 1], "color": "#7322EB40" }
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" }
             ]
         },
         {
             "name": "Active Pixel (bright)",
-            "desc": "Marks the current sound within the bank.",
+            "desc": "Marks the current sound within the bank. Measured on 1.1.3 during a hold.",
             "elements": [
-                { "pos": [0, 6], "size": [1, 1], "color": "#2638FA80" }
-            ]
-        },
-        {
-            "name": "Coincident (brightest)",
-            "desc": "When bank marker and active pixel land on the same row, it's brightest.",
-            "elements": [
-                { "pos": [0, 3], "size": [1, 1], "color": "#7322EBBF" }
+                { "pos": [0, 2], "size": [1, 1], "color": "#6B13AE" }
             ]
         }
     ];

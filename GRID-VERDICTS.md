@@ -107,7 +107,7 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     SectionPlayDemo            MakingSound/SongSections.mdx       0     2      3  NEEDS-STATE capture
     SwitchDemo                 MakingSound/SongSections.mdx      20    40    106  DEFECT, rewrite from source
     ThumbnailDemo              MakingSound/SongSections.mdx       0     0     30  ILLUSTRATIVE (drawn on empty grid)
-    BankDisplayDemo            MakingSound/SynthPresets.mdx       0     3      0  DEFECT, rewrite from source
+    BankDisplayDemo            MakingSound/SynthPresets.mdx       0     8      0  DEFECT, rewrite from source
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
     RhythmNoteDemo             MakingSound/SynthPresets.mdx       4     0      0  VERIFIED
     BPMDemo                    MakingSound/TopControls.mdx        3     0      0  VERIFIED
