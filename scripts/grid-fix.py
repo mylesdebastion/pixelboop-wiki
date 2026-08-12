@@ -33,7 +33,7 @@ ALLOW = {
 ELEM = re.compile(
     r'(\{\s*"pos"\s*:\s*\[\s*(\d+)\s*,\s*(\d+)\s*\]\s*,\s*'
     r'"size"\s*:\s*\[\s*(\d+)\s*,\s*(\d+)\s*\]\s*,\s*'
-    r'"color"\s*:\s*)("#[0-9A-Fa-f]{3,8}")')
+    r'"color"\s*:\s*)("#[0-9A-Fa-f]{3,8}"|\[[^\]]*\])')
 FUNC = re.compile(r'export function (\w+)')
 
 
@@ -77,25 +77,61 @@ def main():
             out, last, changed = [], 0, 0
             for m in ELEM.finditer(src):
                 head, c0, r0, w, h = m.group(1), *(int(m.group(i)) for i in range(2, 6))
-                if fname(m.start()) not in ALLOW or w != 1 or h != 1:
+                if fname(m.start()) not in ALLOW:
                     continue
-                c, r = c0, r0
-                # MystrixVisualizer renders data-row 0 at visual row 23 (cols 0-35)
-                vr = 23 - r if (c <= 35 and r in (0, 23)) else r
-                if (c, vr) not in live:
+                raw = m.group(6)
+                is_arr = raw.startswith("[")
+                declared = (re.findall(r'#[0-9A-Fa-f]{3,8}', raw) if is_arr
+                            else [raw.strip('"')])
+                if not declared:
                     continue
-                got = live[(c, vr)]
-                if max(got) <= EMPTY_MAX:
-                    continue                      # illustration on an empty cell
-                want = m.group(6).strip('"').lstrip("#")
-                if len(want) not in (6, 8):
+
+                # Walk the element's cells in the same order MystrixVisualizer
+                # consumes the colour list, so entry i lines up with cell i.
+                sampled, ok, idx = [], True, 0
+                for dr in range(h):
+                    for dc in range(w):
+                        c, r = c0 + dc, r0 + dr
+                        # data-row 0 renders at visual row 23 (cols 0-35)
+                        vr = 23 - r if (c <= 35 and r in (0, 23)) else r
+                        got = live.get((c, vr))
+                        if got is None or max(got) <= EMPTY_MAX:
+                            ok = False           # background: illustration, leave alone
+                            break
+                        sampled.append(got)
+                        idx += 1
+                    if not ok:
+                        break
+                if not ok or not sampled:
                     continue
-                cur = tuple(int(want[i:i + 2], 16) for i in (0, 2, 4))
-                if max(abs(cur[i] - got[i]) for i in range(3)) <= TOL:
+
+                # A single declared colour spanning many cells only gets rewritten
+                # when the app really is uniform there; otherwise the element is
+                # a deliberate simplification, not a wrong value.
+                if not is_arr and len({s for s in sampled}) > 1:
                     continue
-                new = '"#%02X%02X%02X"' % got
+
+                cur = []
+                for d in declared:
+                    d = d.lstrip("#")
+                    if len(d) not in (6, 8):
+                        cur = []
+                        break
+                    cur.append(tuple(int(d[i:i + 2], 16) for i in (0, 2, 4)))
+                if not cur:
+                    continue
+                target = sampled if is_arr else sampled[:1]
+                if len(cur) == len(target) and all(
+                        max(abs(cur[i][k] - target[i][k]) for k in range(3)) <= TOL
+                        for i in range(len(cur))):
+                    continue
+
+                if is_arr:
+                    new = "[" + ", ".join('"#%02X%02X%02X"' % s for s in target) + "]"
+                else:
+                    new = '"#%02X%02X%02X"' % target[0]
                 print(f"    {path[5:]:36s} {fname(m.start()):20s} "
-                      f"({c:2d},{r:2d})  {m.group(6)} -> {new}")
+                      f"({c0:2d},{r0:2d}) {w}x{h}  {len(target)} cell(s) rewritten")
                 out.append(src[last:m.start(6)]); out.append(new)
                 last = m.end(6); changed += 1
             if changed:

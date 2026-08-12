@@ -47,7 +47,7 @@ single device session rather than attempted here.
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
-    WLEDButtonDemo             Connectivity/WLED.mdx              1     3      0  NEEDS-STATE capture
+    WLEDButtonDemo             Connectivity/WLED.mdx              0     4      0  NEEDS-STATE capture
     HardwareDemo               GettingStarted/GettingStarted.mdx   185   786     22  DEFECT, rewrite from source
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
     FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
@@ -55,11 +55,11 @@ single device session rather than attempted here.
     OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     0     3      3  DEFECT, rewrite from source
     SyncButtonStates           JamWithOthers/MultiDeviceSync.mdx     0     3      6  NEEDS-STATE capture
     SyncOverview               JamWithOthers/MultiDeviceSync.mdx     3     3      3  NEEDS-STATE capture
-    BottomRowOverview          MakingSound/BottomControls.mdx     4     9      2  DEFECT, rewrite from source
+    BottomRowOverview          MakingSound/BottomControls.mdx     9     4      2  DEFECT, rewrite from source
     DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  NEEDS-STATE capture
-    ModeButtonDemo             MakingSound/BottomControls.mdx     0     2      0  DEFECT, rewrite from source
+    ModeButtonDemo             MakingSound/BottomControls.mdx     2     0      0  VERIFIED
     SyncButtonDemo             MakingSound/BottomControls.mdx     0     3      6  NEEDS-STATE capture
-    WLEDDemo                   MakingSound/BottomControls.mdx     1     3      0  NEEDS-STATE capture
+    WLEDDemo                   MakingSound/BottomControls.mdx     0     4      0  NEEDS-STATE capture
     Bank0Demo                  MakingSound/DrumBanks.mdx          0     0     11  ILLUSTRATIVE (drawn on empty grid)
     Bank1Demo                  MakingSound/DrumBanks.mdx          0     0      5  ILLUSTRATIVE (drawn on empty grid)
     Bank2Demo                  MakingSound/DrumBanks.mdx          0     0      6  ILLUSTRATIVE (drawn on empty grid)
@@ -96,8 +96,8 @@ single device session rather than attempted here.
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
     RhythmNoteDemo             MakingSound/SynthPresets.mdx       4     0      0  VERIFIED
     BPMDemo                    MakingSound/TopControls.mdx        3     0      0  VERIFIED
-    ControlRowOverview         MakingSound/TopControls.mdx       17     6      2  DEFECT, rewrite from source
-    EditControlsDemo           MakingSound/TopControls.mdx        2     4      0  DEFECT, rewrite from source
+    ControlRowOverview         MakingSound/TopControls.mdx       23     0      2  VERIFIED
+    EditControlsDemo           MakingSound/TopControls.mdx        6     0      0  VERIFIED
     GhostDemo                  MakingSound/TopControls.mdx        1     0      3  VERIFIED
     KeyDemo                    MakingSound/TopControls.mdx       13     0      0  VERIFIED
     PatternLengthDemo          MakingSound/TopControls.mdx      143    20      0  MOSTLY OK, spot-fix
@@ -109,6 +109,6 @@ single device session rather than attempted here.
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
        13  NEEDS-STATE capture
-       12  DEFECT, rewrite from source
-        9  VERIFIED
+       12  VERIFIED
+        9  DEFECT, rewrite from source
         6  MOSTLY OK, spot-fix

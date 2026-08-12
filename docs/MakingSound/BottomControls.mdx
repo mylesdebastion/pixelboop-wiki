@@ -14,9 +14,9 @@ export function BottomRowOverview() {
     const uiElements = [
         {
             "name": "WLED Controls",
-            "desc": "Columns 0-3. Control external LED strips via WLED.",
+            "desc": "Columns 0-3. Control external LED strips via WLED. The band drifts slowly, so the exact colours shown here are one moment of that cycle.",
             "elements": [
-                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"] }
+                { "pos": [0, 23], "size": [4, 1], "color": ["#50CC29", "#2FCC29", "#29CC43", "#29CC64"] }
             ]
         },
         {
@@ -30,14 +30,14 @@ export function BottomRowOverview() {
             "name": "Mode Button",
             "desc": "Columns 8-9. Orchestra sync mode indicator (Yellow=Free, Purple=Follower, Bright Purple=Host, Bright Green=Remote).",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#FFFF00" }
+                { "pos": [8, 23], "size": [2, 1], "color": "#C89600" }
             ]
         },
         {
             "name": "Sync Button",
             "desc": "Columns 10-12. Multi-device sync controls.",
             "elements": [
-                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+                { "pos": [10, 23], "size": [3, 1], "color": "#004D66" }
             ]
         },
         {
@@ -127,7 +127,7 @@ export function ModeButtonDemo() {
             "name": "Mode Button (Orchestra Indicator)",
             "desc": "Columns 8-9, Row 23. Color indicates Orchestra sync state.",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#FFFF00" }
+                { "pos": [8, 23], "size": [2, 1], "color": "#C89600" }
             ]
         }
     ];
