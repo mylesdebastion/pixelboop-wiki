@@ -23,10 +23,18 @@ Not all outstanding grids can be settled in a simulator. Verified against v1.1.3
   animates when WLED output is enabled against a device. The config DIALOG is
   reachable (tap opens it), the connected state is not.
 
+**NOT CAPTURABLE BY TAP-THEN-SCREENSHOT (tooling limit, not hardware):**
+
+- `BankDisplayDemo` - the preset-cycling display only exists WHILE the finger is
+  held on column 0. Tap and screenshot are separate calls, so the state has
+  reverted by capture time; a 700ms hold was tried and returned the plain idle
+  gradient. To settle this, run `xcrun simctl io <udid> recordVideo` in the
+  background, perform the hold, stop the recording and pull a frame from the
+  middle. Same applies to any other hold-to-reveal display.
+
 **SIMULATOR-REACHABLE, still to do:**
 
 - `MuteDemo` - partially done; chords/bass/rhythm muted values still unmeasured.
-- `BankDisplayDemo` - long-press column 0 to enter preset cycling.
 - `SectionOverview`, `SectionPlayDemo`, `SectionPlayButtonDemo` - sections are
   in-app, reachable by tapping the section lane.
 
