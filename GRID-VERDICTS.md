@@ -63,7 +63,7 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
     WLEDButtonDemo             Connectivity/WLED.mdx              0     4      0  NEEDS-STATE capture
-    HardwareDemo               GettingStarted/GettingStarted.mdx   200   771     22  DEFECT, rewrite from source
+    HardwareDemo               GettingStarted/GettingStarted.mdx   202   769     22  DEFECT, rewrite from source
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
     FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
     HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  DEFECT, rewrite from source
@@ -103,8 +103,8 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     SectionCopyDemo            MakingSound/SongSections.mdx       0     0     21  ILLUSTRATIVE (drawn on empty grid)
     SectionMergeDemo           MakingSound/SongSections.mdx       0     0      8  ILLUSTRATIVE (drawn on empty grid)
     SectionOverview            MakingSound/SongSections.mdx     580   220      4  NEEDS-STATE capture
-    SectionPlayButtonDemo      MakingSound/SongSections.mdx       0     2    160  NEEDS-STATE capture
-    SectionPlayDemo            MakingSound/SongSections.mdx       0     2      3  NEEDS-STATE capture
+    SectionPlayButtonDemo      MakingSound/SongSections.mdx       2     0    160  VERIFIED
+    SectionPlayDemo            MakingSound/SongSections.mdx       2     0      3  VERIFIED
     SwitchDemo                 MakingSound/SongSections.mdx      20    40    106  DEFECT, rewrite from source
     ThumbnailDemo              MakingSound/SongSections.mdx       0     0     30  ILLUSTRATIVE (drawn on empty grid)
     BankDisplayDemo            MakingSound/SynthPresets.mdx       0     8      0  DEFECT, rewrite from source
@@ -123,7 +123,7 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       12  NEEDS-STATE capture
-       12  VERIFIED
+       14  VERIFIED
+       10  NEEDS-STATE capture
         8  DEFECT, rewrite from source
         8  MOSTLY OK, spot-fix
