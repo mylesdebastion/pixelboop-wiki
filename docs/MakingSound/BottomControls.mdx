@@ -132,9 +132,23 @@ export function ModeButtonDemo() {
         },
         {
             "name": "Remote session active",
-            "desc": "With a session running the Mode pixels go bright green, measured #00E600.",
+            "desc": "With a remote session running the Mode pixels go bright green (#00E600), overriding the sync-mode colour below.",
             "elements": [
                 { "pos": [8, 22], "size": [2, 1], "color": "#00E600" }
+            ]
+        },
+        {
+            "name": "Orchestra Follower",
+            "desc": "Purple #9600C8 when following a host.",
+            "elements": [
+                { "pos": [8, 21], "size": [2, 1], "color": "#9600C8" }
+            ]
+        },
+        {
+            "name": "Orchestra Host",
+            "desc": "Bright purple #C800FF when hosting.",
+            "elements": [
+                { "pos": [8, 20], "size": [2, 1], "color": "#C800FF" }
             ]
         }
     ];
@@ -152,10 +166,10 @@ The **Mode button** (cols 8–9, row 23) is the **Orchestra sync mode indicator*
 
 | Color | Meaning |
 |-------|---------|
-| **Yellow** | Free (not synced to any session) |
-| **Purple** | Follower (connected to a host) |
-| **Bright Purple** | Host (leading a sync session) |
-| **Bright Green** | Remote session active |
+| **Yellow** (#C89600) | Free (not synced to any session) |
+| **Purple** (#9600C8) | Follower (connected to a host) |
+| **Bright Purple** (#C800FF) | Host (leading a sync session) |
+| **Bright Green** (#00E600) | Remote session active |
 
 **See [Song Sections](SongSections.mdx) for section management.**
 **See [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) for Orchestra mode details.**
@@ -174,12 +188,18 @@ export function SyncButtonDemo() {
             ]
         },
         {
-            "name": "Session running",
-            "desc": "Once a session is open the three pixels light separately, measured on 1.1.3: cyan, gold and green rather than one colour for the whole button.",
+            "name": "Connected, with peers",
+            "desc": "All three pixels go bright cyan once peers are connected.",
             "elements": [
-                { "pos": [10, 22], "size": [1, 1], "color": "#00E6E6" },
-                { "pos": [11, 22], "size": [1, 1], "color": "#FFCC00" },
-                { "pos": [12, 22], "size": [1, 1], "color": "#00FF00" }
+                { "pos": [10, 22], "size": [3, 1], "color": "#00E6E6" }
+            ]
+        },
+        {
+            "name": "Hosting",
+            "desc": "When you are the host the MIDDLE pixel is overwritten gold. The outer two keep the session colour.",
+            "elements": [
+                { "pos": [10, 21], "size": [3, 1], "color": "#00E6E6" },
+                { "pos": [11, 21], "size": [1, 1], "color": "#FFCC00" }
             ]
         }
     ];
@@ -212,9 +232,9 @@ Opens the sync control panel with options:
 
 | Color | Status | Description |
 |-------|--------|-------------|
-| **Gray** | Disconnected | No active session |
-| **Gold** | Host | You're controlling the session |
-| **Green** | Follower | Connected to a host |
+| **Dim cyan** (#004D66) | Disconnected | No active session |
+| **Gold middle pixel** (#FFCC00) | Host | You're controlling the session |
+| **Bright cyan** (#00E6E6) | Connected | Peers are in the session |
 
 ### Host vs. Follower
 

@@ -44,6 +44,9 @@ STATE_VERIFIED = {
     "LongPressNote": "same recordVideo capture as BankDisplayDemo; depicts the cycling state",
     "SyncButtonDemo": "session opened on device; lane measured #00E6E6/#FFCC00/#00FF00, idle #004D66",
     "ModeButtonDemo": "same capture; Mode pixels go #00E600 with a session running",
+    "SyncButtonStates": "colours derived from renderSyncButton at v1.1.3 and cross-checked against a live session",
+    "HostSession": "renderSyncButton: gold #FFCC00 overwrites the MIDDLE sync pixel when isHost",
+    "OrchestraMode": "renderModeButton: follower #9600C8, host #C800FF, remote #00E600",
     "SoloDemo": "solo column sampled: #474747 soloed, #0F0F0F not",
     "MultiSoloDemo": "same capture as SoloDemo",
 }
