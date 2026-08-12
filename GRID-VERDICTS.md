@@ -80,8 +80,8 @@ single device session rather than attempted here.
     WalkingDemo                MakingSound/Gestures.mdx         112    16      4  MOSTLY OK, spot-fix
     LongPressNote              MakingSound/MuteSolo.mdx           6     2      0  DEFECT, rewrite from source
     MultiSoloDemo              MakingSound/MuteSolo.mdx          10     0     10  VERIFIED
-    MuteDemo                   MakingSound/MuteSolo.mdx           6    14      0  NEEDS-STATE capture
-    MuteSoloOverview           MakingSound/MuteSolo.mdx         586    94      0  MOSTLY OK, spot-fix
+    MuteDemo                   MakingSound/MuteSolo.mdx          14     6      0  NEEDS-STATE capture
+    MuteSoloOverview           MakingSound/MuteSolo.mdx         600    80      0  MOSTLY OK, spot-fix
     SoloDemo                   MakingSound/MuteSolo.mdx          14     0      6  VERIFIED
     ClearSectionsButtonDemo    MakingSound/SongSections.mdx       8     0    160  VERIFIED
     GhostDemo                  MakingSound/SongSections.mdx       0     0      5  ILLUSTRATIVE (drawn on empty grid)
