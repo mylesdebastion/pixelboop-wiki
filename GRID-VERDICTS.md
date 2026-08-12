@@ -48,13 +48,13 @@ single device session rather than attempted here.
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
     WLEDButtonDemo             Connectivity/WLED.mdx              0     4      0  NEEDS-STATE capture
-    HardwareDemo               GettingStarted/GettingStarted.mdx   185   786     22  DEFECT, rewrite from source
+    HardwareDemo               GettingStarted/GettingStarted.mdx   203   768     22  DEFECT, rewrite from source
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
     FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
     HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  DEFECT, rewrite from source
     OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     0     3      3  DEFECT, rewrite from source
     SyncButtonStates           JamWithOthers/MultiDeviceSync.mdx     0     3      6  NEEDS-STATE capture
-    SyncOverview               JamWithOthers/MultiDeviceSync.mdx     3     3      3  NEEDS-STATE capture
+    SyncOverview               JamWithOthers/MultiDeviceSync.mdx     6     0      3  VERIFIED
     BottomRowOverview          MakingSound/BottomControls.mdx     9     4      2  DEFECT, rewrite from source
     DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  NEEDS-STATE capture
     ModeButtonDemo             MakingSound/BottomControls.mdx     2     0      0  VERIFIED
@@ -108,7 +108,7 @@ single device session rather than attempted here.
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       13  NEEDS-STATE capture
-       12  VERIFIED
+       13  VERIFIED
+       12  NEEDS-STATE capture
         9  DEFECT, rewrite from source
         6  MOSTLY OK, spot-fix
