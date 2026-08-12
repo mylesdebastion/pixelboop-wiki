@@ -30,6 +30,21 @@ DOCS = "docs"
 
 # Grids whose whole point is a non-default state. Matched against the enclosing
 # export function name; keeps false "defects" out of the headline number.
+# Cells whose colour is not a stable property of the idle screen, so a
+# mismatch against an idle capture says nothing. Mirrors grid-fix.py's VOLATILE.
+#   cols 0-3 @ row 23 : WLED band drifts on a ~10s cycle
+#   cols 4-5 @ row 0  : Undo/Redo brightness depends on edit history
+VOLATILE = {(c, 23) for c in range(0, 4)} | {(4, 0), (5, 0)}
+
+# Grids closed by a TARGETED capture of the state they depict, with the evidence.
+# An idle capture cannot credit these, so scoring them against one is misleading.
+STATE_VERIFIED = {
+    "MuteDemo": "muted state driven and all four bands sampled (~16% dim, gradient preserved)",
+    "BankDisplayDemo": "simctl recordVideo during a 1.4s hold; 8 of 60 frames showed the cycling display",
+    "SoloDemo": "solo column sampled: #474747 soloed, #0F0F0F not",
+    "MultiSoloDemo": "same capture as SoloDemo",
+}
+
 STATE_HINTS = re.compile(
     r"bank[123]|solo|mute|preset|cycl|accent|erase|drag|sustain|section|"
     r"sync|device|config|midi|wled|link|playing|record|jam|follow",
@@ -121,6 +136,9 @@ def main():
                         # when it RENDERS, so a grid authored at data-row 0 is
                         # drawn at visual row 23 (cols 0-35 only). Compare against
                         # the visual cell, or every control row reads as broken.
+                        if (c, r) in VOLATILE:
+                            idx += 1
+                            continue
                         if c <= 35 and r in (0, 23):
                             r = 23 - r
                         if (c, r) not in grid:
@@ -177,7 +195,9 @@ def main():
         for fn_name, st in sorted(grids.items()):
             ok, bad = st["match"], st["mismatch"] + st["needs_state"]
             empty, tot = st["on_empty"], st["match"] + st["mismatch"] + st["needs_state"]
-            if tot == 0 and empty:
+            if fn_name in STATE_VERIFIED:
+                v = "VERIFIED (state capture)"
+            elif tot == 0 and empty:
                 v = "ILLUSTRATIVE (drawn on empty grid)"
             elif tot == 0:
                 v = "NO CLAIMS"

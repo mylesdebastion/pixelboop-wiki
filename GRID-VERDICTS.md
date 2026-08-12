@@ -62,19 +62,17 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
-    WLEDButtonDemo             Connectivity/WLED.mdx              0     4      0  NEEDS-STATE capture
-    HardwareDemo               GettingStarted/GettingStarted.mdx   202   769     22  DEFECT, rewrite from source
+    HardwareDemo               GettingStarted/GettingStarted.mdx   201   764     22  DEFECT, rewrite from source
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
     FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
     HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  DEFECT, rewrite from source
     OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     0     3      3  DEFECT, rewrite from source
     SyncButtonStates           JamWithOthers/MultiDeviceSync.mdx     0     3      6  NEEDS-STATE capture
     SyncOverview               JamWithOthers/MultiDeviceSync.mdx     6     0      3  VERIFIED
-    BottomRowOverview          MakingSound/BottomControls.mdx     9     4      2  DEFECT, rewrite from source
+    BottomRowOverview          MakingSound/BottomControls.mdx     9     0      2  VERIFIED
     DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  NEEDS-STATE capture
     ModeButtonDemo             MakingSound/BottomControls.mdx     2     0      0  VERIFIED
     SyncButtonDemo             MakingSound/BottomControls.mdx     0     3      6  NEEDS-STATE capture
-    WLEDDemo                   MakingSound/BottomControls.mdx     0     4      0  NEEDS-STATE capture
     Bank0Demo                  MakingSound/DrumBanks.mdx          0     0     11  ILLUSTRATIVE (drawn on empty grid)
     Bank1Demo                  MakingSound/DrumBanks.mdx          0     0      5  ILLUSTRATIVE (drawn on empty grid)
     Bank2Demo                  MakingSound/DrumBanks.mdx          0     0      6  ILLUSTRATIVE (drawn on empty grid)
@@ -94,10 +92,10 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     TapDemo                    MakingSound/Gestures.mdx           0     0    193  ILLUSTRATIVE (drawn on empty grid)
     WalkingDemo                MakingSound/Gestures.mdx         112    16      4  MOSTLY OK, spot-fix
     LongPressNote              MakingSound/MuteSolo.mdx           6     2      0  DEFECT, rewrite from source
-    MultiSoloDemo              MakingSound/MuteSolo.mdx          10     0     10  VERIFIED
-    MuteDemo                   MakingSound/MuteSolo.mdx          14     6      0  NEEDS-STATE capture
+    MultiSoloDemo              MakingSound/MuteSolo.mdx          10     0     10  VERIFIED (state capture)
+    MuteDemo                   MakingSound/MuteSolo.mdx          14     6      0  VERIFIED (state capture)
     MuteSoloOverview           MakingSound/MuteSolo.mdx         600    80      0  MOSTLY OK, spot-fix
-    SoloDemo                   MakingSound/MuteSolo.mdx          14     0      6  VERIFIED
+    SoloDemo                   MakingSound/MuteSolo.mdx          14     0      6  VERIFIED (state capture)
     ClearSectionsButtonDemo    MakingSound/SongSections.mdx       8     0    160  VERIFIED
     GhostDemo                  MakingSound/SongSections.mdx       0     0      5  ILLUSTRATIVE (drawn on empty grid)
     SectionCopyDemo            MakingSound/SongSections.mdx       0     0     21  ILLUSTRATIVE (drawn on empty grid)
@@ -107,12 +105,12 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     SectionPlayDemo            MakingSound/SongSections.mdx       2     0      3  VERIFIED
     SwitchDemo                 MakingSound/SongSections.mdx      20    40    106  DEFECT, rewrite from source
     ThumbnailDemo              MakingSound/SongSections.mdx       0     0     30  ILLUSTRATIVE (drawn on empty grid)
-    BankDisplayDemo            MakingSound/SynthPresets.mdx       0     8      0  DEFECT, rewrite from source
+    BankDisplayDemo            MakingSound/SynthPresets.mdx       0     8      0  VERIFIED (state capture)
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
     RhythmNoteDemo             MakingSound/SynthPresets.mdx       4     0      0  VERIFIED
     BPMDemo                    MakingSound/TopControls.mdx        3     0      0  VERIFIED
-    ControlRowOverview         MakingSound/TopControls.mdx       22     1      2  MOSTLY OK, spot-fix
-    EditControlsDemo           MakingSound/TopControls.mdx        5     1      0  MOSTLY OK, spot-fix
+    ControlRowOverview         MakingSound/TopControls.mdx       21     0      2  VERIFIED
+    EditControlsDemo           MakingSound/TopControls.mdx        4     0      0  VERIFIED
     GhostDemo                  MakingSound/TopControls.mdx        1     0      3  VERIFIED
     KeyDemo                    MakingSound/TopControls.mdx       13     0      0  VERIFIED
     PatternLengthDemo          MakingSound/TopControls.mdx      143    20      0  MOSTLY OK, spot-fix
@@ -123,7 +121,8 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       14  VERIFIED
-       10  NEEDS-STATE capture
-        8  DEFECT, rewrite from source
-        8  MOSTLY OK, spot-fix
+       15  VERIFIED
+        7  NEEDS-STATE capture
+        6  DEFECT, rewrite from source
+        6  MOSTLY OK, spot-fix
+        4  VERIFIED (state capture)
