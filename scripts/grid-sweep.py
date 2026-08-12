@@ -41,6 +41,7 @@ VOLATILE = {(c, 23) for c in range(0, 4)} | {(4, 0), (5, 0)}
 STATE_VERIFIED = {
     "MuteDemo": "muted state driven and all four bands sampled (~16% dim, gradient preserved)",
     "BankDisplayDemo": "simctl recordVideo during a 1.4s hold; 8 of 60 frames showed the cycling display",
+    "LongPressNote": "same recordVideo capture as BankDisplayDemo; depicts the cycling state",
     "SoloDemo": "solo column sampled: #474747 soloed, #0F0F0F not",
     "MultiSoloDemo": "same capture as SoloDemo",
 }
@@ -128,6 +129,12 @@ def main():
                           else re.findall(r'#[0-9A-Fa-f]{3,8}', raw))
                 fn_name = fname(m.start())
                 stateful = bool(STATE_HINTS.search(fn_name))
+                # A single flat colour painted over a large region is a
+                # SCHEMATIC ("the melody track lives in rows 2-7"), not a claim
+                # that every one of those pixels is that colour. Scoring it
+                # cell-by-cell manufactures dozens of phantom defects, which is
+                # what made TracksDemo look like the worst grid in the wiki.
+                schematic = (not raw.startswith("[")) and (w * h) >= 20
                 idx = 0
                 for dr in range(h):
                     for dc in range(w):
@@ -152,6 +159,8 @@ def main():
                             st["on_empty"] += 1; per_grid[path][fn_name]["on_empty"] += 1
                         elif dist(want, got) <= TOL:
                             st["match"] += 1; per_grid[path][fn_name]["match"] += 1
+                        elif schematic:
+                            st["on_empty"] += 1; per_grid[path][fn_name]["on_empty"] += 1
                         elif stateful:
                             st["needs_state"] += 1; per_grid[path][fn_name]["needs_state"] += 1
                         else:

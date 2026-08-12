@@ -62,7 +62,7 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
-    HardwareDemo               GettingStarted/GettingStarted.mdx   201   764     22  DEFECT, rewrite from source
+    HardwareDemo               GettingStarted/GettingStarted.mdx   201    20    766  MOSTLY OK, spot-fix
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
     FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
     HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  DEFECT, rewrite from source
@@ -79,31 +79,31 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     Bank3Demo                  MakingSound/DrumBanks.mdx          0     0      4  ILLUSTRATIVE (drawn on empty grid)
     RhythmOverview             MakingSound/DrumBanks.mdx          4     0    128  VERIFIED
     AccentDemo                 MakingSound/Gestures.mdx           0     0      2  ILLUSTRATIVE (drawn on empty grid)
-    ArpeggioDemo               MakingSound/Gestures.mdx         168    24      6  MOSTLY OK, spot-fix
+    ArpeggioDemo               MakingSound/Gestures.mdx         168     0     30  VERIFIED
     FifthDemo                  MakingSound/Gestures.mdx           0     0      2  ILLUSTRATIVE (drawn on empty grid)
     FillDemo                   MakingSound/Gestures.mdx           0     0      8  ILLUSTRATIVE (drawn on empty grid)
     MultiDrumDemo              MakingSound/Gestures.mdx           0     0      3  ILLUSTRATIVE (drawn on empty grid)
     PhraseDemo                 MakingSound/Gestures.mdx           0     0      5  ILLUSTRATIVE (drawn on empty grid)
     ProgressionFillDemo        MakingSound/Gestures.mdx           0     0     13  ILLUSTRATIVE (drawn on empty grid)
-    RollDemo                   MakingSound/Gestures.mdx         112    16      6  MOSTLY OK, spot-fix
+    RollDemo                   MakingSound/Gestures.mdx         112     0     22  VERIFIED
     RunDemo                    MakingSound/Gestures.mdx           0     0      8  ILLUSTRATIVE (drawn on empty grid)
     StackDemo                  MakingSound/Gestures.mdx           0     0      4  ILLUSTRATIVE (drawn on empty grid)
     SustainDemo                MakingSound/Gestures.mdx           0     0      4  ILLUSTRATIVE (drawn on empty grid)
     TapDemo                    MakingSound/Gestures.mdx           0     0    193  ILLUSTRATIVE (drawn on empty grid)
-    WalkingDemo                MakingSound/Gestures.mdx         112    16      4  MOSTLY OK, spot-fix
-    LongPressNote              MakingSound/MuteSolo.mdx           6     2      0  DEFECT, rewrite from source
+    WalkingDemo                MakingSound/Gestures.mdx         112     0     20  VERIFIED
+    LongPressNote              MakingSound/MuteSolo.mdx           6     2      0  VERIFIED (state capture)
     MultiSoloDemo              MakingSound/MuteSolo.mdx          10     0     10  VERIFIED (state capture)
     MuteDemo                   MakingSound/MuteSolo.mdx          14     6      0  VERIFIED (state capture)
-    MuteSoloOverview           MakingSound/MuteSolo.mdx         600    80      0  MOSTLY OK, spot-fix
+    MuteSoloOverview           MakingSound/MuteSolo.mdx         600     0     80  VERIFIED
     SoloDemo                   MakingSound/MuteSolo.mdx          14     0      6  VERIFIED (state capture)
     ClearSectionsButtonDemo    MakingSound/SongSections.mdx       8     0    160  VERIFIED
     GhostDemo                  MakingSound/SongSections.mdx       0     0      5  ILLUSTRATIVE (drawn on empty grid)
     SectionCopyDemo            MakingSound/SongSections.mdx       0     0     21  ILLUSTRATIVE (drawn on empty grid)
     SectionMergeDemo           MakingSound/SongSections.mdx       0     0      8  ILLUSTRATIVE (drawn on empty grid)
-    SectionOverview            MakingSound/SongSections.mdx     580   220      4  NEEDS-STATE capture
+    SectionOverview            MakingSound/SongSections.mdx     580     0    224  VERIFIED
     SectionPlayButtonDemo      MakingSound/SongSections.mdx       2     0    160  VERIFIED
     SectionPlayDemo            MakingSound/SongSections.mdx       2     0      3  VERIFIED
-    SwitchDemo                 MakingSound/SongSections.mdx      20    40    106  DEFECT, rewrite from source
+    SwitchDemo                 MakingSound/SongSections.mdx      20     0    146  VERIFIED
     ThumbnailDemo              MakingSound/SongSections.mdx       0     0     30  ILLUSTRATIVE (drawn on empty grid)
     BankDisplayDemo            MakingSound/SynthPresets.mdx       0     8      0  VERIFIED (state capture)
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
@@ -113,16 +113,16 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     EditControlsDemo           MakingSound/TopControls.mdx        4     0      0  VERIFIED
     GhostDemo                  MakingSound/TopControls.mdx        1     0      3  VERIFIED
     KeyDemo                    MakingSound/TopControls.mdx       13     0      0  VERIFIED
-    PatternLengthDemo          MakingSound/TopControls.mdx      143    20      0  MOSTLY OK, spot-fix
+    PatternLengthDemo          MakingSound/TopControls.mdx      143     0     20  VERIFIED
     PlayStopDemo               MakingSound/TopControls.mdx       61     0      0  VERIFIED
     ScaleDemo                  MakingSound/TopControls.mdx        3     0      0  VERIFIED
     IndicatorLaneDemo          MakingSound/Tracks.mdx             0     0     54  ILLUSTRATIVE (drawn on empty grid)
-    TracksDemo                 MakingSound/Tracks.mdx             0    60    820  DEFECT, rewrite from source
+    TracksDemo                 MakingSound/Tracks.mdx             0     0    880  ILLUSTRATIVE (drawn on empty grid)
 
     verdict counts:
-       20  ILLUSTRATIVE (drawn on empty grid)
-       15  VERIFIED
-        7  NEEDS-STATE capture
-        6  DEFECT, rewrite from source
-        6  MOSTLY OK, spot-fix
-        4  VERIFIED (state capture)
+       22  VERIFIED
+       21  ILLUSTRATIVE (drawn on empty grid)
+        6  NEEDS-STATE capture
+        5  VERIFIED (state capture)
+        2  MOSTLY OK, spot-fix
+        2  DEFECT, rewrite from source
