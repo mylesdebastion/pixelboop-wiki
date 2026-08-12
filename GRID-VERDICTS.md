@@ -43,20 +43,6 @@ the outstanding state grids need physical hardware and should be batched into a
 single device session rather than attempted here.
 
 ## What the verdicts mean
-
-- **VERIFIED**: every declared cell matches the running app. Sign off.
-- **MOSTLY OK, spot-fix**: >=80% of cells match; a handful of hexes drifted.
-- **ILLUSTRATIVE**: the grid draws example notes on cells the app leaves
-  empty. Not a claim about app state, so not a defect. Do not "fix".
-- **NEEDS-STATE capture**: the grid depicts a non-default state (a drum
-  bank, a solo, preset cycling, a sync session). Judging it needs the app
-  driven into that state first.
-- **DEFECT, rewrite from source**: declared colours disagree with the idle
-  app and the grid is not depicting another state. These are real.
-
-  PER-GRID VERDICT
-    grid                       page                              ok   bad  empty  verdict
-    ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
   PER-GRID VERDICT
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
@@ -92,10 +78,10 @@ single device session rather than attempted here.
     SustainDemo                MakingSound/Gestures.mdx           0     0      4  ILLUSTRATIVE (drawn on empty grid)
     TapDemo                    MakingSound/Gestures.mdx           0     0    193  ILLUSTRATIVE (drawn on empty grid)
     WalkingDemo                MakingSound/Gestures.mdx         112    16      4  MOSTLY OK, spot-fix
-    LongPressNote              MakingSound/MuteSolo.mdx           0     8      0  DEFECT, rewrite from source
+    LongPressNote              MakingSound/MuteSolo.mdx           6     2      0  DEFECT, rewrite from source
     MultiSoloDemo              MakingSound/MuteSolo.mdx          10     0     10  VERIFIED
-    MuteDemo                   MakingSound/MuteSolo.mdx           0    20      0  NEEDS-STATE capture
-    MuteSoloOverview           MakingSound/MuteSolo.mdx         580   100      0  MOSTLY OK, spot-fix
+    MuteDemo                   MakingSound/MuteSolo.mdx           6    14      0  NEEDS-STATE capture
+    MuteSoloOverview           MakingSound/MuteSolo.mdx         586    94      0  MOSTLY OK, spot-fix
     SoloDemo                   MakingSound/MuteSolo.mdx          14     0      6  VERIFIED
     ClearSectionsButtonDemo    MakingSound/SongSections.mdx       8     0    160  VERIFIED
     GhostDemo                  MakingSound/SongSections.mdx       0     0      5  ILLUSTRATIVE (drawn on empty grid)
@@ -108,7 +94,7 @@ single device session rather than attempted here.
     ThumbnailDemo              MakingSound/SongSections.mdx       0     0     30  ILLUSTRATIVE (drawn on empty grid)
     BankDisplayDemo            MakingSound/SynthPresets.mdx       0     3      0  DEFECT, rewrite from source
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
-    RhythmNoteDemo             MakingSound/SynthPresets.mdx       0     4      0  DEFECT, rewrite from source
+    RhythmNoteDemo             MakingSound/SynthPresets.mdx       4     0      0  VERIFIED
     BPMDemo                    MakingSound/TopControls.mdx        3     0      0  VERIFIED
     ControlRowOverview         MakingSound/TopControls.mdx       17     6      2  DEFECT, rewrite from source
     EditControlsDemo           MakingSound/TopControls.mdx        2     4      0  DEFECT, rewrite from source
@@ -122,7 +108,7 @@ single device session rather than attempted here.
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       14  DEFECT, rewrite from source
        13  NEEDS-STATE capture
-        7  VERIFIED
+       13  DEFECT, rewrite from source
+        8  VERIFIED
         6  MOSTLY OK, spot-fix
