@@ -62,17 +62,17 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
-    HardwareDemo               GettingStarted/GettingStarted.mdx   196    25    766  MOSTLY OK, spot-fix
+    HardwareDemo               GettingStarted/GettingStarted.mdx   201    20    766  MOSTLY OK, spot-fix
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
-    FollowerSession            JamWithOthers/MultiDeviceSync.mdx     1     2      0  NEEDS-STATE capture
-    HostSession                JamWithOthers/MultiDeviceSync.mdx     1     2      2  DEFECT, rewrite from source
-    OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     1     2      3  DEFECT, rewrite from source
+    FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
+    HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  DEFECT, rewrite from source
+    OrchestraMode              JamWithOthers/MultiDeviceSync.mdx     0     3      3  DEFECT, rewrite from source
     SyncButtonStates           JamWithOthers/MultiDeviceSync.mdx     0     3      6  NEEDS-STATE capture
-    SyncOverview               JamWithOthers/MultiDeviceSync.mdx     3     3      3  NEEDS-STATE capture
-    BottomRowOverview          MakingSound/BottomControls.mdx     3     6      2  DEFECT, rewrite from source
-    DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     1     0      4  VERIFIED
-    ModeButtonDemo             MakingSound/BottomControls.mdx     0     2      2  VERIFIED (state capture)
-    SyncButtonDemo             MakingSound/BottomControls.mdx     0     3      3  VERIFIED (state capture)
+    SyncOverview               JamWithOthers/MultiDeviceSync.mdx     6     0      3  VERIFIED
+    BottomRowOverview          MakingSound/BottomControls.mdx     9     0      2  VERIFIED
+    DeviceIndicatorsDemo       MakingSound/BottomControls.mdx     0     1      4  NEEDS-STATE capture
+    ModeButtonDemo             MakingSound/BottomControls.mdx     2     0      2  VERIFIED (state capture)
+    SyncButtonDemo             MakingSound/BottomControls.mdx     3     0      3  VERIFIED (state capture)
     Bank0Demo                  MakingSound/DrumBanks.mdx          0     0     11  ILLUSTRATIVE (drawn on empty grid)
     Bank1Demo                  MakingSound/DrumBanks.mdx          0     0      5  ILLUSTRATIVE (drawn on empty grid)
     Bank2Demo                  MakingSound/DrumBanks.mdx          0     0      6  ILLUSTRATIVE (drawn on empty grid)
@@ -121,8 +121,8 @@ capture would corrupt the button, which is why `grid-fix.py --only` is not
 
     verdict counts:
        21  ILLUSTRATIVE (drawn on empty grid)
-       20  VERIFIED
+       21  VERIFIED
         7  VERIFIED (state capture)
         5  NEEDS-STATE capture
-        3  DEFECT, rewrite from source
         2  MOSTLY OK, spot-fix
+        2  DEFECT, rewrite from source
