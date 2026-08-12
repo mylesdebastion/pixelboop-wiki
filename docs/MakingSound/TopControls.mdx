@@ -21,8 +21,8 @@ export function ControlRowOverview() {
         { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, hold 3.5s for WLED config", "elements": [
             { "pos": [0, 0], "size": [3, 1], "color": "#45FF45" }  // Green when stopped
         ]},
-        { "name": "Undo", "desc": "Col 4: Undo last action", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#333333" }] },
-        { "name": "Redo", "desc": "Col 5: Redo action", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#333333" }] },
+        { "name": "Undo", "desc": "Col 4: Undo last action. Bright when an undo is available, dim (#333333) when there is nothing to undo.", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
+        { "name": "Redo", "desc": "Col 5: Redo action. Bright when a redo is available, dim (#333333) when there is nothing to redo.", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#878787" }] },
         { "name": "Major Scale", "desc": "Col 7: Select major scale", "elements": [{ "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }] },
         { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00334D" }] },
         { "name": "Pentatonic", "desc": "Col 9: Select pentatonic scale", "elements": [{ "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }] },
@@ -308,14 +308,14 @@ export function EditControlsDemo() {
             "name": "Undo",
             "desc": "Column 4. Reverts the last change.",
             "elements": [
-                { "pos": [4, 0], "size": [1, 1], "color": "#333333" }
+                { "pos": [4, 0], "size": [1, 1], "color": "#878787" }
             ]
         },
         {
             "name": "Redo",
             "desc": "Column 5. Re-applies an undone change.",
             "elements": [
-                { "pos": [5, 0], "size": [1, 1], "color": "#333333" }
+                { "pos": [5, 0], "size": [1, 1], "color": "#878787" }
             ]
         },
         {

@@ -23,6 +23,15 @@ CELL_W, CELL_H = 47.9, 47.5
 COLS, ROWS = 44, 24
 EMPTY_MAX, TOL = 40, 12
 
+# Cells whose colour is not a stable property of the idle screen. Rewriting
+# these from a capture produces churn or, worse, bakes one transient state in
+# as if it were canonical.
+#   cols 0-3 @ data row 23 : the WLED band drifts on a ~10s cycle
+#   cols 4-5 @ data row 0  : Undo/Redo are bright when the action is AVAILABLE
+#                            and dim when it is not, so the value depends on
+#                            edit history, not on the app being idle
+VOLATILE = {(c, 23) for c in range(0, 4)} | {(4, 0), (5, 0)}
+
 ALLOW = {
     "ControlRowOverview", "EditControlsDemo", "KeyDemo", "ScaleDemo",
     "BPMDemo", "PatternLengthDemo",          # TopControls, persistent row 0
@@ -30,6 +39,8 @@ ALLOW = {
     "RhythmOverview", "MuteSoloOverview",    # always-on track lanes
     "HardwareDemo", "SectionOverview",        # full-screen overviews
     "PlayStopDemo", "SwitchDemo", "SyncOverview",
+    "SectionPlayDemo", "SectionPlayButtonDemo",  # section lane, cols 36-43
+    "ClearSectionsButtonDemo", "ThumbnailDemo",
 }
 
 ELEM = re.compile(
@@ -87,6 +98,8 @@ def main():
             for m in ELEM.finditer(src):
                 head, c0, r0, w, h = m.group(1), *(int(m.group(i)) for i in range(2, 6))
                 if fname(m.start()) not in allow:
+                    continue
+                if (c0, r0) in VOLATILE:
                     continue
                 raw = m.group(6)
                 is_arr = raw.startswith("[")
