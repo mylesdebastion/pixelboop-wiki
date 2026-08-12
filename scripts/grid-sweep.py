@@ -85,6 +85,8 @@ def main():
 
     per_page = defaultdict(lambda: dict(match=0, mismatch=0, on_empty=0,
                                         needs_state=0, bad=[]))
+    per_grid = defaultdict(lambda: defaultdict(
+        lambda: dict(match=0, mismatch=0, on_empty=0, needs_state=0)))
     for root, _, files in os.walk(DOCS):
         for fn in sorted(files):
             if not fn.endswith((".mdx", ".md")):
@@ -129,13 +131,13 @@ def main():
                             continue
                         got = grid[(c, r)]
                         if max(got) <= EMPTY_MAX and max(want) > EMPTY_MAX:
-                            st["on_empty"] += 1
+                            st["on_empty"] += 1; per_grid[path][fn_name]["on_empty"] += 1
                         elif dist(want, got) <= TOL:
-                            st["match"] += 1
+                            st["match"] += 1; per_grid[path][fn_name]["match"] += 1
                         elif stateful:
-                            st["needs_state"] += 1
+                            st["needs_state"] += 1; per_grid[path][fn_name]["needs_state"] += 1
                         else:
-                            st["mismatch"] += 1
+                            st["mismatch"] += 1; per_grid[path][fn_name]["mismatch"] += 1
                             if len(st["bad"]) < 6:
                                 st["bad"].append(
                                     (fn_name, c, r,
@@ -163,6 +165,35 @@ def main():
             n += 1
     if not n:
         print("    none")
+
+    # ---- per-grid adjudication -------------------------------------------
+    # A page-level total hides which of the 64 grids is actually wrong. Verdict
+    # per grid, so each one can be signed off or scheduled rather than living in
+    # an undifferentiated pile of mismatched cells.
+    print("\n  PER-GRID VERDICT")
+    print(f"    {'grid':26s} {'page':30s} {'ok':>5s} {'bad':>5s} {'empty':>6s}  verdict")
+    verdict_tally = defaultdict(int)
+    for path, grids in sorted(per_grid.items()):
+        for fn_name, st in sorted(grids.items()):
+            ok, bad = st["match"], st["mismatch"] + st["needs_state"]
+            empty, tot = st["on_empty"], st["match"] + st["mismatch"] + st["needs_state"]
+            if tot == 0 and empty:
+                v = "ILLUSTRATIVE (drawn on empty grid)"
+            elif tot == 0:
+                v = "NO CLAIMS"
+            elif ok and bad == 0:
+                v = "VERIFIED"
+            elif ok / max(tot, 1) >= 0.8:
+                v = "MOSTLY OK, spot-fix"
+            elif st["needs_state"] > st["mismatch"]:
+                v = "NEEDS-STATE capture"
+            else:
+                v = "DEFECT, rewrite from source"
+            verdict_tally[v] += 1
+            print(f"    {fn_name:26s} {path[5:]:30s} {ok:5d} {bad:5d} {empty:6d}  {v}")
+    print("\n    verdict counts:")
+    for v, k in sorted(verdict_tally.items(), key=lambda x: -x[1]):
+        print(f"      {k:3d}  {v}")
 
 
 if __name__ == "__main__":
