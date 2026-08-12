@@ -58,15 +58,12 @@ capturing during playback.
 Note also that this grid mixes states: its Play element documents the STOPPED
 button while its playhead element needs playback. A whole-grid rewrite from one
 capture would corrupt the button, which is why `grid-fix.py --only` is not
-sufficient on its own here.
-
-## What the verdicts mean
   PER-GRID VERDICT
     grid                       page                              ok   bad  empty  verdict
     ChannelCycleDemo           Connectivity/Connectivity.mdx      0    12      0  NEEDS-STATE capture
     ConfigModeDemo             Connectivity/Connectivity.mdx      0    26      0  NEEDS-STATE capture
     WLEDButtonDemo             Connectivity/WLED.mdx              0     4      0  NEEDS-STATE capture
-    HardwareDemo               GettingStarted/GettingStarted.mdx   203   768     22  DEFECT, rewrite from source
+    HardwareDemo               GettingStarted/GettingStarted.mdx   200   771     22  DEFECT, rewrite from source
     DeviceIndicators           JamWithOthers/MultiDeviceSync.mdx     0     0      6  ILLUSTRATIVE (drawn on empty grid)
     FollowerSession            JamWithOthers/MultiDeviceSync.mdx     0     3      0  NEEDS-STATE capture
     HostSession                JamWithOthers/MultiDeviceSync.mdx     0     3      2  DEFECT, rewrite from source
@@ -114,19 +111,19 @@ sufficient on its own here.
     PresetSelectionDemo        MakingSound/SynthPresets.mdx      20     2      0  MOSTLY OK, spot-fix
     RhythmNoteDemo             MakingSound/SynthPresets.mdx       4     0      0  VERIFIED
     BPMDemo                    MakingSound/TopControls.mdx        3     0      0  VERIFIED
-    ControlRowOverview         MakingSound/TopControls.mdx       23     0      2  VERIFIED
-    EditControlsDemo           MakingSound/TopControls.mdx        6     0      0  VERIFIED
+    ControlRowOverview         MakingSound/TopControls.mdx       22     1      2  MOSTLY OK, spot-fix
+    EditControlsDemo           MakingSound/TopControls.mdx        5     1      0  MOSTLY OK, spot-fix
     GhostDemo                  MakingSound/TopControls.mdx        1     0      3  VERIFIED
     KeyDemo                    MakingSound/TopControls.mdx       13     0      0  VERIFIED
     PatternLengthDemo          MakingSound/TopControls.mdx      143    20      0  MOSTLY OK, spot-fix
-    PlayStopDemo               MakingSound/TopControls.mdx        1     1     21  DEFECT, rewrite from source
+    PlayStopDemo               MakingSound/TopControls.mdx       61     0      0  VERIFIED
     ScaleDemo                  MakingSound/TopControls.mdx        3     0      0  VERIFIED
     IndicatorLaneDemo          MakingSound/Tracks.mdx             0     0     54  ILLUSTRATIVE (drawn on empty grid)
     TracksDemo                 MakingSound/Tracks.mdx             0    60    820  DEFECT, rewrite from source
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       13  VERIFIED
        12  NEEDS-STATE capture
-        9  DEFECT, rewrite from source
-        6  MOSTLY OK, spot-fix
+       12  VERIFIED
+        8  DEFECT, rewrite from source
+        8  MOSTLY OK, spot-fix
