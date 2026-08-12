@@ -42,6 +42,24 @@ So the remaining work is NOT uniformly "more simulator driving". Roughly half of
 the outstanding state grids need physical hardware and should be batched into a
 single device session rather than attempted here.
 
+## Observed, unresolved: the playhead in PlayStopDemo
+
+`PlayStopDemo` declares a playhead column at `[12,1] size [1,22]` in `#333333`.
+Started playback and scanned all sequencer columns (4-35) at four rows: every
+one read `#1A1A1A`, the plain background, with no column distinguishable as a
+playhead. The Play button did read `#FF4545`, so playback was genuinely running.
+
+Two readings, not settled here: the playhead may only highlight cells that
+contain notes (the grid was empty), or it may be drawn as an overlay too subtle
+for a single still. Do NOT rewrite `#333333` to `#1A1A1A` on this evidence, that
+would just delete the illustration. Settle it by placing a few notes first, then
+capturing during playback.
+
+Note also that this grid mixes states: its Play element documents the STOPPED
+button while its playhead element needs playback. A whole-grid rewrite from one
+capture would corrupt the button, which is why `grid-fix.py --only` is not
+sufficient on its own here.
+
 ## What the verdicts mean
   PER-GRID VERDICT
     grid                       page                              ok   bad  empty  verdict

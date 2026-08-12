@@ -56,6 +56,13 @@ def main():
         sys.exit(__doc__)
     udid = sys.argv[1]
     apply_ = "--apply" in sys.argv
+    # --only <Grid> narrows the run to one grid, so a grid that depicts a
+    # non-default state can be fixed while the app is actually IN that state
+    # without the idle-state grids being rewritten from the same capture.
+    allow = ALLOW
+    if "--only" in sys.argv:
+        allow = {sys.argv[sys.argv.index("--only") + 1]}
+        print(f"  scoped to: {', '.join(allow)}")
     live = capture(udid)
     total = 0
 
@@ -79,7 +86,7 @@ def main():
             out, last, changed = [], 0, 0
             for m in ELEM.finditer(src):
                 head, c0, r0, w, h = m.group(1), *(int(m.group(i)) for i in range(2, 6))
-                if fname(m.start()) not in ALLOW:
+                if fname(m.start()) not in allow:
                     continue
                 raw = m.group(6)
                 is_arr = raw.startswith("[")
