@@ -27,6 +27,7 @@ ALLOW = {
     "ControlRowOverview", "EditControlsDemo", "KeyDemo", "ScaleDemo",
     "BPMDemo", "PatternLengthDemo",          # TopControls, persistent row 0
     "BottomRowOverview", "ModeButtonDemo",   # BottomControls, persistent row 23
+    "RhythmOverview", "MuteSoloOverview",    # always-on track lanes
 }
 
 ELEM = re.compile(

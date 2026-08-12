@@ -39,7 +39,7 @@ against the app built from tag v1.1.3, running in simulator pb-wiki-check.
     Bank1Demo                  MakingSound/DrumBanks.mdx          0     0      5  ILLUSTRATIVE (drawn on empty grid)
     Bank2Demo                  MakingSound/DrumBanks.mdx          0     0      6  ILLUSTRATIVE (drawn on empty grid)
     Bank3Demo                  MakingSound/DrumBanks.mdx          0     0      4  ILLUSTRATIVE (drawn on empty grid)
-    RhythmOverview             MakingSound/DrumBanks.mdx          0     4    128  DEFECT, rewrite from source
+    RhythmOverview             MakingSound/DrumBanks.mdx          4     0    128  VERIFIED
     AccentDemo                 MakingSound/Gestures.mdx           0     0      2  ILLUSTRATIVE (drawn on empty grid)
     ArpeggioDemo               MakingSound/Gestures.mdx         168    24      6  MOSTLY OK, spot-fix
     FifthDemo                  MakingSound/Gestures.mdx           0     0      2  ILLUSTRATIVE (drawn on empty grid)
@@ -83,7 +83,7 @@ against the app built from tag v1.1.3, running in simulator pb-wiki-check.
 
     verdict counts:
        20  ILLUSTRATIVE (drawn on empty grid)
-       15  DEFECT, rewrite from source
+       14  DEFECT, rewrite from source
        13  NEEDS-STATE capture
+        7  VERIFIED
         6  MOSTLY OK, spot-fix
-        6  VERIFIED
