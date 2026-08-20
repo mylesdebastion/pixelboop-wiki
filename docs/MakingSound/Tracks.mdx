@@ -91,18 +91,18 @@ export function IndicatorLaneDemo() {
             "name": "Track Colors view (default)",
             "desc": "Row 22 in Track Colors mode: each lit column reflects the color of the loudest active track at that step.",
             "elements": [
-                { "pos": [4, 22], "size": [8, 1], "color": "#4D2EF2" },
-                { "pos": [12, 22], "size": [4, 1], "color": "#00E68C" },
-                { "pos": [20, 22], "size": [6, 1], "color": "#F2E600" },
-                { "pos": [28, 22], "size": [4, 1], "color": "#FF3000" }
+                { "pos": [4, 22], "size": [8, 1], "states": { "Track Colors": "#4D2EF2" } },
+                { "pos": [12, 22], "size": [4, 1], "states": { "Track Colors": "#00E68C" } },
+                { "pos": [20, 22], "size": [6, 1], "states": { "Track Colors": "#F2E600" } },
+                { "pos": [28, 22], "size": [4, 1], "states": { "Track Colors": "#FF3000" } }
             ]
         },
         {
             "name": "Key Automation view",
             "desc": "Row 22 in Key Automation mode: each lit column shows the chromatic color of the root note recorded at that step.",
             "elements": [
-                { "pos": [4, 22], "size": [16, 1], "color": "#FF3B30" },
-                { "pos": [20, 22], "size": [16, 1], "color": "#34C759" }
+                { "pos": [4, 22], "size": [16, 1], "states": { "Key Automation": "#FF3B30" } },
+                { "pos": [20, 22], "size": [16, 1], "states": { "Key Automation": "#34C759" } }
             ]
         }
     ];

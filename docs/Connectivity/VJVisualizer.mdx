@@ -1,0 +1,133 @@
+---
+sidebar_position: 3
+---
+
+# The VJ Visualizer
+
+Point Pixelboop at an LED strip or matrix on your WiFi and it will paint what you are playing onto it: rings for the notes you hit, bars for the frequencies coming out of the mix. No computer in the chain, no Pro purchase, and it runs on the same cheap WLED hardware as the rest of Pixelboop's lighting.
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show the step sequencer area of the 44x24 grid as one
+    highlighted block: data rows 2-21, columns 4-35. That is exactly the
+    region the visualizer tints while it is running
+    (PixelGridUIView.swift:1517-1535). Nothing else needs marking. Author it
+    in data coordinates, the component applies the app's row flip itself. */}
+
+## Two different ways to light LEDs
+
+Pixelboop has two lighting surfaces and they are easy to confuse, so start here.
+
+| | VJ visualizer | Instrument lights |
+| :--- | :--- | :--- |
+| What it draws | The sound itself: ripples, spectrum bars or a waveform | The grid, mirrored, one strip per track |
+| How many devices | One | One per track |
+| Reacts to | The audio, note by note | The pattern on screen |
+| Price | Free | Pixelboop Pro |
+
+This page covers the first one. The second one is [Lighting Up LED Strips with WLED](./WLED.mdx).
+
+The visualizer is deliberately free. It is the general audio-reactive mode, not the per-instrument strip rig that Pro adds.
+
+## Getting to it
+
+Open the [Rainbow menu](../GettingStarted/RainbowMenu.mdx), pick **Lights** in the left rail, then tap the **VJ visualizer** row. The row shows **On** or **Off** on the right, so you can read its state from the list without opening it.
+
+The switch at the top right of the visualizer screen is the on/off, and it is the only one. There is no second copy of it anywhere else.
+
+## What you see before you own any hardware
+
+Turn the visualizer on with no address entered and the screen still fills with a **live LED preview**: a black rectangle of little rounded squares showing exactly what a matrix of your configured size would be showing right now. It is the real renderer drawing at your real width and height, not a mock-up, so every control below it updates the picture immediately.
+
+Two things worth knowing:
+
+- The visualization also plays across **the grid itself**, in the step sequencer area, rows 2 to 21 and columns 4 to 35. It fills the empty cells at about 40 percent brightness and sits behind your notes, so your pattern stays readable on top of it. If the dark parts of your grid have started moving, that is this, not a bug.
+- Before Pixelboop has analyzed any audio, the preview animates on a **built-in demo pattern** of moving peaks. It gives you something to aim your lights with before you press play.
+
+:::tip
+If you use Reduce Motion, the preview holds a single still frame and re-samples it when you change a setting, instead of animating at 60 frames per second.
+:::
+
+## Pointing it at your lights
+
+Under **OUTPUT ADDRESS**, type your WLED device's IP. Pixelboop sends DDP on port 4048.
+
+The line under the field tells you where you stand:
+
+| The field says | What it means |
+| :--- | :--- |
+| Leave blank for preview only. | Nothing is going out. The preview still runs. |
+| Sending frames to this address. | The address parses and frames are going out. |
+| Invalid IP address format | Four numbers separated by dots, please. |
+
+Out of the box the field is already filled in with **192.168.8.232** and the matrix is set to **32 wide by 8 tall**. That address is a real panel on the developer's own network rather than any kind of standard, so it is almost certainly not yours. Type yours over it. Whatever you enter sticks from then on.
+
+You can type an address at any time, with the visualizer already on. Pixelboop rebuilds its connection when the address or the matrix size changes, so there is no "switch it off first" ritual.
+
+:::note
+Because every keystroke is applied as you type, a half-finished address is an invalid address, and the fixture goes dark until the last character lands. That is normal. Give it a second after you finish typing.
+:::
+
+## Matching your fixture
+
+**MATRIX SIZE** has a Width and a Height stepper, each from 1 to 512, with a readout underneath: `32 x 8 cells, 256 LEDs`. Make that LED count match what your controller is driving.
+
+For a plain strip rather than a panel, set the height to 1: 60 x 1 is a normal single strip, and the app suggests exactly that. On a single row, Radial ripples out from the middle of the strip in both directions and Left to Right runs along it. Bottom Up has no second axis left to travel on, so it lights the whole strip one color at a time. Pick one of the other two for a strip.
+
+**Serpentine wiring** is for panels whose every other row is wired backwards. It changes the order the LEDs light up in. It does not change the preview, so if the preview looks right and the panel looks zigzagged, this is the switch.
+
+## The three modes
+
+Pick one under **VISUALIZATION**. A fresh install opens on **Spectrum**, so if you want the note rings the Lights list advertises, switch it to Ripple first.
+
+### Ripple
+
+The one most people want. Every note Pixelboop plays throws a ring outward, in that note's own color from the grid.
+
+Chords do not turn to mud. Each frame, exactly one active note wins the center pixel, drums and other one-shot hits take priority, and sustained notes take turns so none of them gets starved out. What you see is a stack of distinct colored rings, one per note, rather than an average of all of them.
+
+Two controls only appear in this mode:
+
+- **COLORS**: **Note Colors** uses the colors the notes have on the grid. **Spectrum** ignores them and colors by pitch instead, low to high running red through blue.
+- **RIPPLE DIRECTION**: **Radial**, **Left to Right** and **Bottom Up**. Tap the chip that is already selected and it reverses, giving you six directions from three buttons. Radial reversed collapses inward to the center instead of spreading out. The hint line under the chips always tells you what a second tap will do.
+
+### Spectrum
+
+Frequency bars, low on the left and high on the right, each with a peak marker that holds for about a third of a second and then drifts back down. Sustained energy is subtracted out per column, so the bass end does not just sit pinned at the top the way raw FFT bars do.
+
+**FREQUENCY SCALE** only appears in this mode: **Log** spreads the musical range out evenly and is the one to start with, **Linear** crams almost everything into the left third, and **Quadratic** sits between them.
+
+### Waveform
+
+A time-domain trace, the oscilloscope view.
+
+Leaving Ripple parks the color mode on Spectrum, because Note Colors has nothing to draw with until a note fires and the Colors control is not on screen to change it back.
+
+## Gain
+
+One slider, 0.5x to 2.0x, with the current value shown beside it. It scales how hard the picture reacts, not how bright the LEDs are. Turn it up for quiet material, down if everything is pinned.
+
+## If the LEDs stay dark
+
+1. Check the line under the address field actually says **Sending frames to this address**.
+2. Check Pixelboop and the WLED device are on the same WiFi.
+3. Check the LED count in the readout matches what your controller is configured for.
+4. Confirm the device works at all by opening `http://[YOUR_IP]` in a browser and setting a color by hand.
+5. If your WLED device is on DHCP, its address may have moved. That is the most common cause by a distance.
+6. On an older Pixelboop release, typing an address into a visualizer that was already switched on did not take effect. If you are on an earlier version, switch the visualizer off and on again after typing.
+
+The preview on screen is not evidence that frames are leaving the phone. It is drawn locally and keeps animating whether or not anything is listening.
+
+## Known limits
+
+Worth knowing before you blame your hardware.
+
+- **Sustained bass can steal the ripple's color, in Spectrum colors.** The spectrum bars subtract each column's sustained energy so transients stand out. The ripple does not do that, so a loud held bass note can keep winning the "loudest frequency" search and hold the rings at the red end while a melody plays over the top. This only applies with Colors set to Spectrum. On **Note Colors** the rings take their color from the notes themselves and the frequency search never comes into it.
+- **Two analyses feed it.** A second, much coarser spectrum runs on a timer alongside the main one, and each frame is drawn from whichever arrived last. The result is that the fineness of the picture is not perfectly constant.
+- **Ripple speed does not follow your tempo.** The ripple is built to send a ring from the center to the edge in one beat, but the only thing wired to tell it the tempo is Ableton Link, and Link is switched off in shipping builds. Change the BPM in Pixelboop and the ripple keeps its original pace.
+- **The Lights footnote is about strips, not this.** When the master light switch is off, the Lights list says nothing is being sent to hardware. The VJ visualizer has its own switch and keeps sending regardless. Turn the visualizer itself off if you want the lights to stop.
+
+## See also
+
+- [The Rainbow Menu](../GettingStarted/RainbowMenu.mdx) for the rest of the Lights list
+- [Lighting Up LED Strips with WLED](./WLED.mdx) for the hardware, the wiring and the power math
+- [LiteJam LED Guitar](./LiteJamGuitar.mdx) for the other light surface

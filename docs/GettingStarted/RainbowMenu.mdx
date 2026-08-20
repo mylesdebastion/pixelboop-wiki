@@ -1,0 +1,94 @@
+---
+sidebar_position: 3
+---
+
+# The Rainbow Menu
+
+Everything that is not a pixel lives here: how the grid labels itself, how notes are colored, and every light or guitar Pixelboop can drive. It is a full screen with a fixed list down the left side, not a stack of drop-down groups.
+
+If you have read an older guide that told you to open a group called Interface, Sound or Visualizer, those groups are gone. Skip to [Where the old groups went](#where-the-old-groups-went).
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show row 23, cols 0-3 (the four-pixel rainbow gradient in the
+    bottom-left corner) as the way in, with row 0, cols 0-2 (Play) marked as
+    the 3.5 second hold shortcut to the same screen. Two highlighted regions
+    on one 44x24 grid, nothing else. */}
+
+## Getting in and out
+
+Tap the **rainbow gradient in the bottom-left corner** of the grid: row 23, columns 0 to 3. A "Rainbow Menu" tooltip confirms the tap. Holding those same pixels does something else entirely: it toggles WLED output on and off. Tap, do not hold.
+
+There is a shortcut for when your finger is already at the other end of the grid: **hold Play (row 0, columns 0 to 2) for about three and a half seconds**. You get a firm haptic tap and the same screen opens.
+
+To leave, use **Done** at the top right. That is the way out now. The menu is presented full screen rather than as a floating card, so on iPhone there is no swipe-down-to-dismiss anymore, and on iPad it fills the display instead of being squeezed into a narrow form sheet.
+
+Nothing in this menu needs saving. Changes apply the moment you make them, which is why Done just closes the screen.
+
+## The left rail
+
+A narrow column down the left holds four rows, always the same four, always the same width. Whichever one you pick fills the rest of the screen. Grid is picked for you when the menu opens.
+
+| Row | What it holds | What the row itself shows |
+| :--- | :--- | :--- |
+| **Grid** | On-screen behavior: labels, note colors, intervals | A count of the controls inside |
+| **Lights** | Every light surface Pixelboop can drive | The master light switch, live |
+| **Learn** | What's new, and replaying the intro tour | A yellow **NEW** pill |
+| **Pixelboop** | Socials, about and licenses | A chevron |
+
+The switch on the Lights row is the master on/off for all lighting output. It sits out on the rail, so you can kill every light mid-song without leaving whatever pane you are in, and flipping it never drags you over to the Lights pane.
+
+:::note
+Internal test builds add a fifth row, **Internal**, below a dashed line. It is not present in the App Store build.
+:::
+
+## Grid
+
+Three toggles, and a color strip that shows you what one of them did.
+
+- **Compact labels**: shows control names as a small readout instead of pixel text drawn across the grid. Off by default. Worth turning on if the large tooltip text covers the pattern you are trying to watch.
+- **Harmonic colors** (marked **BETA**): colors notes by the circle of fifths, so notes that sound good together look alike and the tritone looks opposite. On by default. It applies to the grid and to a connected LiteJam guitar at the same time.
+- **Intervals per track**: off by default, which means cycling an interval on one pitch track retunes Melody, Chords and Bass together. Turn it on to give each track its own interval mode again. See [Interval Modes](../MakingSound/IntervalModes).
+
+Under the harmonic toggle sits a strip of twelve labeled squares, C through B, showing the colors the grid is drawing right now. Flip the toggle and the squares recolor in place: the order never moves, only the hues do. That is the quickest way to see what the two color schemes actually mean before you commit to one. A caption names the scheme in use (CIRCLE OF FIFTHS or CHROMATIC) and reads it in C major. The strip is a readout, not a control, so there is nothing to tap.
+
+## Lights
+
+The Lights pane is a list of light surfaces. Its header repeats the master state as **Master on** or **Master off**, and the footnote at the bottom counts how many surfaces you have, or tells you plainly that master is off and nothing is being sent to hardware.
+
+| Surface | What it drives |
+| :--- | :--- |
+| **VJ visualizer** | Notes ripple across a strip or matrix. WLED compatible, no PC required. |
+| **Instrument lights** | Each track drives its own WLED strip. Marked **PRO**. |
+| **LiteJam guitar** | Play along on a connected guitar controller. Marked **PRO**. |
+| **Erae Touch** | Dimmed, labeled **Coming soon**. Not tappable yet. |
+
+Every row carries its live state on the right: On or Off for the visualizer, how many strips are enabled for instrument lights, and the pairing state for the guitar (Locked, Not paired, Scanning, Connecting, Connected or Error). You can read the whole rig at a glance without opening anything.
+
+Tap a row and its settings replace the pane. The device address and the LED count live in there, one level down, not on this list. A crumb appears at the top left, reading `LIGHTS / VJ VISUALIZER`, and tapping the first half of it walks you back out. The rail stays on Lights the whole time, so you never lose your place.
+
+Two rows carry a **PRO** pill. Pixelboop Pro is not on sale yet, so for now the pill tells you where those features will live rather than offering you something to buy, and the LiteJam row reads **Locked** until it is. See [Pixelboop Pro](PixelboopPro).
+
+For the full LED setup, see [Lighting Up LED Strips with WLED](../Connectivity/WLED). For the guitar, see [LiteJam LED Guitar](../Connectivity/LiteJamGuitar).
+
+## Learn
+
+Two rows, and neither of them can break your jam.
+
+- **What's new**: reopens the release announcement any time you want it, not just the once after updating.
+- **Replay the tour**: runs the five-step intro tour again, on the grid itself. The menu closes first so you can see what it is pointing at. This works even if you told the tour never to show again.
+
+## Pixelboop
+
+Links out to the web, Discord, Instagram, TikTok and YouTube, plus an **About and licenses** row carrying the version number, the copyright line and the third party libraries Pixelboop is built on.
+
+## Where the old groups went
+
+Older releases put everything in one long scrolling list of collapsible groups. If a guide, a forum post or your own memory sends you to one of these, here is the current address.
+
+| Old path | Now |
+| :--- | :--- |
+| Rainbow Menu, Interface group, Individual intervals per track | **Grid**, "Intervals per track" |
+| Rainbow Menu, Interface group, Harmonic Colors | **Grid**, "Harmonic colors" |
+| Rainbow Menu, Visualizer group, LiteJam section | **Lights**, "LiteJam guitar" |
+| The WLED config dialog with an IP field | **Lights**, then the surface you are configuring |
+| The WLED master toggle in the title bar | The switch on the **Lights** rail row |

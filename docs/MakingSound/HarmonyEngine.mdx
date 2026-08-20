@@ -1,0 +1,174 @@
+---
+sidebar_position: 3.5
+# STAGED, NOT LIVE. The harmony engine ships behind an internal-only setting;
+# in a public build every mode below resolves to Traditional, which is the
+# behavior Pixelboop has always had. Do NOT merge this page to `master` until
+# the engine ships publicly. The maintainer-facing companion to this page is
+# docs/design/harmony-engine/ARCHITECTURE.md in the app repo.
+---
+
+import { TwoAxes, FifthsWheel, TriadShapes, HueRotation } from "@site/src/components/HarmonyFigures/HarmonyFigures";
+
+# Harmony Engine
+
+The Harmony Engine makes the melody and bass tracks follow your chord progression. Draw a ii V I on the chords track, and the notes you already drew on melody and bass change pitch to suit each chord as the playhead reaches it. You draw one melodic shape; it comes out right over all three chords.
+
+Nothing you drew moves. The notes stay in exactly the squares you put them in. What changes is which pitch each square sounds.
+
+:::info Not yet in the public app
+The Harmony Engine is in internal testing. Everything on this page describes behavior that is built and measured but not yet released. In the current public build, Pixelboop uses the Traditional mode described below, which is the behavior it has always had.
+:::
+
+## Why this exists
+
+Before the Harmony Engine, a note you drew on the melody track sounded the same pitch no matter what chord was underneath. That means the app quietly handed you the hardest judgment in music theory: does this note work over this chord? An instrument whose whole promise is that you should not need theory was making you supply the theory.
+
+The Harmony Engine answers that question for you, and it does so without taking anything away. You can turn it off.
+
+## The chords track is the input
+
+There is no separate progression editor and no new lane. The chords track you already use **is** the progression.
+
+The engine reads the chords track and scans backward from the playhead to find the most recent chord. That means:
+
+- A chord **holds through rests**. Draw a chord on step 1 and nothing until step 9, and steps 1 through 8 are all played against that chord.
+- A chord **holds through sustains**. A held chord keeps answering for every step it sounds, not just its first step.
+- The scan **wraps around the loop**. Step 0 inherits the last chord in the pattern, so the loop point is not a gap.
+- If the chords track is **completely empty**, the engine does nothing at all and every mode sounds exactly like Traditional.
+
+You author a progression the way you always have: by drawing chords. What is new is that melody and bass now listen.
+
+## Two controls that stack
+
+Pixelboop already had a way to change key: the key markers on the indicator lane (row 22). The Harmony Engine adds chord following on top, and the two compose rather than compete.
+
+- **Key markers choose which key you are in.** They move the whole song to a new home.
+- **The chords track chooses which chord within that key.** It moves you around inside the home.
+
+<TwoAxes />
+
+You can use either alone or both together. A key marker halfway through the loop moves the home; the chords track keeps doing the same job in the new home.
+
+## Your notes never move
+
+This is worth stating plainly, because the obvious alternative is much worse.
+
+A note lives in a square: a track, a row, and a step. The pitch is worked out at playback time. The Harmony Engine only changes the pitch calculation. It never rewrites the grid.
+
+So no harmony setting can:
+
+- move a note you drew to a different row,
+- push a note into a different lane,
+- add a note you did not draw,
+- delete a note you did draw.
+
+The shape you drew is the shape that stays on screen. Some instruments handle chord following by relocating notes as the chords change, which makes the grid squirm under your hands and makes it impossible to remember where anything is. Pixelboop cannot do that, by construction.
+
+## The three modes
+
+| Mode | What it does | Stays in your key? |
+| :--- | :--- | :--- |
+| **Traditional** | Nothing. The pitch is worked out from the key alone, exactly as Pixelboop has always done. | Yes |
+| **Narrow** | Shifts the whole palette by the chord's position in the scale. | Yes, always |
+| **Full** | Rebuilds the palette on the chord's own root and its own major or minor quality, ignoring the key. | No, deliberately |
+
+### Traditional
+
+The control. The chords track is not consulted at all. This is the behavior every existing jam was written against, so a jam made before the Harmony Engine sounds identical with the engine present.
+
+### Narrow: follow the chord, stay in the key
+
+Narrow takes the note you drew and moves it by the chord's **degree**, counted in steps of the scale rather than in semitones. The drawn shape is preserved; it just starts from a different rung of the same ladder.
+
+In C major, with the safe note set, here is what a single drawn shape sounds like over three different chords:
+
+| Chord | Notes the set sounds |
+| :--- | :--- |
+| I (C major) | C D E G A |
+| ii (D minor) | D E F A B |
+| V (G major) | G A B D E |
+
+Every one of those notes is in C major. Narrow cannot produce an accidental from an in-key note. That is not a tuning choice, it is how the shift is built: it counts positions in the scale, so there is no arithmetic that could invent a note the scale does not contain.
+
+:::tip V goes down, not up
+The offset is taken to the nearest position rather than always upward, so V moves **down a fourth** instead of up a fifth. Same notes either way, but your melody stays in the register you wrote it in instead of climbing away from you over a long progression.
+:::
+
+### Full: re-anchor on the chord
+
+Full rebuilds the palette on the chord's own root and the chord's own quality, without reference to the key. Over an A minor chord in C major you get A minor material; over a D major chord you get D major, F sharp and all.
+
+This one is **allowed to leave the key**, and that is the point of having it rather than a defect. Measured across an exhaustive sweep of every key, quality, scale, interval mode, track and slot against every diatonic chord plus three chords the key cannot name, Full moves a note out of the parent scale on **14.3%** of rows.
+
+Full is the mode for borrowed chords, hand-drawn chords the key cannot name, and anywhere you want maximum consonance with each chord taken on its own. The price is a key center that can wander.
+
+:::note Full is not "Narrow but more"
+Narrow and Full are different answers, not two strengths of the same answer. Narrow keeps the key and moves within it. Full abandons the key and fits each chord exactly. Which one is right is a musical decision, not a quality setting.
+:::
+
+## What the colors tell you
+
+The grid paints the pitch it **sounds**. If the engine moves a note from C to D, that square turns from the C color to the D color, at the step where the chord changes.
+
+This matters more than it sounds. Pixelboop drives external LED instruments, and those have always received the final, engine-shifted pitch. Before this change, the app's own grid was the one surface still showing the pre-shift color. A note drawn red (C) sounded D and lit up the LED strip as D, while the app itself still showed red. The grid was the outlier, and it is now fixed.
+
+Color is by **actual sounding pitch class**, never by scale degree. Coloring by degree would look more stable on screen, but it would then disagree with the hardware, and a color system that lies to you at the exact moment the harmony changes is worse than no color system.
+
+### The wheel is the circle of fifths
+
+With Harmonic Colors on (the default, in the Rainbow Menu under Interface), hue is assigned by position on the circle of fifths, 30 degrees per step. Consonant notes land on neighboring hues, and the tritone lands on the opposite hue.
+
+<FifthsWheel />
+
+### Chords are shapes, and the shape never changes
+
+This is the part worth internalizing, because it teaches real theory with no words at all.
+
+On the fifths wheel, a **major triad is always the same shape**: the root, one step clockwise, and four steps clockwise. A **minor triad is always the same shape**: three steps counterclockwise, the root, and one step clockwise. A **diminished triad is always the same shape**: the root and two more at equal steps of three, spanning half the wheel.
+
+<TriadShapes />
+
+Identical in all twelve keys. The shape slides around the wheel; it never deforms. Once you can see a major triad as that shape, you can see it in every key, which is the same fact a musician spends months learning to hear.
+
+:::note This only holds in fifths order
+On the chromatic color wheel the shapes are different in different keys and carry no such lesson. If you switch Harmonic Colors off, you get the chromatic rainbow described on [Color and Music Theory](ColorMapping.mdx), and this property goes away.
+:::
+
+### Where the seams show
+
+When Narrow shifts the palette, most of the colors rotate together, by the same amount, in the same direction. A few break rank. Those few are not glitches: they are the exact places where the scale itself has a seam.
+
+<HueRotation />
+
+A major scale is not evenly spaced. It has five whole steps and two half steps. On the fifths wheel, a whole step is a rotation of 60 degrees and a half step is a jump of 210 degrees. So the notes that jump are precisely the ones crossing a half step or a tritone.
+
+| Chord | Notes that rotate together | Notes that break rank |
+| :--- | :--- | :--- |
+| ii | 5 of 7 | E to F, B to C |
+| iii | 4 of 7 | C to E, F to A, G to B |
+| IV | 6 of 7 | F to B |
+| V | 6 of 7 | B to F |
+| vi | 4 of 7 | E to C, A to F, B to G |
+| vii | 5 of 7 | C to B, F to E |
+
+**IV and V are the cleanest**, with six of seven notes rotating as a block. **iii and vi are the roughest**, splitting four against three, which is where the movement is most likely to read as disconcerting rather than as motion. If a chord change looks wrong to you on iii or vi, that is the scale showing you where its seams are, not the app misbehaving.
+
+## Limits worth knowing
+
+These are real and are not going to surprise you later.
+
+**Narrow's key guarantee applies to Major, Minor and Pentatonic palettes.** On a modal palette (Lydian, Dorian, Blues, Hirajoshi, Hungarian) the guarantee still holds for any note that was in the parent key to begin with, but a modal palette contains notes that are not, and those notes come out somewhere in between. C Lydian over a ii chord gives you neither C major nor D Lydian, but a hybrid of the two. It is musically usable and it is not what you would predict.
+
+**Full can flatten a modal palette.** Full substitutes plain major or minor when the palette you chose carries the third that would clash with the chord. C Lydian over a D minor chord loses its raised fourth for the length of that chord. This is a deliberate trade: the alternative was leaving a major third sounding directly against a minor chord, which is the harshest clash available.
+
+**On the note sets that contain chromatic passing tones, Narrow can merge two rows.** A chromatic note has no scale position of its own, so when the shift lands it in a tighter gap it gets clamped, and it can end up on the same pitch as the row beneath it. This affects the tension sets in Blues, Lydian, Hungarian and 7ths, and it never happens when both notes are in the parent scale. Higher on the grid is still never lower in pitch: rows can merge, but they never swap.
+
+**The key row's brightest tier is not equalized for brightness.** With the chord-relative key row on, two to four pixels light at once, and they are not equally bright, because the underlying hues are not equally bright. On a D minor chord the F is noticeably dimmer than the D. Read the row for **which** pixels are lit, not for how bright they are. This is a known open item.
+
+## See also
+
+- [Color and Music Theory](ColorMapping.mdx), the chromatic color mapping and the note color table
+- [Interval Modes](IntervalModes.mdx), which decides how far the grid climbs per row
+- [Tracks and Sounds](Tracks.mdx), including the indicator lane and key markers
+- [Top Controls](TopControls.mdx), for the key and scale selectors
+- [Gestures](Gestures.mdx), including Progression Fill
