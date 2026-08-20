@@ -17,7 +17,7 @@ Pixelboop is organized into four distinct musical tracks. Each track occupies a 
 
 ## Interactive Track Explorer
 
-Hover over the sections below to see how each track is mapped to the Pixelboop grid.
+Each track is listed under the picture below, numbered, with the rows it covers. Tap an entry, or reach it with Tab and the arrow keys, to light that band up in the grid.
 
 export function TracksDemo() {
     const uiElements = [
@@ -80,10 +80,12 @@ export function TracksDemo() {
 
 Row 22 sits between the Rhythm track (rows 18-21) and the bottom control row (row 23). It is the **Indicator Lane**: a single-row strip that gives you a live overview of your song's structure.
 
-**Hold anywhere on row 22 for ~500 ms** to cycle between two views:
+**Tap any step column on row 22** (columns 4 to 35) to switch between two views:
 
 - **Track Colors** (default): each step column lights up with the spectral gradient color of whichever track has a note at that step. This gives you a quick snapshot of pattern density across all tracks.
 - **Key Automation**: each step column shows the root-note color recorded at that position. Use this to see how your key changes are distributed across the 32-step timeline.
+
+Pressing and holding a step for about 500 ms means different things in the two views. In Track Colors nothing lands under your finger, and the view still flips when you lift off, which is why a long press feels like it toggles. In Key Automation a hold paints a key marker at that step instead of switching views, so use a quick tap to get back to Track Colors.
 
 export function IndicatorLaneDemo() {
     const uiElements = [
@@ -116,8 +118,14 @@ export function IndicatorLaneDemo() {
 
 <IndicatorLaneDemo />
 
+{/* FIGURE CORRECTION, owed. The uiDescription on IndicatorLaneDemo above still reads
+    "Hold anywhere on row 22 to toggle...". A TAP switches the view; a hold paints a key
+    marker when Key Automation is showing (PixelGridUIView+Touch.swift:584-586, 2887-2896 and
+    startIndicatorRowHoldTimer at :4391 in 52f702b). Do not author the fix here; correct it in
+    the figure pass. */}
+
 :::tip
-In v1.1.3 the cycling is two-state: **Track Colors → Key Automation → Track Colors**. A third state (Jam History) is planned for a future release.
+The cycle is two-state: **Track Colors → Key Automation → Track Colors**. A third view, Jam History, is built into the app but is switched off, so this gesture never reaches it.
 :::
 
 ## Toggling Steps

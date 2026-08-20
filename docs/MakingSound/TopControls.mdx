@@ -39,7 +39,7 @@ export function ControlRowOverview() {
         { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
         { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
         { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#20396C" }] },
-        { "name": "New Jam", "desc": "Cols 40-43: Reset to defaults (New Jam)", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#402666" }] }
+        { "name": "Jams", "desc": "Cols 40-43: Tap to open your jam library, hold to save the current jam and start a new one. Dim purple until you have saved a jam, brighter after.", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#402666" }] }
     ];
 
     return <MystrixVisualizer
@@ -91,9 +91,7 @@ export function PlayStopDemo() {
 
 ### Double-Tap: Restart to Step 1
 
-:::tip New in 1.1.2
 Double-tapping the Play button restarts the pattern from step 1.
-:::
 
 - **While playing**: playback keeps going, but jumps back to step 1.
 - **While paused**: the playhead resets to step 1 and a **"stop / reset"** tooltip confirms it.
@@ -101,14 +99,13 @@ Double-tapping the Play button restarts the pattern from step 1.
 
 A single tap still toggles play/pause as normal — Pixelboop waits briefly to see if a second tap follows before acting.
 
-### Hold for WLED Config (Shortcut)
+### Hold for the Rainbow Menu (Shortcut)
 
-The primary way to open the WLED config dialog is to **tap the WLED Rainbow button** on the bottom control bar (row 23, cols 0-3). As a power-user shortcut, you can also **hold the Play button for 3.5 seconds** to open the same dialog. Both let you:
-- Enter WLED device IP address
-- Test connection to LED strips
-- Configure external lighting
+**Hold the Play button for about three and a half seconds** and the **Rainbow menu** opens. A firm haptic tap tells you it caught. This is a shortcut for when your hand is already at the top-left of the grid; the usual way in is to **tap the rainbow gradient in the bottom-left corner** (row 23, cols 0-3). Both gestures land on exactly the same screen.
 
-See the [WLED Setup Guide](../Connectivity/WLED.mdx) for complete LED strip integration instructions.
+It is a full screen, not a small dialog with a couple of fields on it. Grid labels, note colors, every light Pixelboop can drive, and the app's own about and licenses all live in there, and the lighting settings (including the address of a WLED strip) sit a level in rather than on the first thing you see. Rather than repeat that layout here, see [The Rainbow Menu](../GettingStarted/RainbowMenu.mdx).
+
+For wiring up LED strips end to end, see the [WLED Setup Guide](../Connectivity/WLED.mdx).
 
 ---
 
@@ -300,7 +297,7 @@ Changing the key **transposes all notes** in the pattern to the new key.
 
 ---
 
-## Undo, Redo, and New Jam
+## Undo, Redo, and Jams
 
 export function EditControlsDemo() {
     const uiElements = [
@@ -319,8 +316,8 @@ export function EditControlsDemo() {
             ]
         },
         {
-            "name": "New Jam",
-            "desc": "Columns 40-43. Reset to defaults (clear all notes and settings).",
+            "name": "Jams",
+            "desc": "Columns 40-43. Tap to open your jam library, hold to save the current jam and start a new one.",
             "elements": [
                 { "pos": [40, 0], "size": [4, 1], "color": "#402666" }
             ]
@@ -329,7 +326,7 @@ export function EditControlsDemo() {
 
     return <MystrixVisualizer
         uiName="Edit Controls"
-        uiDescription="Col 4: Undo | Col 5: Redo | Cols 40-43: New Jam"
+        uiDescription="Col 4: Undo | Col 5: Redo | Cols 40-43: Jams"
         uiElements={uiElements}
     />
 }
@@ -338,7 +335,26 @@ export function EditControlsDemo() {
 
 - **Undo** (col 4): Reverts the last change. Supports multiple levels.
 - **Redo** (col 5): Re-applies an undone change.
-- **New Jam** (cols 40–43): Resets all notes and settings to defaults. (Tooltip: "NEW JAM")
+
+### The Jams Button (Cols 40-43)
+
+The four purple pixels in the top-right corner are your jam library, not a reset button.
+
+- **Tap**: opens the jam library. Your saved jams are listed with names, dates, and thumbnails, and tapping one loads it back onto the grid.
+- **Hold**: saves whatever you have been playing, then clears the grid so you can start something new. A firm haptic tap and a **"NEW JAM"** tooltip confirm it. The hold is short (well under a second), so press and stay put rather than tapping twice.
+
+The purple starts dim and brightens once you have at least one jam saved, so the button tells you at a glance whether the library has anything in it. The figure above shows the dim, empty-library state.
+
+Two things worth knowing before you hold it:
+
+- If you have barely played anything (fewer than five recorded events), there is nothing worth keeping. The grid still clears, but no jam is added to the library.
+- If a save genuinely fails, Pixelboop leaves your grid alone. You get a **"Save failed! Jam kept for recovery"** tooltip and your playing stays on screen instead of being wiped.
+
+:::note Coming in the next version
+Tapping the Jams button while the library is already open will close it again. Until that ships, each tap opens another copy of the library on top of the last one, and every copy needs its own **Done** tap to clear.
+:::
+
+For the whole story on saving, reopening, and starting fresh, see [Saving & Opening Jams](../Jams/SavingAndOpeningJams.mdx).
 
 ---
 

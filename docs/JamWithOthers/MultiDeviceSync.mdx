@@ -276,7 +276,7 @@ Shows sync control panel with options:
 
 ---
 
-## Device Indicators (Row 23, Cols 13-20)
+## Device Indicators (Row 23, Cols 12-35)
 
 export function DeviceIndicators() {
     const uiElements = [
@@ -303,6 +303,8 @@ export function DeviceIndicators() {
 
 <DeviceIndicators />
 
+{/* FIGURE FIX PENDING: the four MystrixVisualizer figures on this page (Multi-Device Sync Controls, Host Session, Orchestra Mode, Device Indicators) still draw the indicator lane starting at column 13 and describe it as eight slots. The lane is columns 12 through 35, 24 slots. Redraw in a later figure pass; do not author here. */}
+
 ### What They Show
 Each connected device gets a colored pixel indicator
 
@@ -317,7 +319,7 @@ Each connected device gets a colored pixel indicator
 
 ### Maximum Devices
 - There is no hard device limit. The indicator lane shows up to 24 connected devices; beyond that they still connect but stop being drawn.
-- Indicator positions: columns 13-20
+- Indicator positions: columns 12 through 35 on row 23, which is 24 slots. This matches the lane described in [Bottom Controls](../MakingSound/BottomControls.mdx).
 
 ---
 

@@ -10,7 +10,7 @@ A **jam** is a recording of a Pixelboop session: your pattern, tempo, key, and t
 
 Pixelboop records everything you play, but a jam is only kept once you save it. Stopping playback saves nothing. Two ways to save: **hold** the purple Jams button in the top-right corner (this saves the current jam and clears the grid for a new one), or open the jam library and tap **Save** on the top row. A session with fewer than five recorded events is discarded rather than saved.
 
-One thing does happen on its own: if a recording checkpoint is more than 24 hours old, Pixelboop finalises and saves it on next launch.
+One thing does happen on its own: if a recording checkpoint is more than 24 hours old, Pixelboop finalizes and saves it on next launch.
 
 ## Opening and managing your jam library
 
@@ -18,11 +18,29 @@ The jam library (browsing, reopening, and managing your saved jams) is included 
 
 1. Open the **jam menu** from the control bar to see your jam library.
 2. Your saved jams appear as a list with names, dates, and grid thumbnails.
-3. **Tap a jam** to load it back onto the grid, exactly as you left it, then keep playing or build on it.
+3. **Tap a jam** to load it back onto the grid, then keep playing or build on it.
+
+What comes back is everything the file holds: tempo, key and scale, all eight banks of eight sections, your mutes, solos and track volumes, the sound on each track and its FX settings. One thing does not come back, and it is not in the file at all.
+
+:::caution New in 1.2.0: opening a jam clears your key markers
+The key markers you paint on **row 22** to walk a loop through a chord progression are **session state, not part of the `.pbjam` file**. Nothing you paint there is saved with a jam, at any of the three places markers live: the lane you are looking at, the per-section lanes, and the per-bank lanes.
+
+Starting in 1.2.0, opening a jam wipes all of them. There is no confirmation, and there is no undo, because loading a jam also clears the undo history. If you have a progression painted into row 22 and you want to keep it, save the jam you are on before you open another one.
+
+This is a fix, not a regression. Before 1.2.0 the markers on screen **survived** the load and applied themselves to the jam you had just opened, so playback dragged that jam through a progression its file never contained. Since the file carries no markers of its own, nothing in it could correct the inherited ones either. Clearing them is the honest answer.
+
+If a jam was saved while row 22 was showing the Key Automation view, the lane comes back in that view, empty. That is correct and not a bug.
+
+Full detail is on [Key Automation](../MakingSound/KeyAutomation).
+
+This is not in the App Store build yet.
+:::
+
+{/* TODO: MystrixVisualizer figure showing row 22 markers before and after a jam load. Do not add until the figure work lands. */}
 
 ## Starting a new jam
 
-Starting a **new jam** clears the grid for a fresh session. Your previous jam stays saved, so you can always reopen it from the library.
+Starting a **new jam** clears the grid for a fresh session. Your previous jam stays saved, so you can always reopen it from the library. It clears row 22 key markers too, and always has, so the caution above is only news for the load path.
 
 :::tip
 To get a jam off your device (share it with others, or open it in a DAW), see **[Community Jams](./CommunityJams)** and **[Converting Jams to MIDI](./ConvertingJamsToMidi)**.

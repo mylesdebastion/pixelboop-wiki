@@ -6,13 +6,17 @@ sidebar_position: 10
 
 Pixelboop can send the notes it plays out as **MIDI**, so other music apps on your device (like **AUM**, or any AUv3 synth) can be driven by your Pixelboop jam. Use Pixelboop as a step sequencer for a whole rig of other instruments.
 
-:::info Available in TestFlight
-MIDI output is currently rolling out to testers. Want it early? Join the **[Early Creator program](https://pixelboop.com/community)** to help shape Pixelboop.
+:::info Internal builds only, with no announced release date
+The virtual "Pixelboop" MIDI source is switched on for internal development builds only. It is not in the App Store build, it is not in TestFlight, and joining the Early Creator program does not unlock it. In a public build the source is never published at all, so "Pixelboop" simply will not appear in AUM's input list no matter what you turn on.
+
+Everything on this page is built and working, and it is written so it is ready the day the feature drops. There is no announced version for that. It is not a Pro feature today either, so buying anything will not turn it on.
 :::
 
 ## How it works
 
 When enabled, Pixelboop publishes a virtual MIDI source named **"Pixelboop."** Any MIDI-capable app on the same device can subscribe to it and receive note on/off as your jam plays, step by step. Each track sends on its own configurable MIDI channel. Out of the box melody and chords share channel 1, bass is on channel 2 and drums are on channel 10 (the General MIDI drum channel).
+
+{/* TODO: MystrixVisualizer figure showing the four tracks and their default TX channels. Do not author it here. */}
 
 ## Drive a synth in AUM
 
@@ -31,3 +35,49 @@ To see exactly what Pixelboop is sending, use a free MIDI monitor app (such as *
 :::tip
 Both apps must be on the **same device** (the virtual source is inter-app, on-device), and Pixelboop must be running for "Pixelboop" to appear in the other app.
 :::
+
+---
+
+## Coming in 1.2.0: no more stuck notes
+
+:::info Not released
+This section describes work that is built and measured on the 1.2.0 line but has not shipped. It applies to hardware MIDI (USB and Bluetooth) as well as to the virtual source.
+:::
+
+If you drive outboard gear or a hosted synth, the thing that ruins a take is a note that never gets its note-off: one voice droning under everything until you power-cycle the synth. 1.2.0 closes the four ways that could happen.
+
+### The note-off matches the note that sounded
+
+Every note-off now replays the exact pitch the note-on sent. Previously the pitch was worked out again at the moment the note ended, from whatever the app's harmony state was right then. So if you changed **key, scale, quality, interval mode or the note set** while a note was held, the note-off went out for a pitch that had never been turned on, and the pitch that was actually sounding never got released. Change key under a sustain on a hardware synth and it would just keep going.
+
+That whole class of problem is gone. Nothing is recomputed at note-off time.
+
+### Notes are released when things go wrong
+
+Pixelboop now sends note-offs for everything it believes is sounding when:
+
+- the app is terminated,
+- iOS resets the audio stack underneath it (media services reset),
+- another app or a phone call takes the audio session (interruption begins),
+- the AUv3 plugin is torn down mid-play, for example when you remove it from an AUM channel.
+
+**Backgrounding is deliberately not on that list.** Pixelboop is meant to keep playing when you switch apps, so leaving the foreground does not cut your notes.
+
+### Reconnecting a device releases what it was holding
+
+If a USB cable or a Bluetooth link drops mid-note, the synth on the other end never got the note-off and is still sounding. When that destination comes back, Pixelboop re-sends note-offs for exactly the pitches it believes are still on.
+
+It sends those specific notes rather than a blanket "all notes off" broadcast, because a broadcast on a shared host would also silence other apps' notes on channels Pixelboop never touched. Stopping playback and tearing down the plugin still send the broadcast as a final failsafe, but a reconnect does not.
+
+### One deliberate difference between the app and the plugin
+
+Changing key or root under a held note behaves differently in the two builds, and always has:
+
+| Build | A held note during a key change |
+| :--- | :--- |
+| **Pixelboop app** | Keeps sounding, at the pitch it started on |
+| **Pixelboop AUv3** (in AUM, Logic and other hosts) | Is cut |
+
+This is not new in 1.2.0 and it is not an oversight. In the app, key markers land immediately before a step plays, so cutting sustains would punch a gap into the music every time a chord changed, which is the worst possible result for the person driving a hardware rig through a progression. In a host you are usually one voice among several, and a clean note boundary is worth more than a smooth one.
+
+What changed in 1.2.0 is that neither build can strand a note any more. See [Key Automation](../MakingSound/KeyAutomation) for how this plays out over a chord progression.

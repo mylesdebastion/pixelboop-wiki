@@ -8,21 +8,43 @@ Pixelboop pairs with the **LiteJam LED guitar** over Bluetooth and lights up its
 
 :::info Coming with Pixelboop Pro
 LiteJam Guitar support is not yet available in the current version of Pixelboop. It arrives with **[Pixelboop Pro](../GettingStarted/PixelboopPro.mdx)** in a future update.
+
+You can still open the LiteJam screen and look around: it shows up dimmed, with everything switched off, so you can see what you would be getting before there is anything to buy.
 :::
 
 ## Connecting your LiteJam guitar
 
+:::note Coming in the next version
+The Rainbow menu is being rebuilt, and the steps below describe the new two-pane screen. In the version on the App Store today the same controls sit under **Rainbow Menu, Visualizer group, LiteJam section**.
+:::
+
 1. Power on your LiteJam guitar and keep it nearby.
-2. In Pixelboop, open the **Rainbow Menu → Visualizer** group and find the **LiteJam** section.
-3. Tap **scan**. Pixelboop looks for nearby LiteJam guitars over Bluetooth.
-4. Select your guitar to pair. The status moves through **Connecting...** to **Connected**.
+2. In Pixelboop, open the Rainbow menu and tap **Lights** in the left rail.
+3. Tap the **LiteJam guitar** row (the one that reads "Play along on a connected guitar controller").
+4. Tap **Pair Guitar**. Pixelboop listens for nearby Bluetooth devices for up to 30 seconds, then lists what it heard with the strongest signal at the top.
+5. Tap your guitar in that list. The status chip moves from **Scanning** through **Connecting** to **Connected**, and the card picks up a colored outline once the guitar is live.
+6. Switch on **Enable LiteJam LEDs** to actually send light to the fretboard. That also reveals the fretboard preview, the per-track **Send to guitar** chips and the scale controls.
 
 Make sure Bluetooth is on, and allow Pixelboop to use it if prompted.
+
+<!-- MystrixVisualizer figure: Rainbow menu Lights pane with the LiteJam guitar row. Do not author here; add in a later pass. -->
+
+### If it never connects
+
+A guitar that is switched off, out of range, or simply not answering used to leave the screen stuck on **Connecting...**, where there is no Pair button and no Test button, so the only way out was to quit and reopen Pixelboop.
+
+:::note Coming in the next version
+A pending connection now gives up on its own after 15 seconds and drops back to **Not paired**, which is the state that shows **Pair Guitar** again. Check the guitar is powered on and close by, then try once more.
+:::
+
+Once you are connected, the card shows the guitar's name, a **Test Scale** button that sweeps the fretboard so you can confirm the LEDs are responding, and **Disconnect**.
 
 ## Playing with the LED fretboard
 
 Once connected, Pixelboop drives the guitar's LEDs in time with your jam, highlighting the notes and chords on the fretboard so you can follow along and play.
 
 :::tip
-The **Harmonic Colors** option (in the Rainbow Menu → Interface group) also applies to the LiteJam fretboard: notes are colored by the circle of fifths, so consonant notes (4ths and 5ths) share similar colors and the tritone stands out.
+The **Harmonic Colors** option also applies to the LiteJam fretboard: notes are colored by the circle of fifths, so consonant notes (4ths and 5ths) share similar colors and the tritone stands out. Flipping it recolors the fretboard right away, with no need to reconnect or relaunch.
+
+You will find it in the **Grid** pane of the Rainbow menu in the next version. In the current version it is under **Rainbow Menu, Interface group**.
 :::

@@ -76,13 +76,27 @@ export function WLEDButtonDemo() {
 | Enabled | 🌈 Rainbow gradient | WLED is active and sending data |
 | Disabled | 🟤 Dim orange (#281400) | WLED output is off |
 
-### Tap: Open the Rainbow Menu
+### Tap: Open the Rainbow menu
 
-A single tap opens the Rainbow Menu (the WLED / VJ / lighting settings dialog), where you enter the WLED device IP, test the connection and configure visualizers. A "Rainbow Menu" tooltip confirms it.
+A single tap opens the Rainbow menu, which holds every lighting setting: the VJ visualizer, the per-instrument strips, the LiteJam guitar and the grid's own appearance. A "Rainbow Menu" tooltip confirms it. There is no separate WLED dialog with a single IP box in it. The address you type lives inside whichever light surface you are setting up, so which surface you open decides where the address goes.
+
+:::note Coming in the next version
+The Rainbow menu is being rebuilt as a full-screen, two-pane screen, and the steps on this page describe the new one.
+
+- A narrow rail down the left lists **Grid**, **Lights**, **Learn** and **Pixelboop**.
+- The **Lights** rail row carries the master lighting switch, so you can cut all output without leaving the pane you are in. It is the same switch the WLED button's hold gesture flips.
+- Picking **Lights** lists the light surfaces: **VJ visualizer**, **Instrument lights**, **LiteJam guitar**, and **Erae Touch** shown dimmed as "Coming soon". Every row shows its own live state (On, Off, Connected and so on), and opening a row takes you to that surface's settings, including its address field.
+- Nothing needs saving. Changes apply as you make them, so the toolbar's **Done** button only closes the menu.
+- The menu is presented full screen, on iPad as well, where it used to be squeezed into a fixed-width card narrow enough to wrap labels one character per line. On iPhone that means **Done** is how you leave: you can no longer swipe the screen away.
+
+In the version on the App Store today the same settings are one long scrolling sheet of collapsible groups instead.
+:::
+
+{/* MystrixVisualizer figure: the Rainbow menu rail and the Lights list. Do not author here; add in a later pass. */}
 
 ### Hold: Toggle WLED output
 
-Holding the button for about half a second toggles WLED output on or off without opening anything. A "WLED On" / "WLED Off" tooltip confirms.
+Holding the button for about half a second toggles WLED output on or off without opening anything. A "WLED On" / "WLED Off" tooltip confirms. This is the lighting master switch, not a per-strip one: with it off, nothing is sent to any strip, guitar or visualizer, whatever their own settings say.
 
 ---
 
@@ -126,14 +140,19 @@ Holding the button for about half a second toggles WLED output on or off without
 2. Find device named "WLED-..." in connected devices
 3. Note its IP address
 
-### Step 4: Configure Pixelboop
+### Step 4: Point Pixelboop at your strip
 
-1. **Open Pixelboop**
-2. **Tap the WLED Rainbow button** (row 23, cols 0-3) on the bottom control bar
-3. **WLED config dialog appears**
-4. **Enter WLED IP address** (e.g., `192.168.1.100`)
-5. **Test connection** → Rainbow gradient should appear on LEDs
-6. **Save**
+1. **Open Pixelboop.**
+2. **Tap the WLED Rainbow button** (row 23, cols 0-3) on the bottom control bar.
+3. **Open the VJ visualizer settings.** In the next version that is **Lights** in the left rail, then the **VJ visualizer** row. In the version on the App Store today it is the **VJ Visualizer** group in the scrolling Rainbow Menu sheet.
+4. **Switch the visualizer on.** The controls, the live preview and the address field only appear once it is on.
+5. **Set the matrix size to match your hardware.** A plain strip is a single row: try **60 x 1**. The readout under the preview counts the cells and the LEDs for you.
+6. **Type your WLED device's address** into the output address field (for example `192.168.1.100`). Leave it blank if you only want the on-screen preview.
+7. **Read the line under the field.** It turns green and says it is sending frames to that address once the address parses, and red with "Invalid IP address format" if it does not.
+
+There is no separate connection test on this surface and nothing to save. The preview above the field is the visualizer's real output rather than a mock-up, and every edit takes effect as you make it. The per-strip **Test** button that flashes a gradient down a strip belongs to **Instrument lights**, which arrives with Pixelboop Pro (see the note further down this page).
+
+{/* MystrixVisualizer figure: the VJ visualizer output address field and its live LED preview. Do not author here; add in a later pass. */}
 
 ### Step 5: Enable WLED
 
