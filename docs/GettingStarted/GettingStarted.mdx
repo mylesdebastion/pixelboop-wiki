@@ -37,11 +37,11 @@ export function HardwareDemo() {
         { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, double-tap to restart from step 1, hold 3.5s for WLED config", "elements": [
             { "pos": [0, 0], "size": [3, 1], "color": "#45FF45" }  // Green when stopped
         ]},
-        { "name": "Undo", "desc": "Col 4: Undo last action", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
-        { "name": "Redo", "desc": "Col 5: Redo action", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#878787" }] },
+        { "name": "Undo", "desc": "Col 4: Undo last action. Bright when an undo is available, dim (#333333) when there is nothing to undo.", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
+        { "name": "Redo", "desc": "Col 5: Redo action. Bright when a redo is available, dim (#333333) when there is nothing to redo.", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#878787" }] },
         { "name": "Major Scale", "desc": "Col 7: Select major scale", "elements": [{ "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }] },
-        { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00AAFF" }] },
-        { "name": "Pentatonic", "desc": "Col 9: Select pentatonic scale", "elements": [{ "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }] },
+        { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00334D" }] },
+        { "name": "Scale Type", "desc": "Col 9: Tap to cycle the scale type. The pixel colour shows which type is active (Pentatonic, Blues, Dorian, Lydian, Hirajoshi, Hungarian).", "elements": [{ "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }] },
         { "name": "Root Notes", "desc": "Cols 11-22: Select key (C through B)", "elements": chromaticColors.map((color, i) => ({
             "pos": [11 + i, 0], "size": [1, 1], "color": color
         }))},
@@ -50,12 +50,12 @@ export function HardwareDemo() {
         { "name": "BPM Display", "desc": "Col 27: Shows current BPM, pulses with beat", "elements": [{ "pos": [27, 0], "size": [1, 1], "color": "#595959" }] },
         { "name": "BPM +", "desc": "Col 28: Increase tempo", "elements": [{ "pos": [28, 0], "size": [1, 1], "color": "#454545" }] },
         { "name": "Length -", "desc": "Col 30: Decrease pattern length", "elements": [{ "pos": [30, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#7F7F7F" }] },
+        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }] },
         { "name": "Length +", "desc": "Col 32: Increase pattern length", "elements": [{ "pos": [32, 0], "size": [1, 1], "color": "#454545" }] },
         { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
         { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
-        { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#4080FF" }] },
-        { "name": "New Jam", "desc": "Cols 40-43: Reset to defaults (New Jam)", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#662121" }] },
+        { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#20396C" }] },
+        { "name": "Jams", "desc": "Cols 40-43: Tap to open your jam library, hold to save the current jam and start a new one. Purple, brighter when you have saved jams.", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#402666" }] },
 
         // Row 1 - Timeline/Beat Markers
         { "name": "Track Labels", "desc": "Cols 0-3: Track control area", "elements": [{ "pos": [0, 1], "size": [4, 1], "color": "#212121" }] },
@@ -88,7 +88,7 @@ export function HardwareDemo() {
             { "pos": [22, 1], "size": [1, 1], "color": "#1A1A1A" },
             { "pos": [23, 1], "size": [1, 1], "color": "#1A1A1A" },
             { "pos": [25, 1], "size": [1, 1], "color": "#1A1A1A" },
-            { "pos": [26, 1], "size": [1, 1], "color": "#1A1A1A" },
+            { "pos": [26, 1], "size": [1, 1], "color": "#FFFFFF" },
             { "pos": [27, 1], "size": [1, 1], "color": "#1A1A1A" },
             { "pos": [29, 1], "size": [1, 1], "color": "#1A1A1A" },
             { "pos": [30, 1], "size": [1, 1], "color": "#1A1A1A" },
@@ -99,9 +99,9 @@ export function HardwareDemo() {
         ]},
         
         // Melody Track (rows 2-7, 6 pitches)
-        { "name": "Melody Mute", "desc": "Col 0: Tap to mute melody", "elements": [{ "pos": [0, 2], "size": [1, 6], "color": trackColors.melody }] },
+        { "name": "Melody Mute", "desc": "Col 0: Tap to mute melody. The VU level is drawn as a glow over the mute/volume column.", "elements": [{ "pos": [0, 2], "size": [1, 6], "color": trackColors.melody }] },
         { "name": "Melody Solo", "desc": "Col 1: Tap to solo melody", "elements": [{ "pos": [1, 2], "size": [1, 6], "color": "#333333" }] },
-        { "name": "Melody VU Meter", "desc": "Col 2: Audio level indicator", "elements": [{ "pos": [2, 2], "size": [1, 6], "color": "#0D0D0D" }] },
+        { "name": "Melody FX", "desc": "Col 2: per-track FX. Slide up/down to set the amount, tap to cycle Verb/Delay → Comp/Dist → Filter.", "elements": [{ "pos": [2, 2], "size": [1, 6], "color": "#0D0D0D" }] },
         { "name": "Melody Notes", "desc": "Col 3: Shows current scale notes", "elements": chromaticColors.slice(0, 6).map((color, i) => ({
             "pos": [3, 7 - i], "size": [1, 1], "color": color
         }))},
@@ -109,9 +109,9 @@ export function HardwareDemo() {
         { "name": "Melody Sections", "desc": "Cols 36-43: 8 song sections", "elements": [{ "pos": [36, 2], "size": [8, 6], "color": "#1F1F0A" }] },
         
         // Chords Track (rows 8-13, 6 pitches)
-        { "name": "Chords Mute", "desc": "Col 0: Tap to mute chords", "elements": [{ "pos": [0, 8], "size": [1, 6], "color": trackColors.chords }] },
+        { "name": "Chords Mute", "desc": "Col 0: Tap to mute chords. The VU level is drawn as a glow over the mute/volume column.", "elements": [{ "pos": [0, 8], "size": [1, 6], "color": trackColors.chords }] },
         { "name": "Chords Solo", "desc": "Col 1: Tap to solo chords", "elements": [{ "pos": [1, 8], "size": [1, 6], "color": "#333333" }] },
-        { "name": "Chords VU Meter", "desc": "Col 2: Audio level indicator", "elements": [{ "pos": [2, 8], "size": [1, 6], "color": "#0D0D0D" }] },
+        { "name": "Chords FX", "desc": "Col 2: per-track FX. Slide up/down to set the amount, tap to cycle Verb/Delay → Comp/Dist → Filter.", "elements": [{ "pos": [2, 8], "size": [1, 6], "color": "#0D0D0D" }] },
         { "name": "Chords Notes", "desc": "Col 3: Shows current scale notes", "elements": chromaticColors.slice(0, 6).map((color, i) => ({
             "pos": [3, 13 - i], "size": [1, 1], "color": color
         }))},
@@ -119,9 +119,9 @@ export function HardwareDemo() {
         { "name": "Chords Sections", "desc": "Cols 36-43: 8 song sections", "elements": [{ "pos": [36, 8], "size": [8, 6], "color": "#0A1F1F" }] },
         
         // Bass Track (rows 14-17, 4 pitches)
-        { "name": "Bass Mute", "desc": "Col 0: Tap to mute bass", "elements": [{ "pos": [0, 14], "size": [1, 4], "color": trackColors.bass }] },
+        { "name": "Bass Mute", "desc": "Col 0: Tap to mute bass. The VU level is drawn as a glow over the mute/volume column.", "elements": [{ "pos": [0, 14], "size": [1, 4], "color": trackColors.bass }] },
         { "name": "Bass Solo", "desc": "Col 1: Tap to solo bass", "elements": [{ "pos": [1, 14], "size": [1, 4], "color": "#333333" }] },
-        { "name": "Bass VU Meter", "desc": "Col 2: Audio level indicator", "elements": [{ "pos": [2, 14], "size": [1, 4], "color": "#0D0D0D" }] },
+        { "name": "Bass FX", "desc": "Col 2: per-track FX. Slide up/down to set the amount, tap to cycle Verb/Delay → Comp/Dist → Filter.", "elements": [{ "pos": [2, 14], "size": [1, 4], "color": "#0D0D0D" }] },
         { "name": "Bass Notes", "desc": "Col 3: Shows current scale notes", "elements": chromaticColors.slice(0, 4).map((color, i) => ({
             "pos": [3, 17 - i], "size": [1, 1], "color": color
         }))},
@@ -129,14 +129,14 @@ export function HardwareDemo() {
         { "name": "Bass Sections", "desc": "Cols 36-43: 8 song sections", "elements": [{ "pos": [36, 14], "size": [8, 4], "color": "#0A0A1F" }] },
         
         // Rhythm Track (rows 18-21, 4 drum sounds)
-        { "name": "Rhythm Mute", "desc": "Col 0: Tap to mute drums", "elements": [{ "pos": [0, 18], "size": [1, 4], "color": trackColors.rhythm }] },
+        { "name": "Rhythm Mute", "desc": "Col 0: Tap to mute drums. The VU level is drawn as a glow over the mute/volume column.", "elements": [{ "pos": [0, 18], "size": [1, 4], "color": trackColors.rhythm }] },
         { "name": "Rhythm Solo", "desc": "Col 1: Tap to solo drums", "elements": [{ "pos": [1, 18], "size": [1, 4], "color": "#333333" }] },
-        { "name": "Rhythm VU Meter", "desc": "Col 2: Audio level indicator", "elements": [{ "pos": [2, 18], "size": [1, 4], "color": "#0D0D0D" }] },
+        { "name": "Rhythm FX", "desc": "Col 2: per-track FX. Slide up/down to set the amount, tap to cycle Verb/Delay → Comp/Dist → Filter.", "elements": [{ "pos": [2, 18], "size": [1, 4], "color": "#0D0D0D" }] },
         { "name": "Drum Banks", "desc": "Col 3: Tap to switch drum banks (4 banks × 4 sounds)", "elements": [
-            { "pos": [3, 18], "size": [1, 1], "color": "#FF0000" },
-            { "pos": [3, 19], "size": [1, 1], "color": "#FF8800" },
-            { "pos": [3, 20], "size": [1, 1], "color": "#FFFF00" },
-            { "pos": [3, 21], "size": [1, 1], "color": "#00FF00" }
+            { "pos": [3, 18], "size": [1, 1], "color": "#CE1919" },
+            { "pos": [3, 19], "size": [1, 1], "color": "#063516" },
+            { "pos": [3, 20], "size": [1, 1], "color": "#1A0635" },
+            { "pos": [3, 21], "size": [1, 1], "color": "#383838" }
         ]},
         { "name": "Rhythm Grid", "desc": "Cols 4-35: 32-step sequencer", "elements": [{ "pos": [4, 18], "size": [32, 4], "color": "#1A0A0A" }] },
         { "name": "Rhythm Sections", "desc": "Cols 36-43: 8 song sections", "elements": [{ "pos": [36, 18], "size": [8, 4], "color": "#1F0A0A" }] },
@@ -146,14 +146,14 @@ export function HardwareDemo() {
         
         // Row 23 - Bottom Control Row
         { "name": "WLED Rainbow", "desc": "Cols 0-3: External LED strip sync", "elements": [
-            { "pos": [0, 23], "size": [1, 1], "color": "#FF0000" },
-            { "pos": [1, 23], "size": [1, 1], "color": "#FF8800" },
-            { "pos": [2, 23], "size": [1, 1], "color": "#00FF00" },
-            { "pos": [3, 23], "size": [1, 1], "color": "#00FFAA" }
+            { "pos": [0, 23], "size": [1, 1], "color": "#CCC929" },
+            { "pos": [1, 23], "size": [1, 1], "color": "#AFCC29" },
+            { "pos": [2, 23], "size": [1, 1], "color": "#8ECC29" },
+            { "pos": [3, 23], "size": [1, 1], "color": "#6DCC29" }
         ]},
-        { "name": "Link Button", "desc": "Cols 5-7: Ableton Link timing sync", "elements": [{ "pos": [5, 23], "size": [3, 1], "color": "#5A5A5A" }] },
-        { "name": "Mode Button", "desc": "Cols 8-9: Pattern/Song mode toggle", "elements": [{ "pos": [8, 23], "size": [2, 1], "color": "#4A4A4A" }] },
-        { "name": "Sync Button", "desc": "Cols 10-12: Multi-device sync, middle pixel gold when host", "elements": [{ "pos": [10, 23], "size": [3, 1], "color": "#3A3A3A" }] },
+        { "name": "Link Button", "desc": "Cols 5-7, row 23. Reserved for Ableton Link, switched off in this release, these pixels are black.", "elements": [{ "pos": [5, 23], "size": [3, 1], "color": "#000000" }] },
+        { "name": "Mode Button", "desc": "Cols 8-9: Sync mode. Tap to cycle Free / Host, hold to toggle track-notes mode.", "elements": [{ "pos": [8, 23], "size": [2, 1], "color": "#C89600" }] },
+        { "name": "Sync Button", "desc": "Cols 10-12: Multi-device sync, middle pixel gold when host", "elements": [{ "pos": [10, 23], "size": [3, 1], "color": "#004D66" }] },
         { "name": "Device Indicators", "desc": "Cols 12-35: Shows up to 24 connected devices with their assigned colors", "elements": [{ "pos": [12, 23], "size": [24, 1], "color": "#1A1A1A" }] },
         { "name": "Section Play Button", "desc": "Row 23, cols 36-37: Toggle Section Play mode (bright green = on, dim green = off)", "elements": [{ "pos": [36, 23], "size": [2, 1], "color": "#1A4D26" }] },
         { "name": "Clear All Sections Button", "desc": "Row 23, cols 38-43: Tap to clear active section, hold to clear all", "elements": [{ "pos": [38, 23], "size": [6, 1], "color": "#662121" }] }

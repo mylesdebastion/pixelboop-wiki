@@ -38,7 +38,7 @@ const config: Config = {
           routeBasePath: '/', // Make docs the site root
           versions: {
             current: {
-              label: '1.1.2',
+              label: '1.1.3',
             },
           },
         },
@@ -101,15 +101,15 @@ const config: Config = {
           items: [
             {
               label: 'Getting Started',
-              to: 'docs/GettingStarted/GettingStarted',
+              to: '/',
             },
             {
               label: 'Making Sound',
-              to: 'docs/MakingSound/Gestures',
+              to: '/MakingSound/Gestures',
             },
             {
               label: 'Jam with Others',
-              to: 'docs/JamWithOthers/MultiDeviceSync',
+              to: '/JamWithOthers/MultiDeviceSync',
             },
           ],
         },

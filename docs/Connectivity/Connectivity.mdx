@@ -19,7 +19,7 @@ Pixelboop supports MIDI over Bluetooth Low Energy (BLE).
 4.  Connect to pair.
 
 **Technical Details:**
-- **Service UUID:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700`
+- **Service UUID Pixelboop scans for:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700` (the Bluetooth SIG standard BLE MIDI service). Any device advertising it shows up in the picker.
 - **Output:** Pixelboop sends Note On/Off messages and MIDI Clock.
 
 ## USB MIDI
@@ -30,7 +30,7 @@ Pixelboop acts as a standard class-compliant USB MIDI device when connected via 
 - **Plug & Play:** No drivers required on macOS or Windows.
 
 :::note
-USB MIDI is available for iOS only in v1.1.0. Android support is not yet available.
+USB MIDI is iOS only. There is no Android release.
 :::
 
 ---
@@ -62,10 +62,14 @@ export function ConfigModeDemo() {
             "name": "MIDI Channel Column (Hold to Enter Edit Mode)",
             "desc": "Hold col 2 (the MIDI channel / VU column, immediately left of the interval column) for ~0.5 s while a Bluetooth MIDI device is connected. The track label shows 'MIDI Ch[N] Edit On'.",
             "elements": [
-                { "pos": [2, 2], "size": [1, 6], "color": "#4080FF" },
-                { "pos": [2, 8], "size": [1, 6], "color": "#4080FF" },
-                { "pos": [2, 14], "size": [1, 4], "color": "#4080FF" },
-                { "pos": [2, 18], "size": [1, 4], "color": "#4080FF" }
+                { "pos": [0, 2], "size": [3, 6], "color": "#212121" },
+                { "pos": [1, 4], "size": [1, 2], "color": "#4080FF" },
+                { "pos": [0, 8], "size": [3, 6], "color": "#212121" },
+                { "pos": [1, 10], "size": [1, 2], "color": "#4080FF" },
+                { "pos": [0, 14], "size": [3, 4], "color": "#212121" },
+                { "pos": [1, 15], "size": [1, 2], "color": "#4080FF" },
+                { "pos": [0, 18], "size": [3, 4], "color": "#212121" },
+                { "pos": [1, 19], "size": [1, 2], "color": "#4080FF" }
             ]
         },
         {
@@ -99,14 +103,15 @@ export function ChannelCycleDemo() {
             "name": "Col 2 — Edit Mode Active (Melody)",
             "desc": "Hold col 2 on the Melody track for ~0.5 s. The column lights up to show edit mode is on.",
             "elements": [
-                { "pos": [2, 2], "size": [1, 6], "color": "#4080FF" }
+                { "pos": [0, 2], "size": [3, 6], "color": "#212121" },
+                { "pos": [1, 4], "size": [1, 2], "color": "#4080FF" }
             ]
         },
         {
             "name": "Tap to Cycle",
             "desc": "Tap col 2 on the Melody track to advance to the next MIDI channel. Repeat to reach your target channel (1–16).",
             "elements": [
-                { "pos": [2, 2], "size": [1, 6], "color": "#00FF00" }
+                { "pos": [1, 4], "size": [1, 2], "color": "#4080FF" }
             ]
         }
     ];
@@ -124,10 +129,10 @@ export function ChannelCycleDemo() {
 
 | Track | Default TX | Configurable Range | Default RX |
 |-------|------------|-------------------|------------|
-| Melody | 1 | 1-16 | Same as TX |
-| Chords | 1 | 1-16 | Same as TX |
-| Bass | 2 | 1-16 | Same as TX |
-| Rhythm | 10 | 1-16 | Same as TX |
+| Melody | 1 | 1-16 | 1 |
+| Chords | 1 | 1-16 | 1 |
+| Bass | 2 | 1-16 | 2 |
+| Rhythm | 10 | 1-16 | 10 |
 
 ### Use Cases for Custom Channels
 

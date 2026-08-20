@@ -16,20 +16,20 @@ export function MuteSoloOverview() {
             "name": "Mute Column",
             "desc": "Column 0. Tap to mute/unmute a track. Long-press for preset selection.",
             "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#4D2EF2" },
-                { "pos": [0, 8], "size": [1, 6], "color": "#00E68C" },
-                { "pos": [0, 14], "size": [1, 4], "color": "#F2E600" },
-                { "pos": [0, 18], "size": [1, 4], "color": "#FF3000" }
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] },
+                { "pos": [0, 8], "size": [1, 6], "color": ["#00D9FF", "#01CCBE", "#02BF86", "#03B155", "#03A12C", "#04910B"] },
+                { "pos": [0, 14], "size": [1, 4], "color": ["#E6FF00", "#D1D301", "#BCAB03", "#A38704"] },
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
             ]
         },
         {
             "name": "Solo Column",
-            "desc": "Column 1. Tap to solo a track (mute all others).",
+            "desc": "Column 1. Tap to solo a track (mute all others). The solo pixels carry no track tint: near-black when not soloed, a soft grey when soloed.",
             "elements": [
-                { "pos": [1, 2], "size": [1, 6], "color": "#3D25C2" },
-                { "pos": [1, 8], "size": [1, 6], "color": "#00B870" },
-                { "pos": [1, 14], "size": [1, 4], "color": "#C2B800" },
-                { "pos": [1, 18], "size": [1, 4], "color": "#CC2600" }
+                { "pos": [1, 2], "size": [1, 6], "color": "#0F0F0F" },
+                { "pos": [1, 8], "size": [1, 6], "color": "#0F0F0F" },
+                { "pos": [1, 14], "size": [1, 4], "color": "#0F0F0F" },
+                { "pos": [1, 18], "size": [1, 4], "color": "#0F0F0F" }
             ]
         },
         {
@@ -62,28 +62,28 @@ export function MuteDemo() {
             "name": "Melody Mute",
             "desc": "Tap to mute/unmute melody track. Bright = active, dim = muted.",
             "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#4D2EF2" }
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] }
             ]
         },
         {
             "name": "Chords Muted",
-            "desc": "This track is muted (dim color). Notes won't play.",
+            "desc": "This track is muted. Its own colour drops to about 16% brightness. Notes won't play.",
             "elements": [
-                { "pos": [0, 8], "size": [1, 6], "color": "#2A2820" }
+                { "pos": [0, 8], "size": [1, 6], "color": ["#092328", "#092422", "#09251C", "#092516", "#092611", "#09260B"] }
             ]
         },
         {
             "name": "Bass Mute",
             "desc": "Tap to mute/unmute bass track.",
             "elements": [
-                { "pos": [0, 14], "size": [1, 4], "color": "#F2E600" }
+                { "pos": [0, 14], "size": [1, 4], "color": ["#E6FF00", "#D1D301", "#BCAB03", "#A38704"] }
             ]
         },
         {
             "name": "Rhythm Mute",
             "desc": "Tap to mute/unmute rhythm track.",
             "elements": [
-                { "pos": [0, 18], "size": [1, 4], "color": "#FF3000" }
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
             ]
         }
     ];
@@ -102,6 +102,15 @@ export function MuteDemo() {
 | **Active** | Bright color | Playing | Sending |
 | **Muted** | Dim color | Silent | Not sending |
 
+Muting does not change a track's colour, it drops the whole column to about 16% brightness. The column keeps its gradient rather than becoming one flat shade. Measured on Pixelboop 1.1.3, top of each band to bottom:
+
+| Track | Muted, top of band | Muted, bottom of band |
+|---|---|---|
+| Melody | `#1A0C25` | `#0B1128` |
+| Chords | `#092328` | `#09260B` |
+| Bass | `#252809` | `#282209` |
+| Rhythm | `#281E12` | `#1F1212` |
+
 ### Mute Affects MIDI
 
 When a track is muted:
@@ -119,30 +128,30 @@ export function SoloDemo() {
     const uiElements = [
         {
             "name": "Melody Soloed",
-            "desc": "This track is soloed (bright). Only this track plays.",
+            "desc": "This track is soloed: the col 1 pixel lifts from near-black to a soft grey. Only this track plays.",
             "elements": [
-                { "pos": [1, 2], "size": [1, 6], "color": "#FFFF00" }
+                { "pos": [1, 2], "size": [1, 6], "color": "#474747" }
             ]
         },
         {
             "name": "Chords (Auto-Muted)",
-            "desc": "Automatically muted when another track is soloed.",
+            "desc": "Automatically muted when another track is soloed. Its col 1 pixel stays near-black.",
             "elements": [
-                { "pos": [1, 8], "size": [1, 6], "color": "#2A2820" }
+                { "pos": [1, 8], "size": [1, 6], "color": "#0F0F0F" }
             ]
         },
         {
             "name": "Bass (Auto-Muted)",
-            "desc": "Automatically muted when another track is soloed.",
+            "desc": "Automatically muted when another track is soloed. Its col 1 pixel stays near-black.",
             "elements": [
-                { "pos": [1, 14], "size": [1, 4], "color": "#1A2528" }
+                { "pos": [1, 14], "size": [1, 4], "color": "#0F0F0F" }
             ]
         },
         {
             "name": "Rhythm (Auto-Muted)",
-            "desc": "Automatically muted when another track is soloed.",
+            "desc": "Automatically muted when another track is soloed. Its col 1 pixel stays near-black.",
             "elements": [
-                { "pos": [1, 18], "size": [1, 4], "color": "#331A1A" }
+                { "pos": [1, 18], "size": [1, 4], "color": "#0F0F0F" }
             ]
         }
     ];
@@ -172,30 +181,30 @@ export function MultiSoloDemo() {
     const uiElements = [
         {
             "name": "Melody Soloed",
-            "desc": "Melody is soloed.",
+            "desc": "Melody is soloed: the col 1 pixel lifts from near-black to a soft grey.",
             "elements": [
-                { "pos": [1, 2], "size": [1, 6], "color": "#FFFF00" }
+                { "pos": [1, 2], "size": [1, 6], "color": "#474747" }
             ]
         },
         {
             "name": "Chords (Muted)",
-            "desc": "Not soloed, so muted.",
+            "desc": "Not soloed, so muted. Its col 1 pixel stays near-black.",
             "elements": [
-                { "pos": [1, 8], "size": [1, 6], "color": "#2A2820" }
+                { "pos": [1, 8], "size": [1, 6], "color": "#0F0F0F" }
             ]
         },
         {
             "name": "Bass (Muted)",
-            "desc": "Not soloed, so muted.",
+            "desc": "Not soloed, so muted. Its col 1 pixel stays near-black.",
             "elements": [
-                { "pos": [1, 14], "size": [1, 4], "color": "#1A2528" }
+                { "pos": [1, 14], "size": [1, 4], "color": "#0F0F0F" }
             ]
         },
         {
             "name": "Rhythm Soloed",
             "desc": "Rhythm is also soloed. Both play together.",
             "elements": [
-                { "pos": [1, 18], "size": [1, 4], "color": "#FFFF00" }
+                { "pos": [1, 18], "size": [1, 4], "color": "#474747" }
             ]
         }
     ];
@@ -234,21 +243,21 @@ export function LongPressNote() {
             "name": "Long-Press Zone",
             "desc": "Hold for 0.5s to enter sound selection mode.",
             "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#4D2EF2" }
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] }
             ]
         },
         {
             "name": "Bank Marker (dim)",
             "desc": "Marks which bank of sounds is active.",
             "elements": [
-                { "pos": [0, 3], "size": [1, 1], "color": "#2A2276" }
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" }
             ]
         },
         {
             "name": "Active Pixel (bright)",
             "desc": "Marks the current sound within the bank.",
             "elements": [
-                { "pos": [0, 5], "size": [1, 1], "color": "#FFFFFF" }
+                { "pos": [0, 5], "size": [1, 1], "color": "#6B13AE" }
             ]
         }
     ];

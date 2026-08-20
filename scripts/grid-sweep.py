@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+"""
+Sweep EVERY MystrixVisualizer grid in docs/ against one live capture of the app.
+
+Captures the running simulator once, then parses every `{ "pos": [c,r], "size":
+[w,h], "color": ... }` element out of the .mdx files and compares each declared
+cell colour to the real pixel.
+
+IMPORTANT, read before trusting the output:
+  * Only grids depicting the DEFAULT IDLE screen can be judged this way. A grid
+    that deliberately shows another state (drum bank 2, a soloed track, the
+    preset-cycling display, a placed note) will mismatch for a legitimate reason.
+    Those are reported separately as NEEDS-STATE, not as defects.
+  * Cells the app draws as empty/background are near-black. A declared colour
+    sitting on a background cell usually means the grid is illustrative rather
+    than wrong; that is reported as ON-EMPTY.
+  * Works in VISUAL coordinates. The row flip (cols 0-35 swap rows 0 and 23) is
+    already baked into what the camera sees, and the wiki grids reproduce it, so
+    no conversion is applied.
+
+Usage: python3 scripts/grid-sweep.py <udid>
+"""
+import json, os, re, subprocess, sys, tempfile
+from collections import defaultdict
+
+ORIGIN_X, ORIGIN_Y = 249.0, 26.0
+CELL_W, CELL_H = 47.9, 47.5
+COLS, ROWS = 44, 24
+DOCS = "docs"
+
+# Grids whose whole point is a non-default state. Matched against the enclosing
+# export function name; keeps false "defects" out of the headline number.
+# Cells whose colour is not a stable property of the idle screen, so a
+# mismatch against an idle capture says nothing. Mirrors grid-fix.py's VOLATILE.
+#   cols 0-3 @ row 23 : WLED band drifts on a ~10s cycle
+#   cols 4-5 @ row 0  : Undo/Redo brightness depends on edit history
+VOLATILE = {(c, 23) for c in range(0, 4)} | {(4, 0), (5, 0)}
+
+# Grids closed by a TARGETED capture of the state they depict, with the evidence.
+# An idle capture cannot credit these, so scoring them against one is misleading.
+STATE_VERIFIED = {
+    "MuteDemo": "muted state driven and all four bands sampled (~16% dim, gradient preserved)",
+    "BankDisplayDemo": "simctl recordVideo during a 1.4s hold; 8 of 60 frames showed the cycling display",
+    "LongPressNote": "same recordVideo capture as BankDisplayDemo; depicts the cycling state",
+    "SyncButtonDemo": "session opened on device; lane measured #00E6E6/#FFCC00/#00FF00, idle #004D66",
+    "ModeButtonDemo": "same capture; Mode pixels go #00E600 with a session running",
+    "SyncButtonStates": "colours derived from renderSyncButton at v1.1.3 and cross-checked against a live session",
+    "HostSession": "renderSyncButton: gold #FFCC00 overwrites the MIDDLE sync pixel when isHost",
+    "OrchestraMode": "renderModeButton: follower #9600C8, host #C800FF, remote #00E600",
+    "DeviceIndicatorsDemo": "renderDeviceIndicators: host #00FF00, follower #00B300, cols 12-35, nothing drawn with no participants",
+    "ConfigModeDemo": "config-mode render pass: headers cleared to #212121, blue #4080FF as a 2-row block at COL 1",
+    "ChannelCycleDemo": "same render pass; col 2 belongs to FX now, not config",
+    "FollowerSession": "renderSyncButton/renderModeButton at v1.1.3",
+    "SoloDemo": "solo column sampled: #474747 soloed, #0F0F0F not",
+    "MultiSoloDemo": "same capture as SoloDemo",
+}
+
+STATE_HINTS = re.compile(
+    r"bank[123]|solo|mute|preset|cycl|accent|erase|drag|sustain|section|"
+    r"sync|device|config|midi|wled|link|playing|record|jam|follow",
+    re.I)
+
+
+def capture(udid):
+    tmp = os.path.join(tempfile.gettempdir(), "pb_sweep.png")
+    subprocess.run(["xcrun", "simctl", "io", udid, "screenshot", tmp],
+                   capture_output=True, check=True)
+    subprocess.run(["sips", "-r", "270", tmp], capture_output=True, check=True)
+    from PIL import Image
+    im = Image.open(tmp).convert("RGB")
+    grid = {}
+    for c in range(COLS):
+        for r in range(ROWS):
+            x = int(ORIGIN_X + (c + 0.5) * CELL_W)
+            y = int(ORIGIN_Y + (r + 0.5) * CELL_H)
+            grid[(c, r)] = im.getpixel((x, y))
+    return grid
+
+
+def hex2rgb(h):
+    h = h.lstrip("#")
+    if len(h) == 8:            # #RRGGBBAA
+        h = h[:6]
+    if len(h) != 6:
+        return None
+    try:
+        return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+    except ValueError:
+        return None
+
+
+def dist(a, b):
+    return max(abs(a[i] - b[i]) for i in range(3))
+
+
+ELEM = re.compile(
+    r'\{\s*"pos"\s*:\s*\[\s*(\d+)\s*,\s*(\d+)\s*\]\s*,\s*'
+    r'"size"\s*:\s*\[\s*(\d+)\s*,\s*(\d+)\s*\]\s*,\s*'
+    r'"color"\s*:\s*("#[0-9A-Fa-f]{3,8}"|\[[^\]]*\])')
+FUNC = re.compile(r'export function (\w+)')
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit(__doc__)
+    grid = capture(sys.argv[1])
+
+    EMPTY_MAX = 40   # channel value below which the app cell is background
+    TOL = 12         # per-channel tolerance for "matches"
+
+    per_page = defaultdict(lambda: dict(match=0, mismatch=0, on_empty=0,
+                                        needs_state=0, bad=[]))
+    per_grid = defaultdict(lambda: defaultdict(
+        lambda: dict(match=0, mismatch=0, on_empty=0, needs_state=0)))
+    for root, _, files in os.walk(DOCS):
+        for fn in sorted(files):
+            if not fn.endswith((".mdx", ".md")):
+                continue
+            path = os.path.join(root, fn)
+            src = open(path, errors="replace").read()
+            # map char offset -> enclosing export function name
+            funcs = [(m.start(), m.group(1)) for m in FUNC.finditer(src)]
+
+            def fname(pos):
+                name = "?"
+                for s, n in funcs:
+                    if s <= pos:
+                        name = n
+                    else:
+                        break
+                return name
+
+            st = per_page[path]
+            for m in ELEM.finditer(src):
+                c0, r0, w, h = (int(m.group(i)) for i in range(1, 5))
+                raw = m.group(5)
+                colors = ([raw.strip('"')] if raw.startswith('"')
+                          else re.findall(r'#[0-9A-Fa-f]{3,8}', raw))
+                fn_name = fname(m.start())
+                stateful = bool(STATE_HINTS.search(fn_name))
+                # A single flat colour painted over a large region is a
+                # SCHEMATIC ("the melody track lives in rows 2-7"), not a claim
+                # that every one of those pixels is that colour. Scoring it
+                # cell-by-cell manufactures dozens of phantom defects, which is
+                # what made TracksDemo look like the worst grid in the wiki.
+                schematic = (not raw.startswith("[")) and (w * h) >= 20
+                idx = 0
+                for dr in range(h):
+                    for dc in range(w):
+                        c, r = c0 + dc, r0 + dr
+                        # MystrixVisualizer.tsx:116 applies the app's row flip
+                        # when it RENDERS, so a grid authored at data-row 0 is
+                        # drawn at visual row 23 (cols 0-35 only). Compare against
+                        # the visual cell, or every control row reads as broken.
+                        if (c, r) in VOLATILE:
+                            idx += 1
+                            continue
+                        if c <= 35 and r in (0, 23):
+                            r = 23 - r
+                        if (c, r) not in grid:
+                            continue
+                        want = hex2rgb(colors[idx % len(colors)]) if colors else None
+                        idx += 1
+                        if want is None:
+                            continue
+                        got = grid[(c, r)]
+                        if max(got) <= EMPTY_MAX and max(want) > EMPTY_MAX:
+                            st["on_empty"] += 1; per_grid[path][fn_name]["on_empty"] += 1
+                        elif dist(want, got) <= TOL:
+                            st["match"] += 1; per_grid[path][fn_name]["match"] += 1
+                        elif schematic:
+                            st["on_empty"] += 1; per_grid[path][fn_name]["on_empty"] += 1
+                        elif stateful:
+                            st["needs_state"] += 1; per_grid[path][fn_name]["needs_state"] += 1
+                        else:
+                            st["mismatch"] += 1; per_grid[path][fn_name]["mismatch"] += 1
+                            if len(st["bad"]) < 6:
+                                st["bad"].append(
+                                    (fn_name, c, r,
+                                     "#%02X%02X%02X" % want,
+                                     "#%02X%02X%02X" % got))
+
+    tot = defaultdict(int)
+    print(f"  {'page':44s} {'match':>6s} {'MISMATCH':>9s} {'state':>6s} {'empty':>6s}")
+    for path, st in sorted(per_page.items()):
+        if not any((st["match"], st["mismatch"], st["needs_state"], st["on_empty"])):
+            continue
+        for k in ("match", "mismatch", "needs_state", "on_empty"):
+            tot[k] += st[k]
+        print(f"  {path[5:]:44s} {st['match']:6d} {st['mismatch']:9d} "
+              f"{st['needs_state']:6d} {st['on_empty']:6d}")
+    print(f"\n  TOTALS  match={tot['match']}  MISMATCH={tot['mismatch']}  "
+          f"needs-state={tot['needs_state']}  on-empty={tot['on_empty']}")
+
+    print("\n  Concrete mismatches on idle-state grids (declared vs actual):")
+    n = 0
+    for path, st in sorted(per_page.items()):
+        for fn_name, c, r, want, got in st["bad"]:
+            print(f"    {path[5:]:38s} {fn_name:22s} ({c:2d},{r:2d})  "
+                  f"declared {want}  actual {got}")
+            n += 1
+    if not n:
+        print("    none")
+
+    # ---- per-grid adjudication -------------------------------------------
+    # A page-level total hides which of the 64 grids is actually wrong. Verdict
+    # per grid, so each one can be signed off or scheduled rather than living in
+    # an undifferentiated pile of mismatched cells.
+    print("\n  PER-GRID VERDICT")
+    print(f"    {'grid':26s} {'page':30s} {'ok':>5s} {'bad':>5s} {'empty':>6s}  verdict")
+    verdict_tally = defaultdict(int)
+    for path, grids in sorted(per_grid.items()):
+        for fn_name, st in sorted(grids.items()):
+            ok, bad = st["match"], st["mismatch"] + st["needs_state"]
+            empty, tot = st["on_empty"], st["match"] + st["mismatch"] + st["needs_state"]
+            if fn_name in STATE_VERIFIED:
+                v = "VERIFIED (state capture)"
+            elif tot == 0 and empty:
+                v = "ILLUSTRATIVE (drawn on empty grid)"
+            elif tot == 0:
+                v = "NO CLAIMS"
+            elif ok and bad == 0:
+                v = "VERIFIED"
+            elif ok / max(tot, 1) >= 0.8:
+                v = "MOSTLY OK, spot-fix"
+            elif st["needs_state"] > st["mismatch"]:
+                v = "NEEDS-STATE capture"
+            else:
+                v = "DEFECT, rewrite from source"
+            verdict_tally[v] += 1
+            print(f"    {fn_name:26s} {path[5:]:30s} {ok:5d} {bad:5d} {empty:6d}  {v}")
+    print("\n    verdict counts:")
+    for v, k in sorted(verdict_tally.items(), key=lambda x: -x[1]):
+        print(f"      {k:3d}  {v}")
+
+
+if __name__ == "__main__":
+    main()

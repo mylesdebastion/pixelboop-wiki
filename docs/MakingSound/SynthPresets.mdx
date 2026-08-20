@@ -20,18 +20,18 @@ export function PresetSelectionDemo() {
             "name": "Mute Column",
             "desc": "Column 0. Long-press any track's mute pixel to enter sound selection.",
             "elements": [
-                { "pos": [0, 2], "size": [1, 6], "color": "#F7DC6F" },
-                { "pos": [0, 8], "size": [1, 6], "color": "#4ECDC4" },
-                { "pos": [0, 14], "size": [1, 4], "color": "#45B7D1" },
-                { "pos": [0, 18], "size": [1, 4], "color": "#FF6B6B" }
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] },
+                { "pos": [0, 8], "size": [1, 6], "color": ["#00D9FF", "#01CCBE", "#02BF86", "#03B155", "#03A12C", "#04910B"] },
+                { "pos": [0, 14], "size": [1, 4], "color": ["#E6FF00", "#D1D301", "#BCAB03", "#A38704"] },
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
             ]
         },
         {
             "name": "Bank-Style Indicator",
             "desc": "During selection, the column switches to a dim bank pixel + a brighter active pixel.",
             "elements": [
-                { "pos": [0, 4], "size": [1, 1], "color": "#886600" },
-                { "pos": [0, 6], "size": [1, 1], "color": "#FFFFFF" }
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" },
+                { "pos": [0, 2], "size": [1, 1], "color": "#6B13AE" }
             ]
         }
     ];
@@ -68,24 +68,24 @@ When the two land on the same pixel, it lights at its **brightest**.
 export function BankDisplayDemo() {
     const uiElements = [
         {
+            "name": "Unlit cells",
+            "desc": "While cycling, the rest of the column drops to a very dark tint of the track colour.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#130821" }
+            ]
+        },
+        {
             "name": "Bank Marker (dim)",
             "desc": "Marks which bank of sounds is active.",
             "elements": [
-                { "pos": [0, 3], "size": [1, 1], "color": "#886600" }
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" }
             ]
         },
         {
             "name": "Active Pixel (bright)",
-            "desc": "Marks the current sound within the bank.",
+            "desc": "Marks the current sound within the bank. Measured on 1.1.3 during a hold.",
             "elements": [
-                { "pos": [0, 6], "size": [1, 1], "color": "#FFFFFF" }
-            ]
-        },
-        {
-            "name": "Coincident (brightest)",
-            "desc": "When bank marker and active pixel land on the same row, it's brightest.",
-            "elements": [
-                { "pos": [1, 3], "size": [1, 1], "color": "#FFFFFF" }
+                { "pos": [0, 2], "size": [1, 1], "color": "#6B13AE" }
             ]
         }
     ];
@@ -179,10 +179,10 @@ export function ChordsSoundsDemo() {
         ["Pluck", "#1B9D94", "Plucked string/mallet sound"],
         ["Organ", "#0A8D84", "Drawbar organ"],
         ["Bloom", "#0A7D74", "Slow-blooming, evolving pad"],
-        ["Mallet", "#0A6D64", "Soft mallet/percussion timbre"],
-        ["Brass", "#0A5D54", "Warm brass ensemble"],
         ["Reso", "#C280FF", "Resonant, filter-swept pad"],
         ["Dream", "#B266FF", "Airy, dreamlike pad"],
+        ["Mallet", "#0A6D64", "Soft mallet/percussion timbre"],
+        ["Brass", "#0A5D54", "Warm brass ensemble"],
         ["Glass Pad", "#A44DFF", "Glassy, shimmering pad"],
         ["Aurora", "#9933FF", "Wide, shimmering evolving pad"],
         ["Core", "#8822E6", "Solid, centered sustained tone"],
@@ -221,10 +221,10 @@ export function ChordsSoundsDemo() {
 | **Pluck** | Plucked string/mallet sound |
 | **Organ** | Drawbar organ |
 | **Bloom** | Slow-blooming, evolving pad |
-| **Mallet** | Soft mallet/percussion timbre |
-| **Brass** | Warm brass ensemble |
 | **Reso** | Resonant, filter-swept pad |
 | **Dream** | Airy, dreamlike pad |
+| **Mallet** | Soft mallet/percussion timbre |
+| **Brass** | Warm brass ensemble |
 | **Glass Pad** | Glassy, shimmering pad |
 | **Aurora** | Wide, shimmering evolving pad |
 | **Core** | Solid, centered sustained tone |
@@ -235,7 +235,7 @@ export function ChordsSoundsDemo() {
 
 ## Bass Sounds
 
-The default Bass sound is **Acid Bass**.
+The default Bass sound is **Electric Bass**.
 
 export function BassSoundsDemo() {
     const sounds = [
@@ -245,8 +245,8 @@ export function BassSoundsDemo() {
         ["Electric Bass", "#2397B1", "Electric bass guitar timbre"],
         ["Sub Bass", "#128797", "Deep, sine-heavy sub bass"],
         ["Ring Bass", "#017787", "Ring-modulated bass"],
-        ["Punch Bass", "#006777", "Short, punchy transient bass"],
         ["Grit Bass", "#CC99FF", "Overdriven, gritty bass"],
+        ["Punch Bass", "#006777", "Short, punchy transient bass"],
         ["Hollow Bass", "#C280FF", "Hollow, woody bass"],
         ["Formant Bass", "#B266FF", "Vowel-like formant bass"],
         ["Muted Pick", "#A44DFF", "Muted, picked bass"],
@@ -281,14 +281,14 @@ export function BassSoundsDemo() {
 
 | Sound | Character |
 |-------|-----------|
-| **Acid Bass** | Classic 303-style acid bass (default) |
+| **Acid Bass** | Classic 303-style acid bass |
 | **FM Bass** | FM synthesis bass |
 | **Saw Bass** | Sawtooth wave bass |
-| **Electric Bass** | Electric bass guitar timbre |
+| **Electric Bass** | Electric bass guitar timbre (default) |
 | **Sub Bass** | Deep, sine-heavy sub bass |
 | **Ring Bass** | Ring-modulated bass |
-| **Punch Bass** | Short, punchy transient bass |
 | **Grit Bass** | Overdriven, gritty bass |
+| **Punch Bass** | Short, punchy transient bass |
 | **Hollow Bass** | Hollow, woody bass |
 | **Formant Bass** | Vowel-like formant bass |
 | **Muted Pick** | Muted, picked bass |
@@ -304,7 +304,7 @@ export function BassSoundsDemo() {
 
 The **Rhythm track** does not have synth sounds. Instead it plays the classic **Synth** drum kit: synthesized drums organized into 4 banks. See [Drum Banks](DrumBanks) for information about the drum sounds.
 
-Extra sampled drum kits arrive with **[Pixelboop Pro](../GettingStarted/PixelboopPro)** in a future update.
+Extra sample-playback drum kits arrive with **[Pixelboop Pro](../GettingStarted/PixelboopPro)** in a future update.
 
 export function RhythmNoteDemo() {
     const uiElements = [
@@ -312,7 +312,7 @@ export function RhythmNoteDemo() {
             "name": "Rhythm Track",
             "desc": "Rows 18-21. Uses drum samples, not synth sounds.",
             "elements": [
-                { "pos": [0, 18], "size": [1, 4], "color": "#FF6B6B" }
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
             ]
         }
     ];

@@ -16,7 +16,7 @@ export function SyncOverview() {
             "name": "Sync Button",
             "desc": "Columns 10-12, Row 23. Tap to open sync interface, long-press for quick join/leave.",
             "elements": [
-                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+                { "pos": [10, 23], "size": [3, 1], "color": "#004D66" }
             ]
         },
         {
@@ -30,9 +30,9 @@ export function SyncOverview() {
         },
         {
             "name": "Link Button",
-            "desc": "Columns 5-7, Row 23. Ableton Link (not available as of v1.1.2 — cols 5-7 are dark).",
+            "desc": "Cols 5-7, row 23. Reserved for Ableton Link, switched off in this release, these pixels are black.",
             "elements": [
-                { "pos": [5, 23], "size": [3, 1], "color": "#FFFFFF" }
+                { "pos": [5, 23], "size": [3, 1], "color": "#000000" }
             ]
         }
     ];
@@ -136,7 +136,7 @@ Pixelboop uses two complementary sync technologies:
 - **Latency**: Low (~20-50ms)
 
 :::note
-**Ableton Link** (timing sync) is not available as of Pixelboop v1.1.2 and will be enabled in a future update. WiFi Sync handles both state and timing synchronization between devices.
+Ableton Link is built into Pixelboop but switched off in the current release, so those three pixels stay dark. WiFi Sync handles both state and timing synchronization between devices.
 :::
 
 ---
@@ -316,7 +316,7 @@ Each connected device gets a colored pixel indicator
 - Displays for 2 seconds
 
 ### Maximum Devices
-- Up to 8 devices can connect simultaneously
+- There is no hard device limit. The indicator lane shows up to 24 connected devices; beyond that they still connect but stop being drawn.
 - Indicator positions: columns 13-20
 
 ---
@@ -324,7 +324,7 @@ Each connected device gets a colored pixel indicator
 ## Ableton Link Integration
 
 :::note
-**Ableton Link** is not available as of Pixelboop v1.1.2. It will be enabled in a future update.
+Ableton Link is built into Pixelboop but switched off in the current release, so those three pixels stay dark.
 :::
 
 ---
@@ -349,13 +349,11 @@ Each connected device gets a colored pixel indicator
 **Common causes:**
 - Weak WiFi signal
 - Router blocking multicast
-- Too many devices (>8 limit)
 - Background app is suspending Pixelboop
 
 **Solutions:**
 - Move closer to WiFi router
 - Use peer-to-peer mode instead
-- Reduce number of connected devices
 - Keep Pixelboop in foreground
 
 ### Patterns Not Syncing
@@ -409,7 +407,7 @@ Each connected device gets a colored pixel indicator
 ### Always Synced (All Modes)
 - **Tempo (BPM)**: 60–200 BPM
 - **Root Key**: C through B
-- **Scale**: Major, Minor, Pentatonic
+- **Scale**: all eight types (Major, Minor, Pentatonic, Blues, Dorian, Lydian, Hirajoshi, Hungarian)
 
 ### Orchestra Mode Only
 - **Patterns**: All track patterns sync from host to followers

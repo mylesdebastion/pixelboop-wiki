@@ -43,7 +43,7 @@ Yes, for best results all devices should be on the same WiFi network. Pixelboop 
 - **USB MIDI** via Lightning/USB-C adapter (iOS)
 - **Bluetooth MIDI** for wireless connections
 
-Each track can send MIDI to different channels, making it easy to control multiple synths, drum machines, or DAWs. See [Connectivity](../Connectivity/Connectivity) for setup.
+Each track can send MIDI to different channels, making it easy to control multiple synths, drum machines, or DAWs. See [Connectivity](/Connectivity) for setup.
 
 ### Q: Can I sync Pixelboop with my DAW?
 

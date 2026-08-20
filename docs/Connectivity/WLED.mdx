@@ -50,12 +50,12 @@ export function WLEDButtonDemo() {
     const uiElements = [
         { 
             "name": "WLED Button", 
-            "desc": "Cols 0-3, Row 23: Rainbow gradient when enabled. Tap to toggle, hold Play button for config.", 
+            "desc": "Cols 0-3, Row 23: Tap to open the Rainbow Menu. Hold to toggle WLED output on or off.", 
             "elements": [
-                { "pos": [0, 23], "size": [1, 1], "color": "#FF0000" },
-                { "pos": [1, 23], "size": [1, 1], "color": "#FF8800" },
-                { "pos": [2, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [3, 23], "size": [1, 1], "color": "#00FFAA" }
+                { "pos": [0, 23], "size": [1, 1], "color": "#CC2929" },
+                { "pos": [1, 23], "size": [1, 1], "color": "#CC4229" },
+                { "pos": [2, 23], "size": [1, 1], "color": "#CC5C29" },
+                { "pos": [3, 23], "size": [1, 1], "color": "#CC7529" }
             ]
         }
     ];
@@ -74,7 +74,15 @@ export function WLEDButtonDemo() {
 | State | Color | Description |
 |-------|-------|-------------|
 | Enabled | 🌈 Rainbow gradient | WLED is active and sending data |
-| Disabled | ⚫ Dark | WLED is off |
+| Disabled | 🟤 Dim orange (#281400) | WLED output is off |
+
+### Tap: Open the Rainbow Menu
+
+A single tap opens the Rainbow Menu (the WLED / VJ / lighting settings dialog), where you enter the WLED device IP, test the connection and configure visualizers. A "Rainbow Menu" tooltip confirms it.
+
+### Hold: Toggle WLED output
+
+Holding the button for about half a second toggles WLED output on or off without opening anything. A "WLED On" / "WLED Off" tooltip confirms.
 
 ---
 
@@ -144,7 +152,7 @@ Pixelboop sends the **entire 44×24 grid** to your LED strip in real-time:
 - **Each column** → multiple LEDs (depends on strip length)
 - **Colors match exactly** → What you see on screen appears on the strip
 - **Track colors** → Melody (yellow), Chords (teal), Bass (blue), Rhythm (red)
-- **Updates** → 20-30 times per second for smooth animations
+- **Updates** → rendered at 60 frames per second; identical frames are skipped, so actual network traffic is usually lower.
 
 ### Strip Length Recommendations
 

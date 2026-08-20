@@ -6,7 +6,7 @@ import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVis
 
 # Drum Banks
 
-The Rhythm track uses **sampled drums** organized into 4 banks. Each bank assigns different drum sounds to the 4 rhythm rows.
+The Rhythm track uses **synthesized drums** organized into 4 banks. Each bank assigns different drum sounds to the 4 rhythm rows.
 
 ## Rhythm Track Overview
 
@@ -16,20 +16,20 @@ export function RhythmOverview() {
             "name": "Rhythm Track",
             "desc": "Rows 18-21. 4 drum sounds at a time from the current bank.",
             "elements": [
-                { "pos": [4, 18], "size": [32, 1], "color": "#FF6B6B" },
-                { "pos": [4, 19], "size": [32, 1], "color": "#E85B5B" },
-                { "pos": [4, 20], "size": [32, 1], "color": "#D14B4B" },
-                { "pos": [4, 21], "size": [32, 1], "color": "#BA3B3B" }
+                { "pos": [4, 18], "size": [32, 1], "color": "#F2531D" },
+                { "pos": [4, 19], "size": [32, 1], "color": "#1DF21D" },
+                { "pos": [4, 20], "size": [32, 1], "color": "#CF1DF2" },
+                { "pos": [4, 21], "size": [32, 1], "color": "#F2871D" }
             ]
         },
         {
             "name": "Row Labels",
             "desc": "Each row plays a different drum from the active bank.",
             "elements": [
-                { "pos": [2, 18], "size": [1, 1], "color": "#666666" },
-                { "pos": [2, 19], "size": [1, 1], "color": "#666666" },
-                { "pos": [2, 20], "size": [1, 1], "color": "#666666" },
-                { "pos": [2, 21], "size": [1, 1], "color": "#666666" }
+                { "pos": [2, 18], "size": [1, 1], "color": "#472F0D" },
+                { "pos": [2, 19], "size": [1, 1], "color": "#472F0D" },
+                { "pos": [2, 20], "size": [1, 1], "color": "#472F0D" },
+                { "pos": [2, 21], "size": [1, 1], "color": "#B67215" }
             ]
         }
     ];
@@ -55,37 +55,37 @@ export function Bank0Demo() {
     const uiElements = [
         {
             "name": "Kick 2 (Row 18)",
-            "desc": "GM Note 35. Acoustic Bass Drum.",
+            "desc": "GM Note 36. Bass Drum 1.",
             "elements": [
-                { "pos": [8, 18], "size": [1, 1], "color": "#FF6B6B" },
-                { "pos": [16, 18], "size": [1, 1], "color": "#FF6B6B" },
-                { "pos": [24, 18], "size": [1, 1], "color": "#FF6B6B" }
+                { "pos": [8, 18], "size": [1, 1], "color": "#F2531D" },
+                { "pos": [16, 18], "size": [1, 1], "color": "#F2531D" },
+                { "pos": [24, 18], "size": [1, 1], "color": "#F2531D" }
             ]
         },
         {
             "name": "Snare (Row 19)",
             "desc": "GM Note 38. Standard snare drum.",
             "elements": [
-                { "pos": [12, 19], "size": [1, 1], "color": "#E85B5B" },
-                { "pos": [20, 19], "size": [1, 1], "color": "#E85B5B" },
-                { "pos": [28, 19], "size": [1, 1], "color": "#E85B5B" }
+                { "pos": [12, 19], "size": [1, 1], "color": "#1DF21D" },
+                { "pos": [20, 19], "size": [1, 1], "color": "#1DF21D" },
+                { "pos": [28, 19], "size": [1, 1], "color": "#1DF21D" }
             ]
         },
         {
             "name": "Closed Hi-Hat (Row 20)",
             "desc": "GM Note 42. Tight, closed hat.",
             "elements": [
-                { "pos": [8, 20], "size": [1, 1], "color": "#D14B4B" },
-                { "pos": [10, 20], "size": [1, 1], "color": "#D14B4B" },
-                { "pos": [12, 20], "size": [1, 1], "color": "#D14B4B" },
-                { "pos": [14, 20], "size": [1, 1], "color": "#D14B4B" }
+                { "pos": [8, 20], "size": [1, 1], "color": "#CF1DF2" },
+                { "pos": [10, 20], "size": [1, 1], "color": "#CF1DF2" },
+                { "pos": [12, 20], "size": [1, 1], "color": "#CF1DF2" },
+                { "pos": [14, 20], "size": [1, 1], "color": "#CF1DF2" }
             ]
         },
         {
             "name": "Low Tom (Row 21)",
-            "desc": "GM Note 45. Deep floor tom.",
+            "desc": "GM Note 47. Deep floor tom.",
             "elements": [
-                { "pos": [30, 21], "size": [1, 1], "color": "#BA3B3B" }
+                { "pos": [30, 21], "size": [1, 1], "color": "#F2871D" }
             ]
         }
     ];
@@ -101,10 +101,10 @@ export function Bank0Demo() {
 
 | Row | Drum | GM Note |
 |-----|------|---------|
-| 18 | Kick 2 | 35 |
+| 18 | Kick 2 | 36 |
 | 19 | Snare | 38 |
 | 20 | Closed Hi-Hat | 42 |
-| 21 | Low Tom | 45 |
+| 21 | Low Tom | 47 |
 
 ---
 
@@ -116,31 +116,31 @@ export function Bank1Demo() {
     const uiElements = [
         {
             "name": "Kick (Row 18)",
-            "desc": "GM Note 36. Bass Drum 1.",
+            "desc": "GM Note 35. Acoustic Bass Drum.",
             "elements": [
-                { "pos": [8, 18], "size": [1, 1], "color": "#FF6B6B" }
+                { "pos": [8, 18], "size": [1, 1], "color": "#F21D1D" }
             ]
         },
         {
             "name": "Snare 2 (Row 19)",
             "desc": "GM Note 40. Electric snare.",
             "elements": [
-                { "pos": [12, 19], "size": [1, 1], "color": "#E85B5B" }
+                { "pos": [12, 19], "size": [1, 1], "color": "#1DF264" }
             ]
         },
         {
             "name": "Open Hi-Hat (Row 20)",
             "desc": "GM Note 46. Open, sustaining hat.",
             "elements": [
-                { "pos": [14, 20], "size": [1, 1], "color": "#D14B4B" }
+                { "pos": [14, 20], "size": [1, 1], "color": "#761DF2" }
             ]
         },
         {
             "name": "Ride (Row 21)",
             "desc": "GM Note 51. Ride cymbal.",
             "elements": [
-                { "pos": [8, 21], "size": [1, 1], "color": "#BA3B3B" },
-                { "pos": [12, 21], "size": [1, 1], "color": "#BA3B3B" }
+                { "pos": [8, 21], "size": [1, 1], "color": "#401DF2" },
+                { "pos": [12, 21], "size": [1, 1], "color": "#401DF2" }
             ]
         }
     ];
@@ -156,7 +156,7 @@ export function Bank1Demo() {
 
 | Row | Drum | GM Note |
 |-----|------|---------|
-| 18 | Kick | 36 |
+| 18 | Kick | 35 |
 | 19 | Snare 2 | 40 |
 | 20 | Open Hi-Hat | 46 |
 | 21 | Ride | 51 |
@@ -173,30 +173,30 @@ export function Bank2Demo() {
             "name": "Clap (Row 18)",
             "desc": "GM Note 39. Hand clap.",
             "elements": [
-                { "pos": [12, 18], "size": [1, 1], "color": "#FF6B6B" },
-                { "pos": [20, 18], "size": [1, 1], "color": "#FF6B6B" }
+                { "pos": [12, 18], "size": [1, 1], "color": "#F2E11D" },
+                { "pos": [20, 18], "size": [1, 1], "color": "#F2E11D" }
             ]
         },
         {
             "name": "Rimshot (Row 19)",
             "desc": "GM Note 37. Side stick / rimshot.",
             "elements": [
-                { "pos": [10, 19], "size": [1, 1], "color": "#E85B5B" }
+                { "pos": [10, 19], "size": [1, 1], "color": "#1DF2CE" }
             ]
         },
         {
             "name": "Cowbell (Row 20)",
             "desc": "GM Note 56. More cowbell!",
             "elements": [
-                { "pos": [8, 20], "size": [1, 1], "color": "#D14B4B" },
-                { "pos": [16, 20], "size": [1, 1], "color": "#D14B4B" }
+                { "pos": [8, 20], "size": [1, 1], "color": "#1DABF2" },
+                { "pos": [16, 20], "size": [1, 1], "color": "#1DABF2" }
             ]
         },
         {
             "name": "Crash (Row 21)",
             "desc": "GM Note 49. Crash cymbal.",
             "elements": [
-                { "pos": [4, 21], "size": [1, 1], "color": "#BA3B3B" }
+                { "pos": [4, 21], "size": [1, 1], "color": "#1D40F2" }
             ]
         }
     ];
@@ -226,38 +226,38 @@ Mixed selection for versatility.
 export function Bank3Demo() {
     const uiElements = [
         {
-            "name": "Kick (Row 18)",
-            "desc": "GM Note 36. Standard kick.",
+            "name": "Kick 2 (Row 18)",
+            "desc": "GM Note 36. Bass Drum 1.",
             "elements": [
-                { "pos": [8, 18], "size": [1, 1], "color": "#FF6B6B" }
+                { "pos": [8, 18], "size": [1, 1], "color": "#F2531D" }
             ]
         },
         {
             "name": "Snare (Row 19)",
             "desc": "GM Note 38. Standard snare.",
             "elements": [
-                { "pos": [12, 19], "size": [1, 1], "color": "#E85B5B" }
+                { "pos": [12, 19], "size": [1, 1], "color": "#1DF21D" }
             ]
         },
         {
             "name": "Open Hi-Hat (Row 20)",
             "desc": "GM Note 46. Open hat for energy.",
             "elements": [
-                { "pos": [14, 20], "size": [1, 1], "color": "#D14B4B" }
+                { "pos": [14, 20], "size": [1, 1], "color": "#761DF2" }
             ]
         },
         {
             "name": "Crash (Row 21)",
             "desc": "GM Note 49. Crash for accents.",
             "elements": [
-                { "pos": [4, 21], "size": [1, 1], "color": "#BA3B3B" }
+                { "pos": [4, 21], "size": [1, 1], "color": "#1D40F2" }
             ]
         }
     ];
 
     return <MystrixVisualizer
         uiName="Bank 3: Hybrid"
-        uiDescription="Kick / Snare / Open Hat / Crash"
+        uiDescription="Kick 2 / Snare / Open Hat / Crash"
         uiElements={uiElements}
     />
 }
@@ -266,7 +266,7 @@ export function Bank3Demo() {
 
 | Row | Drum | GM Note |
 |-----|------|---------|
-| 18 | Kick | 36 |
+| 18 | Kick 2 | 36 |
 | 19 | Snare | 38 |
 | 20 | Open Hi-Hat | 46 |
 | 21 | Crash | 49 |
@@ -277,10 +277,10 @@ export function Bank3Demo() {
 
 | Bank | Row 18 | Row 19 | Row 20 | Row 21 |
 |------|--------|--------|--------|--------|
-| **0 (Core)** | Kick 2 (35) | Snare (38) | Closed Hat (42) | Low Tom (45) |
-| **1 (Alt)** | Kick (36) | Snare 2 (40) | Open Hat (46) | Ride (51) |
+| **0 (Core)** | Kick 2 (36) | Snare (38) | Closed Hat (42) | Low Tom (47) |
+| **1 (Alt)** | Kick (35) | Snare 2 (40) | Open Hat (46) | Ride (51) |
 | **2 (Perc)** | Clap (39) | Rimshot (37) | Cowbell (56) | Crash (49) |
-| **3 (Hybrid)** | Kick (36) | Snare (38) | Open Hat (46) | Crash (49) |
+| **3 (Hybrid)** | Kick 2 (36) | Snare (38) | Open Hat (46) | Crash (49) |
 
 ---
 
@@ -297,8 +297,8 @@ When using MIDI with external gear, the rhythm track sends standard GM drum note
 | 39 | Hand Clap |
 | 40 | Electric Snare |
 | 42 | Closed Hi-Hat |
-| 45 | Low Tom |
 | 46 | Open Hi-Hat |
+| 47 | Low-Mid Tom |
 | 49 | Crash Cymbal 1 |
 | 51 | Ride Cymbal 1 |
 | 56 | Cowbell |

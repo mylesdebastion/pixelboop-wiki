@@ -14,38 +14,38 @@ export function BottomRowOverview() {
     const uiElements = [
         {
             "name": "WLED Controls",
-            "desc": "Columns 0-3. Control external LED strips via WLED.",
+            "desc": "Columns 0-3. Control external LED strips via WLED. The band drifts slowly, so the exact colours shown here are one moment of that cycle.",
             "elements": [
-                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"] }
+                { "pos": [0, 23], "size": [4, 1], "color": ["#CCC929", "#AFCC29", "#8ECC29", "#6DCC29"] }
             ]
         },
         {
             "name": "Link Button",
-            "desc": "Columns 5-7. Ableton Link (not available as of v1.1.2 — cols 5-7 are dark).",
+            "desc": "Columns 5-7. Ableton Link is built into Pixelboop but switched off in the current release, so those three pixels stay dark.",
             "elements": [
-                { "pos": [5, 23], "size": [3, 1], "color": "#111111" }
+                { "pos": [5, 23], "size": [3, 1], "color": "#000000" }
             ]
         },
         {
             "name": "Mode Button",
             "desc": "Columns 8-9. Orchestra sync mode indicator (Yellow=Free, Purple=Follower, Bright Purple=Host, Bright Green=Remote).",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#FFFF00" }
+                { "pos": [8, 23], "size": [2, 1], "color": "#C89600" }
             ]
         },
         {
             "name": "Sync Button",
             "desc": "Columns 10-12. Multi-device sync controls.",
             "elements": [
-                { "pos": [10, 23], "size": [3, 1], "color": "#FFD700" }
+                { "pos": [10, 23], "size": [3, 1], "color": "#004D66" }
             ]
         },
         {
             "name": "Device Indicators",
-            "desc": "Columns 12-35. Shows connected devices (up to 24). Only visible when devices are connected.",
+            "desc": "Columns 12-35, one pixel per participant, up to 24. The host is bright green #00FF00, followers dimmer #00B300. Nothing is drawn at all when there are no participants.",
             "elements": [
-                { "pos": [12, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [13, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [12, 23], "size": [1, 1], "color": "#004D66" },
+                { "pos": [13, 23], "size": [1, 1], "color": "#00B300" },
                 { "pos": [14, 23], "size": [1, 1], "color": "#00FF00" }
             ]
         }
@@ -68,9 +68,9 @@ export function WLEDDemo() {
     const uiElements = [
         {
             "name": "WLED Gradient",
-            "desc": "Rainbow gradient chase shows WLED status. Tap to toggle.",
+            "desc": "A slow-drifting colour band shows WLED output is on. Tap opens the Rainbow Menu, hold toggles output.",
             "elements": [
-                { "pos": [0, 23], "size": [4, 1], "color": ["#FF0000", "#FF8800", "#00FF00", "#00FFAA"] }
+                { "pos": [0, 23], "size": [4, 1], "color": ["#CC2929", "#CC4229", "#CC5C29", "#CC7529"] }
             ]
         }
     ];
@@ -88,17 +88,16 @@ export function WLEDDemo() {
 WLED is an open-source LED strip control system. Pixelboop can send pattern data to WLED devices to create synchronized light shows.
 
 ### Visual Indicator
-- **Rainbow gradient chase**: WLED enabled and connected
-- **Dark**: WLED disabled
+- **Slow-drifting colour band**: WLED output is ON (about one full cycle every ten seconds). It shows output is enabled, not that a device is reachable.
+- **Dim orange (#281400)**: WLED output is off.
 
-### Tap: Toggle WLED On/Off
+### Tap: Open the Rainbow Menu
+- Opens the WLED configuration dialog (a "Rainbow Menu" tooltip confirms it)
+- Configure the WLED IP address, brightness, and color mapping, and test the connection
+
+### Hold: Toggle WLED On/Off
 - Enables/disables WLED output
-- When enabled, sends pattern data to configured WLED device
-
-### Long-Press: WLED Settings
-- Configure WLED IP address
-- Set brightness and color mapping
-- Test connection
+- When enabled, sends pattern data to the configured WLED device
 
 ### Features
 - **Real-time sync**: LED patterns match sequencer playback
@@ -113,7 +112,7 @@ WLED is an open-source LED strip control system. Pixelboop can send pattern data
 ## Ableton Link (Cols 5-7)
 
 :::note
-**Ableton Link** is not available as of Pixelboop v1.1.2. Columns 5–7 in row 23 are dark/empty. Ableton Link will be enabled in a future update.
+**Ableton Link** is built into Pixelboop but switched off in the current release, so those three pixels stay dark.
 :::
 
 **See [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) for collaboration setup.**
@@ -128,7 +127,28 @@ export function ModeButtonDemo() {
             "name": "Mode Button (Orchestra Indicator)",
             "desc": "Columns 8-9, Row 23. Color indicates Orchestra sync state.",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#FFFF00" }
+                { "pos": [8, 23], "size": [2, 1], "color": "#C89600" }
+            ]
+        },
+        {
+            "name": "Remote session active",
+            "desc": "With a remote session running the Mode pixels go bright green (#00E600), overriding the sync-mode colour below.",
+            "elements": [
+                { "pos": [8, 22], "size": [2, 1], "color": "#00E600" }
+            ]
+        },
+        {
+            "name": "Orchestra Follower",
+            "desc": "Purple #9600C8 when following a host.",
+            "elements": [
+                { "pos": [8, 21], "size": [2, 1], "color": "#9600C8" }
+            ]
+        },
+        {
+            "name": "Orchestra Host",
+            "desc": "Bright purple #C800FF when hosting.",
+            "elements": [
+                { "pos": [8, 20], "size": [2, 1], "color": "#C800FF" }
             ]
         }
     ];
@@ -146,10 +166,10 @@ The **Mode button** (cols 8–9, row 23) is the **Orchestra sync mode indicator*
 
 | Color | Meaning |
 |-------|---------|
-| **Yellow** | Free (not synced to any session) |
-| **Purple** | Follower (connected to a host) |
-| **Bright Purple** | Host (leading a sync session) |
-| **Bright Green** | Remote session active |
+| **Yellow** (#C89600) | Free (not synced to any session) |
+| **Purple** (#9600C8) | Follower (connected to a host) |
+| **Bright Purple** (#C800FF) | Host (leading a sync session) |
+| **Bright Green** (#00E600) | Remote session active |
 
 **See [Song Sections](SongSections.mdx) for section management.**
 **See [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) for Orchestra mode details.**
@@ -161,24 +181,25 @@ The **Mode button** (cols 8–9, row 23) is the **Orchestra sync mode indicator*
 export function SyncButtonDemo() {
     const uiElements = [
         {
-            "name": "Disconnected",
-            "desc": "Gray = No active sync session",
+            "name": "No session (idle)",
+            "desc": "With no session running the three pixels sit at a dim teal.",
             "elements": [
-                { "pos": [10, 23], "size": [3, 1], "color": "#444444" }
+                { "pos": [10, 23], "size": [3, 1], "color": "#004D66" }
             ]
         },
         {
-            "name": "Host",
-            "desc": "Gold = You're hosting a session",
+            "name": "Connected, with peers",
+            "desc": "All three pixels go bright cyan once peers are connected.",
             "elements": [
-                { "pos": [10, 22], "size": [3, 1], "color": "#FFD700" }
+                { "pos": [10, 22], "size": [3, 1], "color": "#00E6E6" }
             ]
         },
         {
-            "name": "Follower",
-            "desc": "Green = Connected to a host",
+            "name": "Hosting",
+            "desc": "When you are the host the MIDDLE pixel is overwritten gold. The outer two keep the session colour.",
             "elements": [
-                { "pos": [10, 21], "size": [3, 1], "color": "#00FF00" }
+                { "pos": [10, 21], "size": [3, 1], "color": "#00E6E6" },
+                { "pos": [11, 21], "size": [1, 1], "color": "#FFCC00" }
             ]
         }
     ];
@@ -211,9 +232,9 @@ Opens the sync control panel with options:
 
 | Color | Status | Description |
 |-------|--------|-------------|
-| **Gray** | Disconnected | No active session |
-| **Gold** | Host | You're controlling the session |
-| **Green** | Follower | Connected to a host |
+| **Dim cyan** (#004D66) | Disconnected | No active session |
+| **Gold middle pixel** (#FFCC00) | Host | You're controlling the session |
+| **Bright cyan** (#00E6E6) | Connected | Peers are in the session |
 
 ### Host vs. Follower
 
@@ -242,9 +263,9 @@ export function DeviceIndicatorsDemo() {
             "desc": "Each device gets a green pixel. Up to 24 devices supported. Indicators only appear when devices are connected.",
             "elements": [
                 { "pos": [12, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [13, 23], "size": [1, 1], "color": "#00AA00" },
-                { "pos": [14, 23], "size": [1, 1], "color": "#00FF00" },
-                { "pos": [15, 23], "size": [1, 1], "color": "#00AA00" },
+                { "pos": [13, 23], "size": [1, 1], "color": "#00B300" },
+                { "pos": [14, 23], "size": [1, 1], "color": "#00B300" },
+                { "pos": [15, 23], "size": [1, 1], "color": "#00B300" },
                 { "pos": [16, 23], "size": [1, 1], "color": "#00FF00" }
             ]
         }
@@ -281,7 +302,7 @@ When devices are connected via WiFi Sync, each device gets a green pixel indicat
 | Control | Columns | Function | Tap | Long-Press |
 |---------|---------|----------|-----|------------|
 | **WLED** | 0-3 | LED strip control | Toggle on/off | Settings |
-| **Link** | 5-7 | Ableton Link (unavailable as of v1.1.2) | — | — |
+| **Link** | 5-7 | Ableton Link is built into Pixelboop but switched off in the current release, so those three pixels stay dark. | — | — |
 | **Mode** | 8-9 | Orchestra sync indicator | — | — |
 | **Sync** | 10-12 | Multi-device sync | Sync menu | Quick join/leave |
 | **Devices** | 12-35 | Device indicators (when synced) | — | — |
@@ -291,4 +312,4 @@ When devices are connected via WiFi Sync, each device gets a green pixel indicat
 **See Also:**
 - [Top Controls](TopControls.mdx) - Row 0 (top) controls
 - [Multi-Device Sync](../JamWithOthers/MultiDeviceSync.mdx) - Collaboration setup
-- [Connectivity](../Connectivity/Connectivity.mdx) - MIDI and other connections
+- [Connectivity](/Connectivity) - MIDI and other connections
