@@ -8,9 +8,9 @@ import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVis
 
 Each melodic track (Melody, Chords, Bass) has a library of synth sounds you can select. Use the **long-press gesture** on the mute pixel to browse and cycle through sounds.
 
-:::info New in 1.1.2
-The sound library is much bigger: 48 sounds across Melody, Chords, and Bass, all included. All sounds are level-matched with each other, and jams (including community jams) now remember each track's sound.
-:::
+The library holds 48 sounds across Melody, Chords, and Bass, all included, and jams (including community jams) remember the sound each track was using.
+
+The sounds are loudness-matched to each other by measurement, but not exactly. See [Loudness Matching](#loudness-matching) for the sounds that still sit off the shared level.
 
 ## Selecting a Sound
 
@@ -52,7 +52,23 @@ export function PresetSelectionDemo() {
 3. **Continue holding** — the display cycles to the next sound roughly every 0.7 seconds.
 4. **Release** when you hear the sound you want.
 
-The sound **previews automatically** as you cycle through the library.
+The sound **previews automatically** as you cycle through the library, so you can hear each one as you pass it.
+
+:::note Coming in the next version
+The preview only sounds while the sequencer is **stopped**. That part does not change: with nothing else playing, the preview note is the only way to hear what you landed on.
+
+While a jam is **playing** there is no preview note at all. Holding to cycle used to fire one on every step of the hold, landing out of time and at a fixed pitch on top of whatever the sequencer was already playing, and stacking up as the cycle ran. Rhythm was the worst of the four tracks, since its preview is three drum hits per step rather than one note.
+
+Nothing else about cycling changes. The track still switches to the new sound the instant you reach it, and the tooltip still names it, so the very next sequencer step plays the new sound. You simply stop hearing the extra note on top of the jam.
+:::
+
+{/* OWNER, BEFORE PUBLISHING: the commit that made this change (8e09ebd) is
+verified to build only. It was never run on a device or the simulator, and the
+audible result is the whole point of it. Give it a listen while a jam is running
+before this note goes live. */}
+
+{/* MystrixVisualizer figure: the mute column mid-cycle while the sequencer is
+running. Do not author here; add in a later pass. */}
 
 ---
 
@@ -328,9 +344,29 @@ export function RhythmNoteDemo() {
 
 ---
 
-## Level-Matched Volumes
+## Loudness Matching
 
-All sounds are **level-matched** with each other, so switching sounds on a track doesn't jump the volume up or down — a quiet-sounding Flute and a loud-sounding Sync Lead play at the same perceived loudness.
+Every sound carries a level correction that was measured, not guessed, so a quiet-sounding Flute and a loud-sounding Sync Lead land close to the same perceived loudness. Most of the library does sit at one level.
+
+It is not exact, and cycling sounds can still step the volume. A handful of sounds need more correction than the app is able to apply, and they stay off the shared level: the very short, percussive sounds stay quieter than the rest, and the long sustained pads stay louder.
+
+Bass has a lower real ceiling than the other tracks. **Acid Bass**, **Electric Bass**, **Ring Bass**, **Punch Bass**, **Muted Pick**, and **Gated Bass** all reach that ceiling, so at full velocity their level corrections do nothing to separate them. The difference between those six only shows up when you play softer.
+
+Drum kits are not corrected at all: a kit carries no level setting, so what you hear is whatever the kit renders.
+
+:::note Coming in the next version
+The whole library was re-measured with gated K-weighted loudness (ITU-R BS.1770-4, the broadcast loudness standard) against a median reference of -17.697 LUFS. The previous pass averaged level over a fixed window, which flattered long pads and made short stabs read far quieter than they actually sound, so it over-boosted the stabs and over-attenuated the pads. Sounds that fit inside the correction the app can apply now land on that one reference level.
+
+Fourteen of the 48 do not fit, and stay off it:
+
+- **Melody: Stab, Pop, Clang.** Short and percussive. They stay quieter than the rest of the melody library.
+- **Chords: Organ, Brass, Glass Pad, Aurora, Drawn.** Long and sustained. They stay louder than the rest of the chord library.
+- **Bass: Acid Bass, Electric Bass, Ring Bass, Punch Bass, Muted Pick, Gated Bass.** The same six named above.
+
+There is no reference level that would fit all 48 inside the available correction: roughly 10 dB of spread survives whichever level is chosen. Closing it needs more headroom in the mix, not a better table of numbers.
+
+Drum kits are measured in the same pass, but still not corrected.
+:::
 
 ## Jams Remember Your Sounds
 

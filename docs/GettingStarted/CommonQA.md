@@ -33,7 +33,7 @@ Currently, Pixelboop supports **up to 8 devices** syncing together simultaneousl
 
 ### Q: Do we need to be on the same WiFi network?
 
-Yes, for best results all devices should be on the same WiFi network. Pixelboop uses WiFi for device discovery and synchronization via Ableton Link protocol.
+Yes. All devices need to be on the same WiFi network. Pixelboop finds the other devices on that network by itself and keeps them in time, with no internet connection involved. This is Pixelboop's own sync, not Ableton Link (see the DAW question below).
 
 ## MIDI & External Gear
 
@@ -47,7 +47,16 @@ Each track can send MIDI to different channels, making it easy to control multip
 
 ### Q: Can I sync Pixelboop with my DAW?
 
-Absolutely! Pixelboop includes **Ableton Link** support for tight timing sync with desktop DAWs like Ableton Live, Bitwig, and other Link-enabled apps. You can also send MIDI clock if your DAW prefers that.
+Not on its own clock yet. Ableton Link is built into the app, but it is switched off in every shipping build and there is no announced date for turning it on. The pixels reserved for its button on the bottom row stay black, so there is no Link control to hunt for.
+
+<!-- FIGURE: a MystrixVisualizer of the bottom control row (Link pixels black) belongs here. This page is .md, so it cannot host the component as written; convert to .mdx first or link out to the figure already on Multi-Device Sync. -->
+
+What does work today:
+
+- **Pixelboop's own multi-device sync** over WiFi, for playing in time with other Pixelboop devices. See [Multi-Device Sync](../JamWithOthers/MultiDeviceSync).
+- **MIDI over Bluetooth LE or USB**, for playing your DAW's instruments or your hardware from the Pixelboop grid.
+
+Pixelboop sends MIDI notes, not MIDI clock, so a DAW receiving from Pixelboop plays the notes but will not follow Pixelboop's tempo. Set the tempo on both sides by hand and start them together.
 
 ## LED Integration
 
@@ -65,10 +74,14 @@ Any **WLED-compatible** LED strip or controller. WLED is an open-source project 
 
 ### Q: I found a bug. How do I report it?
 
-Please report bugs or request features:
-- **Email**: [support@audiolux.app](mailto:support@audiolux.app)
-- **GitHub**: Coming soon
-- **Discord**: Join our community for quick help and discussions
+Start at the [PixelBoop community forum](https://www.pixelboop.com/forum). It is open to guests, so you can post a bug report, a feature request, or a question without making an account or handing over an email address.
+
+Other ways to reach us:
+
+- Email: [support@audiolux.app](mailto:support@audiolux.app)
+- Discord: [discord.gg/ZsXcujcnFe](https://discord.gg/ZsXcujcnFe)
+
+The forum is not linked from inside the app yet, so reach it from [pixelboop.com](https://www.pixelboop.com) or bookmark the address above.
 
 ### Q: Do I need an account to use Pixelboop?
 

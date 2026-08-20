@@ -8,6 +8,16 @@ sidebar_position: 4
 
 Interval modes apply to the three pitch tracks: **Melody**, **Chords**, and **Bass**. See [Tracks & Sounds](Tracks.mdx) for how those tracks are laid out on the grid.
 
+:::caution Coming in 1.2.0: old jams will play in different octaves
+1.2.0 rebuilds how a pitch track's rows are stacked, so that the ladder always rises: a higher row can never sound lower than the row beneath it, and no two rows of a track can land on the same note.
+
+Getting there means moving whole ladders up or down. **A jam saved before 1.2.0 that used 3RDS, 4THS, 5THS, 7THS, or 2NDS will play back in different octaves.** Every row keeps its pitch class, so the grid colors do not move and the notes are still the same notes. What moves is register, always by a whole octave at a time. That is enough to put a bass line somewhere new underneath a melody you wrote around it, so reopen those jams and listen before you rely on them.
+
+**PENTA**, **JAZZ**, and **CHROM** are untouched. A jam that only used those three sounds exactly as it did before.
+
+None of this is in the App Store build yet. See [Every ladder rises](#coming-in-120-every-ladder-rises) below for what changed and why.
+:::
+
 ## The 8 interval modes
 
 Cycling through column 3 (see below) steps through these modes in order:
@@ -23,6 +33,8 @@ Cycling through column 3 (see below) steps through these modes in order:
 | **2nds** | `2NDS` | Adjacent scale degrees — the tightest, most stepwise sound. |
 | **Chromatic** | `CHROM` | Every row is one semitone apart, spanning the full range with no scale snapping. |
 
+PENTA and JAZZ are fixed note layouts rather than ladders built from scale degrees, and CHROM is simply one semitone per row. The other five (3RDS, 4THS, 5THS, 7THS, 2NDS) are the ones that count up the scale, and they are the five the 1.2.0 change applies to.
+
 ## Changing the interval mode (hold column 3)
 
 Each pitch track has a notes column at **column 3** — the same column that shows the track's current scale notes. Hold anywhere in that column on the Melody, Chords, or Bass track:
@@ -37,14 +49,33 @@ Releasing before the first step (before ~0.5 seconds) is just a quick tap — no
 On the **Rhythm** track, tapping column 3 does something different: it switches drum banks. The hold-to-cycle interval gesture only applies to the Melody, Chords, and Bass tracks.
 :::
 
-## Linked intervals (new default)
+## Linked intervals
 
-:::tip New in 1.1.2
-Changing the interval mode on any one pitch track now applies it to **Melody, Chords, and Bass together** by default. A single hold-and-release on any of the three retunes all three tracks to the new interval mode at once.
-:::
+Changing the interval mode on any one pitch track applies it to **Melody, Chords, and Bass together**. One hold and release on any of the three retunes all three at once. This is how the app behaves out of the box.
 
-To go back to cycling each track's interval mode independently, open the **Rainbow Menu → Interface** group and turn on **Individual intervals per track**. With that on, holding column 3 on a track only changes that track's own interval mode.
+To cycle each track's interval mode on its own instead, open the **Rainbow menu**, pick **Grid** in the left rail, and turn on **Intervals per track**. The toggle's own subtitle states the default it is switching off: "Off: cycling an interval on one track updates all pitch tracks together." With **Intervals per track** on, holding column 3 on a track changes only that track's interval mode.
+
+## Coming in 1.2.0: every ladder rises
+
+The grid's basic promise is that up the grid is up in pitch. In 3RDS, 4THS, 5THS, 7THS, and 2NDS that promise was not being kept.
+
+The reason is that a ladder built by counting up the scale climbs fast, and something has to keep it in a usable register. Before 1.2.0 each row was pulled back into range on its own, one note at a time. That kept the pitches low, but it scrambled their order: a higher row could come out lower than the row directly beneath it, and in 7THS over a six-note scale five separate rows could collapse onto the same pitch. Two rows that looked different sounded identical.
+
+In 1.2.0 the fit is worked out once per note set, from the bottom row alone, and the whole ladder is moved by that same number of octaves. The bottom row stays within an octave and a half of the root, and every row above it keeps its true distance from the row below. The result is a ladder that rises strictly, with no repeats, in every key.
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show the Melody track, rows 1 to 6, column 3, in 7THS, with
+    each row labeled by the note it now sounds, so the reader can see the
+    ladder rise without a fold. */}
+
+Two things follow from this, and both are worth knowing before you reach for a wide mode.
+
+**Wide modes now really are wide.** Six rows of stacked sevenths cover the range they describe: a little over four octaves on a seven-note scale such as major or minor, and a full six octaves on a five-note scale such as Pentatonic or Hirajoshi. That is the honest sound of the interval, but it is a lot of register for one track, and the top rows will sit much higher than you may be used to.
+
+**The top of a wide ladder can run past the top of MIDI.** In 7THS, the highest rows of the Melody and Chords tracks can climb above MIDI note 127, and Melody in 5THS can just clear it in its second note set. The highest any row reaches is 157, thirty semitones above the ceiling. External gear never sees those numbers, because both live MIDI Out and MIDI file export clamp to 127, so every over-range row arrives on the same top note. The app's own sound engine does not clamp: it plays them at their true frequency, which is far above anything you can hear, so those rows go silent. If a wide mode has rows that do nothing, this is why. Drop to a narrower interval mode, or use a lower note set.
 
 ## Jams and interval modes
 
-A saved jam remembers whichever interval mode each track was using, and loads with those settings intact — even if the tracks end up with different interval modes from each other. Linking only takes effect the next time you hold-and-release column 3 on a pitch track; opening a jam never retroactively forces all three tracks onto the same interval mode.
+A saved jam remembers which interval **mode** each track was using, and reopens with those mode settings intact, even if the tracks end up on different modes from each other. Linking only takes effect the next time you hold and release column 3 on a pitch track; opening a jam never retroactively forces all three tracks onto the same interval mode.
+
+What a jam stores is the mode, the key, and the scale, not the finished pitches. Your notes are saved as positions on the grid, and the pitch for each position is worked out again every time the jam plays. That is why the 1.2.0 ladder change reaches back into jams you saved months ago: same rows, same mode, newly computed octaves. "Loads with those settings intact" means the settings, not the sound.

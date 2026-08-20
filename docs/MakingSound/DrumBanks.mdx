@@ -43,6 +43,38 @@ export function RhythmOverview() {
 
 <RhythmOverview />
 
+{/* FIGURE CORRECTION, owed. The "Row Labels" element in RhythmOverview above is wrong.
+    Column 2 on every track lane, the Rhythm lane included, is the per-track FX column:
+    PixelGridUIView.swift:3466-3484 at 52f702b (FeatureFlags.enableFXColumn, true and
+    public since 1.1.2, FeatureFlags.swift:352-360), tap-to-cycle at
+    PixelGridUIView+Touch.swift:5132-5150, vertical slide at :745-790. The cell is also
+    time-varying, since fxLayer2Color reads CACurrentMediaTime
+    (PixelGridUIView.swift:3054-3061), so it must never carry a pinned hex. Owed work,
+    deliberately NOT done in this pass because this campaign does not edit
+    MystrixVisualizer figures or authored hex values: rename the element to "Rhythm FX"
+    with the GettingStarted.mdx wording, drop its two colors, and add column 2 to the
+    VOLATILE set in scripts/grid-sweep.py and scripts/grid-fix.py so a future capture
+    sweep cannot "correct" a shimmering cell into a fixed color. */}
+
+### The four columns to the left of the drum grid
+
+Those narrow columns are controls, not labels. Nothing on the Rhythm lane names the
+drums.
+
+| Column | What it does on the Rhythm track |
+|--------|----------------------------------|
+| 0 | Mute. Tap to silence the drums. The level meter glows over this column as they play. |
+| 1 | Solo. Tap to hear the drums on their own. |
+| 2 | FX. Slide up or down to set the amount, tap to cycle Verb/Delay, Comp/Dist, Filter. |
+| 3 | Drum bank. Tap anywhere in this column to move to the next bank. The bright cell is the bank you are on, the three dim ones are the banks you are not. |
+
+Column 2 shimmers while the effects are working, so its color is never the same twice.
+Judge it by how far up the column is filled, not by its shade.
+
+To hear which drum a row plays, tap a step in that row: the hit goes in and the drum's
+name (Kick 2, Snare, Closed Hat) flashes up. Switching banks announces the new bank the
+same way, as a four-word shorthand like "KD SD CH TM".
+
 ---
 
 ## Drum Banks

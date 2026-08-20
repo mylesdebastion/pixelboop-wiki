@@ -56,6 +56,21 @@ The rhythm track maps its drum sounds to standard GM Drum notes (e.g., Kick = 36
 
 You can change the MIDI transmit channel for each track using **Config Mode**.
 
+:::warning Column 2 is the FX column, not a MIDI control
+If you have read an older guide that told you to hold column 2, the pixel immediately left of the interval column, to reach MIDI settings, ignore it. Column 2 is the per-track FX column. Sliding it up or down sets that track's FX amount, and tapping it cycles that track's FX mode (Verb/Delay, then Comp/Distortion, then Filter). Following the old instruction quietly rewrites your effects and never opens anything to do with MIDI. Nothing on the grid is held to reach MIDI channels.
+:::
+
+### Opening Config Mode
+
+Config Mode opens from the **Bluetooth MIDI indicator**: row 0, columns 38 and 39. It is the two-pixel blue pair at the top right of the grid, sitting between the USB MIDI indicator (columns 36 and 37) and the purple Jams button (columns 40 to 43). It is dim blue when nothing is connected, pulsing while scanning or connecting, and bright blue once a device is connected.
+
+Tap it once:
+
+- If Bluetooth MIDI is connected and ready, Config Mode opens.
+- If it is not, the same tap refreshes the MIDI destination and, if that still finds nothing, opens the iOS Bluetooth MIDI picker instead.
+
+Config Mode is gated on Bluetooth, so a USB-only rig cannot open it. The channels you set here still apply everywhere: Bluetooth, USB, and the virtual MIDI port other iOS apps see all send on them.
+
 export function ConfigModeDemo() {
     const uiElements = [
         {
@@ -88,14 +103,37 @@ export function ConfigModeDemo() {
     />
 }
 
-<ConfigModeDemo />
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show Config Mode as the app actually draws it: the control lane
+    (cols 0-2) of all four tracks darkened, plus a blue marker one column wide
+    and two rows tall at col 1 in the middle of each track (melody rows 4-5,
+    chords rows 10-11, bass rows 15-16, rhythm rows 19-20), and the Bluetooth
+    indicator at row 0, cols 38-39 marked as the way in. The ConfigModeDemo
+    export retained above already has that pixel data right; what is wrong is
+    its captions (they describe a hold on col 2) and its yellow col-2
+    highlight. Rewrite the captions, drop the yellow element, then render it. */}
 
-### How to Change MIDI Channels
+### What Config Mode looks like
 
-1. **Connect a Bluetooth MIDI device** to Pixelboop.
-2. **Enter MIDI Channel Edit Mode**: **Hold col 2** (the MIDI channel / VU column — immediately left of the interval column) on any track for about half a second. The track label will confirm with **"MIDI Ch[N] Edit On"**.
-3. **Cycle a track's channel**: While edit mode is active, **tap col 2** on that track to cycle its MIDI channel (1–16).
-4. **Exit Edit Mode**: Hold col 2 again, or wait for the timeout.
+While Config Mode is on, the control lane of every track (columns 0, 1 and 2) goes dark and gives up its normal mute, solo and FX duties. A blue marker one column wide and two rows tall appears at column 1, centered in each track:
+
+| Track | Track rows | Blue marker |
+| :--- | :--- | :--- |
+| **Melody** | 2 to 7 | column 1, rows 4 to 5 |
+| **Chords** | 8 to 13 | column 1, rows 10 to 11 |
+| **Bass** | 14 to 17 | column 1, rows 15 to 16 |
+| **Rhythm** | 18 to 21 | column 1, rows 19 to 20 |
+
+The marker on the track you have selected pulses; the other three sit steady. Column 3, the interval and set column, keeps its normal look and behavior the whole time.
+
+### Setting a channel
+
+1. **Select a track**: tap anywhere in that track's control lane, columns 0 to 2. A tooltip shows its current transmit channel, for example `TX CH:1`.
+2. **Cycle the channel**: tap the selected track again to step its channel up by one, wrapping from 16 back to 1. Every tap saves as you make it, so there is nothing to confirm.
+3. **Switch to the receive channel**: double-tap the selected track. The tooltip changes to `RX CH:n` and further taps cycle the receive channel instead.
+4. **Save and leave**: double-tap once more while the receive channel is showing. The tooltip reads `SAVED` and Config Mode closes.
+
+To leave at any other point, tap the Bluetooth indicator again. That closes Config Mode without a final save, but it does not undo anything: each channel change was already written the moment you made it.
 
 export function ChannelCycleDemo() {
     const uiElements = [
@@ -123,7 +161,13 @@ export function ChannelCycleDemo() {
     />
 }
 
-<ChannelCycleDemo />
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show the tap-to-cycle step on one track: the melody control lane
+    (cols 0-2, rows 2-7) darkened with the pulsing blue marker at col 1, rows
+    4-5, and the tap target being the whole lane rather than a single column.
+    The ChannelCycleDemo export retained above is not usable as drawn: the
+    1.1.3 grid sweep flagged it as rendering nothing, because both of its
+    states occupy the same cells, and its captions describe a hold on col 2. */}
 
 ### Channel Configuration Reference
 

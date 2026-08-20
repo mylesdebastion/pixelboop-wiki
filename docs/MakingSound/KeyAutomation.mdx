@@ -1,0 +1,199 @@
+---
+sidebar_position: 3.7
+---
+
+# Key Automation
+
+Key automation is how a loop changes key while it plays. You put a marker on a step, and when the playhead reaches that step the whole grid moves to that key. Everything you have drawn comes with it.
+
+Markers are **sparse**. You place one pixel at each change point, and that key holds until the next marker. A four-chord progression is four pixels, not thirty-two.
+
+This is the older of Pixelboop's two harmony controls, and it answers a different question than the chords track does. Markers choose **which key you are in**. The chords track chooses **which chord within that key**. They stack, and the [Harmony Engine](HarmonyEngine.mdx) page covers how.
+
+:::note Three things change in 1.2.0
+Painted markers now carry the scale, loading a jam now clears the lane, and there is a difference between the app and the AUv3 plug-in worth knowing about. Each is marked where it comes up. None of them are in the App Store build yet.
+:::
+
+---
+
+## Where the markers live
+
+Markers sit on **row 22**, the indicator lane, in the strip between the Rhythm track and the bottom control row. Columns 4 to 35 are your 32 steps: column 4 is step 1, column 35 is step 32. Columns 0 to 3 are track controls and never show markers.
+
+That lane has more than one job, so it has views, and only one of them shows keys. **Tap** anywhere on row 22 between columns 4 and 35 to switch:
+
+- **Track Colors** (the default): each step lights in the color of whichever track has a note there. A density map.
+- **Key Automation**: each step shows the key recorded at that point.
+
+In the public build that is a two-state cycle, straight back and forth. A third view exists in the code but is switched off.
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show one 44x24 grid with two highlighted regions: row 22,
+    columns 4 to 35 carrying four bright key markers at columns 4, 12, 20
+    and 28 in four different key colors with every other step at a faint
+    15 percent tint, and row 0, columns 11 to 22 (the key row) with one
+    column bright to show which key the next paint stroke will use.
+    Nothing else highlighted. */}
+
+:::caution The view is the switch
+Markers only take effect while the lane is showing the Key Automation view. Tap the lane back to Track Colors and the playhead stops reading markers entirely. The key does not snap back to where the song started; it stays on whatever key was in force at the moment you tapped.
+
+This catches people out, because the lane looks like a display and behaves like a bypass button. If a progression suddenly stops moving, check which view the lane is in first.
+:::
+
+---
+
+## Three ways to change key
+
+They look similar and they are not interchangeable. Two of them write markers; one deliberately does not.
+
+| What you do | What it does | Writes markers? |
+| :--- | :--- | :--- |
+| **Paint** on the lane, stopped or playing | Places a marker at the step you touched | Yes |
+| **Tap and hold a key** during playback, under 2 seconds | Records markers under the playhead for as long as you hold | Yes |
+| **Hold a key** for 2 seconds during playback | Override: pins the song to that key and ignores the lane | No |
+
+With the lane in Track Colors, tapping a key during playback just changes the key, the way it always has, and nothing is recorded. With playback stopped, tapping a key always just changes the key.
+
+---
+
+## Painting a progression by hand
+
+1. Tap the lane until it shows Key Automation.
+2. Pick the key you want on the **key row** (row 0, columns 11 to 22).
+3. **Hold** a step on the lane for about half a second, or **drag** along the lane.
+
+A painted marker uses whichever key is selected right now, so the key row is your brush. Steps with no marker show a faint 15 percent tint of that same key, which is a preview of what the next stroke will lay down.
+
+Dragging paints continuously. Every step your finger crosses gets a marker in the current key. Crossing the same step again just writes the same marker, so scrubbing back and forth is safe.
+
+:::note New in 1.2.0: painted markers carry the scale
+A marker records a root **and** a scale. Painting by hand now stores the scale you are currently in alongside the root, which is exactly what live recording has always done, so the two ways of making a marker now produce the same thing.
+
+What that buys you: a loop that changes scale partway through comes back. Before, a marker with no scale meant "leave the scale alone", so a progression that went major to minor and back never made it home.
+:::
+
+:::caution You cannot erase a single marker
+There is no gesture that removes one marker. Painting over a step replaces its key; it never clears it. To get rid of markers you clear the section or the bank (see [Clearing](#clearing)).
+
+Painting is also not an undo step. Undo will not bring back the key a marker held a moment ago.
+:::
+
+:::tip Markers past the end of the pattern
+You can paint on any of the 32 step columns even when the pattern is shorter than 32 steps. Markers beyond the pattern length are kept, but they are never drawn and never heard. Lengthen the pattern and they reappear.
+:::
+
+---
+
+## Recording it while it plays
+
+Painting is precise. Recording is faster and feels like playing.
+
+With the lane in Key Automation view and the sequencer running, **touch a key** on the key row. Recording starts on touch, not on release, and a marker is written at the current step immediately. As long as your finger stays down, every step the playhead reaches gets a marker in that key.
+
+Lift your finger and recording stops. The markers stay. Touch the next key when the playhead reaches the point you want the change, and a fresh pass starts from there.
+
+Stopping playback stops recording too, so you cannot leave it armed by accident.
+
+This is how a progression gets its rhythm: hold each key for as long as you want that chord to last. The lane ends up with a marker on every step you covered rather than one per change, which is more markers than the sparse minimum. It sounds the same, and it is much easier to play than to paint.
+
+---
+
+## Holding a key: override
+
+Hold any key on the key row for **two seconds** during playback and the song locks to that key. If you were recording, the recording is cancelled first, and no markers are written for the hold.
+
+Override is for playing over your own progression: soloing in one key while the markers keep scrolling underneath, or auditioning "what if this whole loop were in F" without editing anything. Tap a different key while override is on and it moves there instantly. Hold any key for two seconds again to release it and hand control back to the lane.
+
+While override is active the lane dims to 30 percent. That dimming is the tell that the markers you can see are not the ones in charge. Track Notes mode dims it the same way and for the same reason.
+
+Stopping playback releases override.
+
+---
+
+## Reading the lane
+
+| What you see on row 22 | What it means |
+| :--- | :--- |
+| A bright pixel | A marker. Its color is the key, tinted about a third of the way toward the color of the scale it carries |
+| A faint tinted pixel | No marker. The tint is the key your next paint stroke would use |
+| A pixel pulsing under the playhead | The playhead is sitting on that marker while playing |
+| The whole lane at 30 percent | Override or Track Notes mode is on, so markers are being ignored |
+
+Because a marker's color mixes key and scale, two markers on the same root but in different scales are not the same color. That is deliberate: it is the only way to see, without playing it, that a marker changes the scale as well as the root.
+
+---
+
+## Markers belong to a section
+
+Each of the 8 song sections has its own lane. Switch sections and the lane you were editing is put away and the new section's lane comes up, exactly like the notes do. Banks work the same way one level up, so a full 8-bank song has 64 independent lanes.
+
+When Section Play is on and the loop advances to the next populated section, its lane comes with it and the key follows that section's markers.
+
+See [Song Sections](SongSections.mdx) for how sections and banks fit together.
+
+---
+
+## Markers are not saved in the jam file
+
+This is the part that surprises people, so it is worth stating flatly: **key automation is session state, not file state.** A `.pbjam` records whether the lane was in the Key Automation view, but it does not record a single marker. Save a jam with a four-chord progression in the lane and the progression is not in the file.
+
+:::note New in 1.2.0: loading a jam clears the lane
+Loading a saved jam now wipes section, bank and key automation from whatever you were working on before.
+
+The old behavior was worse than losing the markers: a loaded jam **inherited** the previous session's markers, so playback would yank the new jam's key around a progression that had nothing to do with it. Since the file contains no markers, nothing in it could correct the inherited ones either. Clearing them on load is the honest answer.
+:::
+
+So after loading a jam, expect an empty lane. If the file was saved with the Key Automation view showing, the lane will come up in that view, empty, which is correct and not a bug.
+
+---
+
+## What happens to a note you are holding
+
+Change key while a note is sustaining and something has to give: either the note keeps sounding at the pitch it started on, or it gets cut and the music has a hole in it.
+
+Pixelboop answers this differently in the two builds, on purpose.
+
+| Build | A sustaining note when the key changes |
+| :--- | :--- |
+| **Pixelboop app** | Keeps sounding at its original pitch until the sustain ends |
+| **Pixelboop AUv3** (in AUM, Logic and other hosts) | Is cut when the key changes |
+
+The app's behavior is the one that matters for progressions. Markers are applied immediately before the step is played, so if key changes cut sustains, every marker landing in the middle of a held note would punch a gap in the music, and that is worst in exactly the case this feature exists for: driving a hardware synth through a chord progression. Holding a suspension across a chord change beats a gap.
+
+The AUv3 has always cut, and it keeps cutting. In a host you are usually one voice among several and a clean note boundary is worth more than a smooth one.
+
+:::note New in 1.2.0: nothing gets stranded either way
+Outboard gear now always gets its note-off, and it gets it at the pitch that actually sounded. Previously the note-off pitch was recalculated from the current key at the moment the note ended, so changing key, scale, quality, interval mode or note set under a held note sent a note-off for a pitch that had never been turned on, and the one that had been turned on never got released. That is a stuck note on real hardware.
+
+This is separate from the sustain question above. The app still sustains through a key change and the AUv3 still cuts; what changed is that neither can leave a note hanging.
+:::
+
+---
+
+## Clearing
+
+The clear-sections button is row 23, columns 38 to 43.
+
+- **Tap** it to clear the active section. Its notes and its key markers both go.
+- **Hold** it to clear every section in the active bank, markers included.
+
+Starting a New Jam clears every marker in every bank and puts the lane back to the Track Colors view.
+
+---
+
+## Quick reference
+
+| Gesture | Where | Result |
+| :--- | :--- | :--- |
+| Tap | Row 22, columns 4 to 35 | Switch the lane between Track Colors and Key Automation |
+| Hold about 0.5s | Row 22, in Key Automation view | Paint a marker at that step in the current key |
+| Drag | Row 22, in Key Automation view | Paint a marker on every step you cross |
+| Touch a key, playing | Row 0, columns 11 to 22, lane in Key Automation view | Start recording markers under the playhead |
+| Lift | Anywhere | Stop recording, keep the markers |
+| Hold a key 2s, playing | Row 0, columns 11 to 22 | Override: lock the key, ignore the lane |
+| Hold a key 2s again | Row 0, columns 11 to 22 | Release override |
+| Tap | Row 23, columns 38 to 43 | Clear the active section and its markers |
+| Hold | Row 23, columns 38 to 43 | Clear the whole bank and its markers |
+
+Related: [Tracks & Sounds](Tracks.mdx) for where row 22 sits, [Top Controls](TopControls.mdx) for the key row, [Harmony Engine](HarmonyEngine.mdx) for how markers and the chords track combine.

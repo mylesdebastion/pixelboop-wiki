@@ -127,28 +127,28 @@ export function ModeButtonDemo() {
             "name": "Mode Button (Orchestra Indicator)",
             "desc": "Columns 8-9, Row 23. Color indicates Orchestra sync state.",
             "elements": [
-                { "pos": [8, 23], "size": [2, 1], "color": "#C89600" }
+                { "pos": [8, 23], "size": [2, 1], "states": { "Sync mode": "#C89600" } }
             ]
         },
         {
             "name": "Remote session active",
             "desc": "With a remote session running the Mode pixels go bright green (#00E600), overriding the sync-mode colour below.",
             "elements": [
-                { "pos": [8, 22], "size": [2, 1], "color": "#00E600" }
+                { "pos": [8, 23], "size": [2, 1], "states": { "Remote session active": "#00E600" } }
             ]
         },
         {
             "name": "Orchestra Follower",
             "desc": "Purple #9600C8 when following a host.",
             "elements": [
-                { "pos": [8, 21], "size": [2, 1], "color": "#9600C8" }
+                { "pos": [8, 23], "size": [2, 1], "states": { "Orchestra Follower": "#9600C8" } }
             ]
         },
         {
             "name": "Orchestra Host",
             "desc": "Bright purple #C800FF when hosting.",
             "elements": [
-                { "pos": [8, 20], "size": [2, 1], "color": "#C800FF" }
+                { "pos": [8, 23], "size": [2, 1], "states": { "Orchestra Host": "#C800FF" } }
             ]
         }
     ];
@@ -184,22 +184,22 @@ export function SyncButtonDemo() {
             "name": "No session (idle)",
             "desc": "With no session running the three pixels sit at a dim teal.",
             "elements": [
-                { "pos": [10, 23], "size": [3, 1], "color": "#004D66" }
+                { "pos": [10, 23], "size": [3, 1], "states": { "No session (idle)": "#004D66" } }
             ]
         },
         {
             "name": "Connected, with peers",
             "desc": "All three pixels go bright cyan once peers are connected.",
             "elements": [
-                { "pos": [10, 22], "size": [3, 1], "color": "#00E6E6" }
+                { "pos": [10, 23], "size": [3, 1], "states": { "Connected, with peers": "#00E6E6" } }
             ]
         },
         {
             "name": "Hosting",
             "desc": "When you are the host the MIDDLE pixel is overwritten gold. The outer two keep the session colour.",
             "elements": [
-                { "pos": [10, 21], "size": [3, 1], "color": "#00E6E6" },
-                { "pos": [11, 21], "size": [1, 1], "color": "#FFCC00" }
+                { "pos": [10, 23], "size": [3, 1], "states": { "Hosting": "#00E6E6" } },
+                { "pos": [11, 23], "size": [1, 1], "states": { "Hosting": "#FFCC00" } }
             ]
         }
     ];
@@ -301,7 +301,7 @@ When devices are connected via WiFi Sync, each device gets a green pixel indicat
 
 | Control | Columns | Function | Tap | Long-Press |
 |---------|---------|----------|-----|------------|
-| **WLED** | 0-3 | LED strip control | Toggle on/off | Settings |
+| **WLED** | 0-3 | LED strip control | Open the Rainbow menu | Toggle output on/off |
 | **Link** | 5-7 | Ableton Link is built into Pixelboop but switched off in the current release, so those three pixels stay dark. | — | — |
 | **Mode** | 8-9 | Orchestra sync indicator | — | — |
 | **Sync** | 10-12 | Multi-device sync | Sync menu | Quick join/leave |
