@@ -100,7 +100,18 @@ const Figure: React.FC<UIProps> = ({ uiName, uiDescription, uiElements, uiParent
   const full = cr.c0 === 0 && cr.r0 === 0 && cr.c1 === COLS - 1 && cr.r1 === ROWS - 1;
   const insetH = full ? 0 : Math.min(F * 2.4, gut * 0.5);
   const insetW = insetH * COLS / ROWS;
-  const top = Math.max(showLabel ? F * 2.9 : showCallout ? F * 2.0 : F * 0.4,
+
+  // Label row: one slot per named region, centred over its leader line.
+  const x0 = insetH ? insetW + 0.6 : 0.2;
+  const slot = (W - 0.2 - x0) / Math.max(1, named.length);
+  // 0.55 em per character is a safe upper bound on this face (measured mean is
+  // 0.53), and 0.92 of the slot keeps a gap between neighbours. No name is ever
+  // cut short: if any one of them will not fit, the whole row falls back to bare
+  // numbers and the region list underneath does the naming. A half-word with an
+  // ellipsis on it teaches nobody which pads are the bass.
+  const nameFits = showLabel && named.every((x, n) =>
+    `${n + 1}. ${x.r.name || ''}`.length * F * 0.55 <= slot * 0.92);
+  const top = Math.max(nameFits ? F * 2.9 : showLabel || showCallout ? F * 2.0 : F * 0.4,
     insetH ? insetH + F * 0.35 : 0);
   const ruler = F * 2.1;
 
@@ -247,13 +258,10 @@ const Figure: React.FC<UIProps> = ({ uiName, uiDescription, uiElements, uiParent
               </g>
             ); })}
 
-          {/* direct labels with leader lines, on the 59 figures with <= 6 regions;
-              numbered callouts on the dense ones, the anatomical-diagram fallback */}
+          {/* direct labels with leader lines, on the figures whose names fit;
+              numbered callouts elsewhere, the anatomical-diagram fallback */}
           {(showLabel || showCallout) && named.map((x, n) => { const p = badgeAt(x.i); if (!p) return null;
-            const x0 = insetH ? insetW + 0.6 : 0.2;
-            const slot = (W - 0.2 - x0) / named.length, lx = x0 + slot * (n + 0.5);
-            const max = Math.max(3, Math.floor(slot / (F * 0.55)) - 3);
-            const nm = (x.r.name || '').length > max ? (x.r.name || '').slice(0, max) + '…' : x.r.name;
+            const lx = x0 + slot * (n + 0.5);
             return (
               <g key={x.i} className={styles.leader}>
                 <path className={styles.halo} d={`M${lx} ${top - F * 0.55} L${lx} ${p.y - 0.55} L${p.x} ${p.y - 0.5}`}
@@ -261,7 +269,8 @@ const Figure: React.FC<UIProps> = ({ uiName, uiDescription, uiElements, uiParent
                 <path d={`M${lx} ${top - F * 0.55} L${lx} ${p.y - 0.55} L${p.x} ${p.y - 0.5}`} fill="none"
                   strokeWidth={1.25} vectorEffect="non-scaling-stroke" />
                 <text x={lx} y={top - F} fontSize={F} textAnchor="middle">
-                  {showLabel ? `${n + 1}. ${nm}` : n + 1}
+                  {n + 1}
+                  {nameFits && <tspan className={styles.leadName}>{`. ${x.r.name}`}</tspan>}
                 </text>
               </g>
             ); })}

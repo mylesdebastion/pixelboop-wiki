@@ -173,4 +173,12 @@
   .grid {
     pointer-events: none;
   }
+
+  /* In-figure names are sized as a fraction of the whole picture, so on a phone
+     the row lands at roughly 9px with the labels shoulder to shoulder. The
+     numbered leaders stay pointing at the pads; the region list right below
+     carries the names, on the same numbers. */
+  .leadName {
+    display: none;
+  }
 }
