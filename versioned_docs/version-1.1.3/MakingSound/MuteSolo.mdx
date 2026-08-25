@@ -1,0 +1,274 @@
+---
+sidebar_position: 5
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Mute & Solo
+
+The first two columns of the grid control track **muting** and **soloing**, letting you isolate or silence individual tracks during playback.
+
+## Mute/Solo Overview
+
+export function MuteSoloOverview() {
+    const uiElements = [
+        {
+            "name": "Mute Column",
+            "desc": "Column 0. Tap to mute/unmute a track. Long-press for preset selection.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] },
+                { "pos": [0, 8], "size": [1, 6], "color": ["#00D9FF", "#01CCBE", "#02BF86", "#03B155", "#03A12C", "#04910B"] },
+                { "pos": [0, 14], "size": [1, 4], "color": ["#E6FF00", "#D1D301", "#BCAB03", "#A38704"] },
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
+            ]
+        },
+        {
+            "name": "Solo Column",
+            "desc": "Column 1. Tap to solo a track (mute all others). The solo pixels carry no track tint: near-black when not soloed, a soft grey when soloed.",
+            "elements": [
+                { "pos": [1, 2], "size": [1, 6], "color": "#0F0F0F" },
+                { "pos": [1, 8], "size": [1, 6], "color": "#0F0F0F" },
+                { "pos": [1, 14], "size": [1, 4], "color": "#0F0F0F" },
+                { "pos": [1, 18], "size": [1, 4], "color": "#0F0F0F" }
+            ]
+        },
+        {
+            "name": "Track Columns",
+            "desc": "Columns 4-35. The sequencer grid for placing notes.",
+            "elements": [
+                { "pos": [4, 2], "size": [32, 20], "color": "#222222" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Mute & Solo Columns"
+        uiDescription="Columns 0-1 control track muting and soloing"
+        uiElements={uiElements}
+    />
+}
+
+<MuteSoloOverview />
+
+---
+
+## Mute (Column 0)
+
+**Tap** any pixel in column 0 to mute or unmute that track.
+
+export function MuteDemo() {
+    const uiElements = [
+        {
+            "name": "Melody Mute",
+            "desc": "Tap to mute/unmute melody track. Bright = active, dim = muted.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] }
+            ]
+        },
+        {
+            "name": "Chords Muted",
+            "desc": "This track is muted. Its own colour drops to about 16% brightness. Notes won't play.",
+            "elements": [
+                { "pos": [0, 8], "size": [1, 6], "color": ["#092328", "#092422", "#09251C", "#092516", "#092611", "#09260B"] }
+            ]
+        },
+        {
+            "name": "Bass Mute",
+            "desc": "Tap to mute/unmute bass track.",
+            "elements": [
+                { "pos": [0, 14], "size": [1, 4], "color": ["#E6FF00", "#D1D301", "#BCAB03", "#A38704"] }
+            ]
+        },
+        {
+            "name": "Rhythm Mute",
+            "desc": "Tap to mute/unmute rhythm track.",
+            "elements": [
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Track Muting"
+        uiDescription="Muted tracks appear dim and don't produce sound"
+        uiElements={uiElements}
+    />
+}
+
+<MuteDemo />
+
+| State | Visual | Audio | MIDI |
+|-------|--------|-------|------|
+| **Active** | Bright color | Playing | Sending |
+| **Muted** | Dim color | Silent | Not sending |
+
+Muting does not change a track's colour, it drops the whole column to about 16% brightness. The column keeps its gradient rather than becoming one flat shade. Measured on Pixelboop 1.1.3, top of each band to bottom:
+
+| Track | Muted, top of band | Muted, bottom of band |
+|---|---|---|
+| Melody | `#1A0C25` | `#0B1128` |
+| Chords | `#092328` | `#09260B` |
+| Bass | `#252809` | `#282209` |
+| Rhythm | `#281E12` | `#1F1212` |
+
+### Mute Affects MIDI
+
+When a track is muted:
+- Internal audio is silenced
+- **MIDI output is also stopped** for that track
+- Notes remain in the pattern (just not played)
+
+---
+
+## Solo (Column 1)
+
+**Tap** any pixel in column 1 to solo that track (mute all other tracks).
+
+export function SoloDemo() {
+    const uiElements = [
+        {
+            "name": "Melody Soloed",
+            "desc": "This track is soloed: the col 1 pixel lifts from near-black to a soft grey. Only this track plays.",
+            "elements": [
+                { "pos": [1, 2], "size": [1, 6], "color": "#474747" }
+            ]
+        },
+        {
+            "name": "Chords (Auto-Muted)",
+            "desc": "Automatically muted when another track is soloed. Its col 1 pixel stays near-black.",
+            "elements": [
+                { "pos": [1, 8], "size": [1, 6], "color": "#0F0F0F" }
+            ]
+        },
+        {
+            "name": "Bass (Auto-Muted)",
+            "desc": "Automatically muted when another track is soloed. Its col 1 pixel stays near-black.",
+            "elements": [
+                { "pos": [1, 14], "size": [1, 4], "color": "#0F0F0F" }
+            ]
+        },
+        {
+            "name": "Rhythm (Auto-Muted)",
+            "desc": "Automatically muted when another track is soloed. Its col 1 pixel stays near-black.",
+            "elements": [
+                { "pos": [1, 18], "size": [1, 4], "color": "#0F0F0F" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Track Soloing"
+        uiDescription="Soloing a track mutes all others"
+        uiElements={uiElements}
+    />
+}
+
+<SoloDemo />
+
+### Solo Behavior
+
+- **Tap to solo**: Only that track plays
+- **Tap again to unsolo**: All tracks return to normal
+- **Solo multiple**: Tap multiple solo buttons to hear just those tracks
+
+---
+
+## Multiple Solos
+
+You can solo multiple tracks simultaneously to hear just a subset.
+
+export function MultiSoloDemo() {
+    const uiElements = [
+        {
+            "name": "Melody Soloed",
+            "desc": "Melody is soloed: the col 1 pixel lifts from near-black to a soft grey.",
+            "elements": [
+                { "pos": [1, 2], "size": [1, 6], "color": "#474747" }
+            ]
+        },
+        {
+            "name": "Chords (Muted)",
+            "desc": "Not soloed, so muted. Its col 1 pixel stays near-black.",
+            "elements": [
+                { "pos": [1, 8], "size": [1, 6], "color": "#0F0F0F" }
+            ]
+        },
+        {
+            "name": "Bass (Muted)",
+            "desc": "Not soloed, so muted. Its col 1 pixel stays near-black.",
+            "elements": [
+                { "pos": [1, 14], "size": [1, 4], "color": "#0F0F0F" }
+            ]
+        },
+        {
+            "name": "Rhythm Soloed",
+            "desc": "Rhythm is also soloed. Both play together.",
+            "elements": [
+                { "pos": [1, 18], "size": [1, 4], "color": "#474747" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Multiple Solos"
+        uiDescription="Solo melody + rhythm to hear just those two"
+        uiElements={uiElements}
+    />
+}
+
+<MultiSoloDemo />
+
+---
+
+## Track Rows Reference
+
+| Track | Rows | Mute Pixel | Solo Pixel |
+|-------|------|------------|------------|
+| Melody | 2-7 | (0, 2-7) | (1, 2-7) |
+| Chords | 8-13 | (0, 8-13) | (1, 8-13) |
+| Bass | 14-17 | (0, 14-17) | (1, 14-17) |
+| Rhythm | 18-21 | (0, 18-21) | (1, 18-21) |
+
+---
+
+## Long-Press for Sounds
+
+**Long-press** on the mute column (column 0) to enter [Synth Preset Selection](SynthPresets). This lets you change the sound of each track.
+
+While cycling, the column switches to a **bank-style display**: a dim pixel marks which bank of sounds you're in, and a brighter pixel marks your position within it — brightest when the two coincide.
+
+export function LongPressNote() {
+    const uiElements = [
+        {
+            "name": "Long-Press Zone",
+            "desc": "Hold for 0.5s to enter sound selection mode.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] }
+            ]
+        },
+        {
+            "name": "Bank Marker (dim)",
+            "desc": "Marks which bank of sounds is active.",
+            "elements": [
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" }
+            ]
+        },
+        {
+            "name": "Active Pixel (bright)",
+            "desc": "Marks the current sound within the bank.",
+            "elements": [
+                { "pos": [0, 5], "size": [1, 1], "color": "#6B13AE" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Sound Selection"
+        uiDescription="Long-press mute column to select sounds; bank-style display while cycling"
+        uiElements={uiElements}
+    />
+}
+
+<LongPressNote />
+
+See [Synth Presets](SynthPresets) for available sounds.

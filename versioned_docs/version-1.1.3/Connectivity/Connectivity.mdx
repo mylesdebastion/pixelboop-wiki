@@ -1,0 +1,240 @@
+---
+sidebar_position: 4
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# MIDI Connectivity
+
+Pixelboop generates MIDI (Musical Instrument Digital Interface) data, allowing you to control external synthesizers, DAWs, and other music software.
+
+## Bluetooth MIDI (BLE)
+
+Pixelboop supports MIDI over Bluetooth Low Energy (BLE).
+
+### How to Connect
+1.  Open your DAW or MIDI host software (e.g., GarageBand, Ableton Live, Logic Pro).
+2.  Navigate to the Bluetooth MIDI settings.
+3.  Look for **"Pixelboop MIDI"**.
+4.  Connect to pair.
+
+**Technical Details:**
+- **Service UUID Pixelboop scans for:** `03B80E5A-EDE8-4B33-A751-6CE34EC4C700` (the Bluetooth SIG standard BLE MIDI service). Any device advertising it shows up in the picker.
+- **Output:** Pixelboop sends Note On/Off messages and MIDI Clock.
+
+## USB MIDI
+
+Pixelboop acts as a standard class-compliant USB MIDI device when connected via USB.
+
+- **iOS:** Connect via USB using a Lightning-to-USB or USB-C cable and a Camera Connection Kit or USB-C hub.
+- **Plug & Play:** No drivers required on macOS or Windows.
+
+:::note
+USB MIDI is iOS only. There is no Android release.
+:::
+
+---
+
+## Default MIDI Channels
+
+Each track in Pixelboop transmits on a specific MIDI channel by default.
+
+| Track | Default Channel | Notes |
+| :--- | :--- | :--- |
+| **Melody** | **Channel 1** | Shares channel with Chords by default. |
+| **Chords** | **Channel 1** | Shares channel with Melody by default. |
+| **Bass** | **Channel 2** | |
+| **Rhythm** | **Channel 10** | Standard General MIDI (GM) Drum channel. |
+
+:::info
+The rhythm track maps its drum sounds to standard GM Drum notes (e.g., Kick = 36, Snare = 38).
+:::
+
+---
+
+## Changing MIDI Channels
+
+You can change the MIDI transmit channel for each track using **Config Mode**.
+
+:::warning Column 2 is the FX column, not a MIDI control
+If you have read an older guide that told you to hold column 2, the pixel immediately left of the interval column, to reach MIDI settings, ignore it. Column 2 is the per-track FX column. Sliding it up or down sets that track's FX amount, and tapping it cycles that track's FX mode (Verb/Delay, then Comp/Distortion, then Filter). Following the old instruction quietly rewrites your effects and never opens anything to do with MIDI. Nothing on the grid is held to reach MIDI channels.
+:::
+
+### Opening Config Mode
+
+Config Mode opens from the **Bluetooth MIDI indicator**: row 0, columns 38 and 39. It is the two-pixel blue pair at the top right of the grid, sitting between the USB MIDI indicator (columns 36 and 37) and the purple Jams button (columns 40 to 43). It is dim blue when nothing is connected, pulsing while scanning or connecting, and bright blue once a device is connected.
+
+Tap it once:
+
+- If Bluetooth MIDI is connected and ready, Config Mode opens.
+- If it is not, the same tap refreshes the MIDI destination and, if that still finds nothing, opens the iOS Bluetooth MIDI picker instead.
+
+Config Mode is gated on Bluetooth, so a USB-only rig cannot open it. The channels you set here still apply everywhere: Bluetooth, USB, and the virtual MIDI port other iOS apps see all send on them.
+
+export function ConfigModeDemo() {
+    const uiElements = [
+        {
+            "name": "MIDI Channel Column (Hold to Enter Edit Mode)",
+            "desc": "Hold col 2 (the MIDI channel / VU column, immediately left of the interval column) for ~0.5 s while a Bluetooth MIDI device is connected. The track label shows 'MIDI Ch[N] Edit On'.",
+            "elements": [
+                { "pos": [0, 2], "size": [3, 6], "color": "#212121" },
+                { "pos": [1, 4], "size": [1, 2], "color": "#4080FF" },
+                { "pos": [0, 8], "size": [3, 6], "color": "#212121" },
+                { "pos": [1, 10], "size": [1, 2], "color": "#4080FF" },
+                { "pos": [0, 14], "size": [3, 4], "color": "#212121" },
+                { "pos": [1, 15], "size": [1, 2], "color": "#4080FF" },
+                { "pos": [0, 18], "size": [3, 4], "color": "#212121" },
+                { "pos": [1, 19], "size": [1, 2], "color": "#4080FF" }
+            ]
+        },
+        {
+            "name": "Tap to Cycle Channel",
+            "desc": "Once edit mode is active, tap col 2 on any track to cycle that track's MIDI channel (1–16).",
+            "elements": [
+                { "pos": [2, 2], "size": [1, 6], "color": "#FFFF00" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="MIDI Channel Config"
+        uiDescription="Hold col 2 (~0.5 s) to enter MIDI channel edit mode, then tap col 2 to cycle channels"
+        uiElements={uiElements}
+    />
+}
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show Config Mode as the app actually draws it: the control lane
+    (cols 0-2) of all four tracks darkened, plus a blue marker one column wide
+    and two rows tall at col 1 in the middle of each track (melody rows 4-5,
+    chords rows 10-11, bass rows 15-16, rhythm rows 19-20), and the Bluetooth
+    indicator at row 0, cols 38-39 marked as the way in. The ConfigModeDemo
+    export retained above already has that pixel data right; what is wrong is
+    its captions (they describe a hold on col 2) and its yellow col-2
+    highlight. Rewrite the captions, drop the yellow element, then render it. */}
+
+### What Config Mode looks like
+
+While Config Mode is on, the control lane of every track (columns 0, 1 and 2) goes dark and gives up its normal mute, solo and FX duties. A blue marker one column wide and two rows tall appears at column 1, centered in each track:
+
+| Track | Track rows | Blue marker |
+| :--- | :--- | :--- |
+| **Melody** | 2 to 7 | column 1, rows 4 to 5 |
+| **Chords** | 8 to 13 | column 1, rows 10 to 11 |
+| **Bass** | 14 to 17 | column 1, rows 15 to 16 |
+| **Rhythm** | 18 to 21 | column 1, rows 19 to 20 |
+
+The marker on the track you have selected pulses; the other three sit steady. Column 3, the interval and set column, keeps its normal look and behavior the whole time.
+
+### Setting a channel
+
+1. **Select a track**: tap anywhere in that track's control lane, columns 0 to 2. A tooltip shows its current transmit channel, for example `TX CH:1`.
+2. **Cycle the channel**: tap the selected track again to step its channel up by one, wrapping from 16 back to 1. Every tap saves as you make it, so there is nothing to confirm.
+3. **Switch to the receive channel**: double-tap the selected track. The tooltip changes to `RX CH:n` and further taps cycle the receive channel instead.
+4. **Save and leave**: double-tap once more while the receive channel is showing. The tooltip reads `SAVED` and Config Mode closes.
+
+To leave at any other point, tap the Bluetooth indicator again. That closes Config Mode without a final save, but it does not undo anything: each channel change was already written the moment you made it.
+
+export function ChannelCycleDemo() {
+    const uiElements = [
+        {
+            "name": "Col 2 — Edit Mode Active (Melody)",
+            "desc": "Hold col 2 on the Melody track for ~0.5 s. The column lights up to show edit mode is on.",
+            "elements": [
+                { "pos": [0, 2], "size": [3, 6], "color": "#212121" },
+                { "pos": [1, 4], "size": [1, 2], "color": "#4080FF" }
+            ]
+        },
+        {
+            "name": "Tap to Cycle",
+            "desc": "Tap col 2 on the Melody track to advance to the next MIDI channel. Repeat to reach your target channel (1–16).",
+            "elements": [
+                { "pos": [1, 4], "size": [1, 2], "color": "#4080FF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Cycling MIDI Channels"
+        uiDescription="Hold col 2 to enter edit mode, then tap to cycle channels 1–16"
+        uiElements={uiElements}
+    />
+}
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show the tap-to-cycle step on one track: the melody control lane
+    (cols 0-2, rows 2-7) darkened with the pulsing blue marker at col 1, rows
+    4-5, and the tap target being the whole lane rather than a single column.
+    The ChannelCycleDemo export retained above is not usable as drawn: the
+    1.1.3 grid sweep flagged it as rendering nothing, because both of its
+    states occupy the same cells, and its captions describe a hold on col 2. */}
+
+### Channel Configuration Reference
+
+| Track | Default TX | Configurable Range | Default RX |
+|-------|------------|-------------------|------------|
+| Melody | 1 | 1-16 | 1 |
+| Chords | 1 | 1-16 | 1 |
+| Bass | 2 | 1-16 | 2 |
+| Rhythm | 10 | 1-16 | 10 |
+
+### Use Cases for Custom Channels
+
+- **Separate instruments**: Route each track to a different synth
+- **Multi-timbral synths**: Use one synth with multiple parts on different channels
+- **DAW routing**: Send tracks to different DAW channels for individual processing
+- **Hardware integration**: Match channels to your external gear setup
+
+---
+
+## MIDI Messages Sent
+
+Pixelboop sends the following MIDI messages:
+
+### Note Messages
+
+| Message | When Sent |
+|---------|-----------|
+| Note On (velocity 64) | When a note plays (normal tap) |
+| Note On (velocity 96) | When an accented note plays (long press) |
+| Note Off | When note duration ends |
+
+### Clock Messages
+
+| Message | Description |
+|---------|-------------|
+| Clock | 24 ppqn timing pulses |
+| Start | Sent when playback begins |
+| Stop | Sent when playback stops |
+| Continue | Sent when resuming from pause |
+
+---
+
+## Troubleshooting
+
+### Bluetooth MIDI Not Connecting
+
+1. Ensure Bluetooth is enabled on both devices
+2. Check that your DAW/app supports BLE MIDI
+3. Try forgetting and re-pairing the device
+4. Restart Pixelboop and the receiving app
+
+### USB MIDI Not Detected
+
+1. Try a different USB cable (some are charge-only)
+2. Ensure your iOS adapter (Camera Connection Kit or USB-C hub) is properly connected
+3. Restart your DAW after connecting
+4. Try a different USB port
+
+### Wrong Notes Playing
+
+1. Check MIDI channel matches your synth's receive channel
+2. Verify scale and key settings in Pixelboop
+3. Check your synth's transpose/octave settings
+
+### Latency Issues
+
+1. Use USB MIDI for lowest latency
+2. Reduce audio buffer size in your DAW
+3. Close other Bluetooth devices that may interfere
+4. Keep devices close together for BLE MIDI

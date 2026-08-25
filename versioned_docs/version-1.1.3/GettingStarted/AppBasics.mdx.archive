@@ -1,0 +1,17 @@
+---
+sidebar_position: 1
+---
+
+# App Basics
+
+The PixelBoop app is designed for immediate musical creation. 
+
+## Key Features
+
+- **Instant Sequencing**: Every pixel is a step. Patterns play from left to right.
+- **Visual Synthesis**: What you see is what you hear. The density of pixels directly affects the complexity of the sound.
+- **Exporting**: (Future feature) Save your patterns as MIDI or WAV files.
+
+## Navigation
+
+Use the tabs at the bottom of the screen (on mobile) to switch between different view modes or settings. The main focus is always the 44x24 grid.

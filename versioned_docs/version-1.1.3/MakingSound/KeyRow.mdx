@@ -1,0 +1,159 @@
+---
+sidebar_position: 3.6
+# STAGED, NOT LIVE. Most of this page documents a prototype that is compiled
+# out of public builds (#if INTERNAL_BUILD in FeatureFlags.swift), plus one
+# section that is an unbuilt proposal. Only the "What ships today" section
+# describes the released app. Do NOT merge this page to `master` until the
+# harmonic key row ships publicly. Companion page: HarmonyEngine.mdx, which
+# is staged under the same condition.
+---
+
+import {
+  ScaleBlocks,
+  ModeLadder,
+  KeyRowExplorer,
+  LuminanceEvidence,
+  Cascade,
+} from "@site/src/components/KeyRowFigures/KeyRowFigures";
+
+# The Key Row
+
+The key row is the strip of twelve pitch buttons along the bottom of the grid. It is where you choose the key the song is in, and it is the one lane that is asked to show you two different musical facts at once: which key you are in, and which notes belong to the scale you picked.
+
+This page is mostly about a way of arranging that row which is **not in the app you can download**. Read the next box before anything else.
+
+:::danger Three different things are described here
+Keep these apart. The page marks each section, but the distinction matters enough to state once, plainly.
+
+| What | Status | Where |
+| :--- | :--- | :--- |
+| Twelve pitch buttons on row 0, columns 11 to 22, drawn at the bottom of the grid | **Ships today** | Every public build |
+| Harmonic Colors: hue by circle of fifths | **Ships today, on by default** since 2026-07-27 | Rainbow Menu, under Interface |
+| Fifths **ordering** of the row, tonic anchored to column 15 | **Internal prototype.** Compiled out of public builds | Everything from "Fifths ordering" down |
+| Three-tier brightness, chord-relative tiers | **Internal prototype.** Compiled out of public builds | "Why brightness cannot rank" |
+| The cascade | **Not built.** A design direction only | "The cascade" |
+
+In the app on the App Store, the key row is ordered **chromatically**: column 11 is C, column 12 is C sharp, and so on up to column 22. It has always been that way.
+:::
+
+## What ships today
+
+Three facts about the released app, and they are the foundation for everything after.
+
+**The row is row 0, columns 11 to 22.** Twelve buttons, one per pitch class. Row 0 holds the top controls in the data model but is drawn at the visual **bottom** of the grid, which is why the key buttons are the strip under everything else.
+
+**The ordering is chromatic.** Column 11 plus n selects pitch class n. Tapping a button always selects the note that button is colored, and that has never changed.
+
+**Colors come from the circle of fifths.** With Harmonic Colors on, which is the default, hue is the note's position on the circle of fifths at 30 degrees per step, at fixed saturation and brightness. C is red, G is orange, D is yellow, and the tritone from any note is the opposite hue. This is the same wheel described on the [Harmony Engine](HarmonyEngine.mdx) page.
+
+So today the row's **color** already knows about fifths, but its **order** does not. The prototype below closes that gap.
+
+:::note One consequence of chromatic order
+Under chromatic ordering the notes of a scale are scattered across the row. C major lights columns 11, 13, 15, 16, 18, 20 and 22: six separate fragments with gaps between them, and a different pattern of fragments in every key. There is nothing to learn from the shape, because the shape changes every time you change key.
+:::
+
+## Fifths ordering, and why the shape becomes readable
+
+:::caution Internal prototype
+Everything from here to the end of the mode ladder describes `enableHarmonicRowFifthsOrder`, which is guarded by `#if INTERNAL_BUILD` and defaults to off. It is not in a public build and there is no user-facing setting for it.
+:::
+
+The prototype reorders the same twelve buttons by the circle of fifths, and anchors the tonic at a fixed position: the fifth button from the left, column 15. Changing the key rotates which pitch class sits in each column. It does not move anything.
+
+That one change makes the scale a **shape**.
+
+<ScaleBlocks />
+
+Five of the app's eight scales become a single unbroken block. Blues splits into two pieces, Hirajoshi into two, and Hungarian into three, and that fragmentation is not a defect: those scales genuinely are not stacks of fifths, and their disconnection in fifths space is the same thing as their exotic character. You can count it.
+
+The headline is the four seven-note modes:
+
+> **Minor, Dorian, Major and Lydian are the same seven-pixel block, slid one step right each time.**
+
+Sliding the block one column right is sliding one fifth brighter, and that is exactly what changing mode is. The mode is not a different set of pixels. It is the same set of pixels in a different position.
+
+The gap between Dorian and Major is Mixolydian, which Pixelboop does not offer. And Pentatonic is the middle five of Major with the outermost two dropped, which is a precise statement of why it is the safe scale: the two notes it removes are the two furthest from the tonic in fifths, the ones most able to sound wrong.
+
+## The tonic is not marked, it is located
+
+This is worth stating on its own, because it is load-bearing for the whole design.
+
+The app draws **solid color pixels and nothing else**. No borders, no outlines, no rings, no glyphs. A pixel is one flat color, and the only other thing the grid controls is timing. So there is no way to mark the tonic, and none is needed:
+
+> The tonic is always column 15, in every key and in every scale.
+
+A player learns column 15 the way they learn where middle C is on a keyboard. After that, the block's asymmetry around it tells them the mode, with no marker and no label.
+
+:::info About the caret in these figures
+Several figures on this page draw a small caret **below** the row, pointing at column 15. That is a reading aid for this page. The app draws nothing there. Any marker in these figures always sits in a gutter outside the grid, never on a pixel, because a pixel can only be a flat color.
+:::
+
+## The asymmetry counts the flats
+
+Because the tonic is fixed at column 15, the block's position around it is a number you can read off directly.
+
+<ModeLadder />
+
+Count the lit pixels to the **left** of column 15. That count is the number of flats: Lydian 0, Major 1, Mixolydian 2, Dorian 3, Minor 4. Left is the flat side and right is the sharp side, because left is flatward along the circle of fifths.
+
+This also explains where the app's mode ladder stops. The tonic sits at position 4 of 12, so the row gives **four columns to the flat side and seven to the sharp side**. Lydian through Minor need at most four flat columns, so they fit exactly. Phrygian would need a fifth and Locrian a sixth, and there is no fifth flat column: those notes fall off the left edge and wrap around to the far right, breaking the block. The window is the right size for the modes the app offers, and one mode too small for the next one along.
+
+:::note Traceability
+The four-and-seven split is derived from `tonicOffset = 4` in `KeyRowLayout.swift`, not measured from a screenshot. The flats counts were computed from the same interval sets the app uses.
+:::
+
+## Try it
+
+The fastest way to understand the anchored tonic is to change the key and watch what fails to move.
+
+<KeyRowExplorer />
+
+Click a pixel and the whole row changes color while the block stays exactly where it was. Change the scale and the opposite happens: the colors stay and the block slides. Two controls, two independent channels, and neither of them is brightness. That last point is the subject of the next section.
+
+## Why brightness cannot carry the ranking
+
+:::caution Internal prototype, and a documented limitation
+The three-tier brightness key row is also behind `#if INTERNAL_BUILD`. This section explains a real, measured constraint on the current color system, which applies wherever the app paints several notes at once.
+:::
+
+An obvious idea for the key row is to rank notes by brightness: tonic brightest, other scale notes dimmer, out-of-scale notes dimmest. It does not survive contact with the color system, and the reason is measurable.
+
+Harmonic Colors fixes saturation and brightness and varies only hue. But hue itself carries luminance: a saturated yellow is far brighter to the eye than a saturated blue at identical HSB brightness. So notes the app treats as equals do not look equal.
+
+<LuminanceEvidence />
+
+On a D minor chord all three chord tones are painted at 100%. They land at 0.216, 0.663 and 0.787 relative luminance. The pink F looks like it barely qualified, and it is the note that makes the chord minor.
+
+Two things follow:
+
+- **This is not tunable.** The spread is the hue, not a dimming factor applied on top. There is no brightness value you could pick that would even it out while keeping the hues.
+- **Read the row for which pixels are lit, not how bright they are.** Position and color are reliable. Relative brightness is not.
+
+Across all twelve pitch classes the range is wider still, 9.4x, from G sharp at 0.084 to D at 0.787.
+
+:::tip This is why the design uses position
+The scale blocks above carry their information in **where the block is**, and the key in **what color it is**. Both channels survive the luminance problem completely, because neither one asks you to compare brightnesses.
+:::
+
+## The cascade
+
+:::danger Not built
+This is a design direction. It does not exist in any Pixelboop build, public or internal, and nothing below has been implemented or measured in the app. It is here because it is the natural answer to the previous section, and because writing it down is cheaper than rediscovering it.
+:::
+
+If brightness cannot rank notes **statically**, it can still carry information **over time**, because a change in brightness is visible even when an absolute level is not.
+
+<Cascade />
+
+The chord root peaks on the downbeat and holds. The rest of the scale brightens in waves, ordered by harmonic distance from that root along the circle of fifths, each falling back to a dim floor. The floor is set per note so that every resting pixel reads at the **same luminance**, which is precisely the thing the static color system cannot do.
+
+That would give three independent channels: block position for the mode, block color for the key, and wave origin for the chord. None of them is absolute brightness.
+
+Whether it is legible in practice, or merely busy, is a perception question that argument cannot settle. It would need building and looking at.
+
+## See also
+
+- [Harmony Engine](HarmonyEngine.mdx), which uses the same fifths wheel and is staged under the same condition
+- [Color and Music Theory](ColorMapping.mdx), for the note color tables
+- [Top Controls](TopControls.mdx), for the scale and key selectors
+- [Tracks and Sounds](Tracks.mdx), including the indicator lane and key markers

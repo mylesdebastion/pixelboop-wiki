@@ -1,0 +1,379 @@
+---
+sidebar_position: 8
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Synth Presets
+
+Each melodic track (Melody, Chords, Bass) has a library of synth sounds you can select. Use the **long-press gesture** on the mute pixel to browse and cycle through sounds.
+
+The library holds 48 sounds across Melody, Chords, and Bass, all included, and jams (including community jams) remember the sound each track was using.
+
+The sounds are loudness-matched to each other by measurement, but not exactly. See [Loudness Matching](#loudness-matching) for the sounds that still sit off the shared level.
+
+## Selecting a Sound
+
+export function PresetSelectionDemo() {
+    const uiElements = [
+        {
+            "name": "Mute Column",
+            "desc": "Column 0. Long-press any track's mute pixel to enter sound selection.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": ["#8C1AE6", "#6A1FD8", "#4C24CA", "#3327BB", "#1D28AA", "#0B2999"] },
+                { "pos": [0, 8], "size": [1, 6], "color": ["#00D9FF", "#01CCBE", "#02BF86", "#03B155", "#03A12C", "#04910B"] },
+                { "pos": [0, 14], "size": [1, 4], "color": ["#E6FF00", "#D1D301", "#BCAB03", "#A38704"] },
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
+            ]
+        },
+        {
+            "name": "Bank-Style Indicator",
+            "desc": "During selection, the column switches to a dim bank pixel + a brighter active pixel.",
+            "elements": [
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" },
+                { "pos": [0, 2], "size": [1, 1], "color": "#6B13AE" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Sound Selection"
+        uiDescription="Long-press the mute column to browse and select sounds"
+        uiElements={uiElements}
+    />
+}
+
+<PresetSelectionDemo />
+
+### How to Change Sounds
+
+1. **Long-press** the mute pixel (column 0) for the track you want to change.
+2. After **0.5 seconds**, sound selection mode activates and the column switches to its bank-style display.
+3. **Continue holding** — the display cycles to the next sound roughly every 0.7 seconds.
+4. **Release** when you hear the sound you want.
+
+The sound **previews automatically** as you cycle through the library, so you can hear each one as you pass it.
+
+:::note Coming in the next version
+The preview only sounds while the sequencer is **stopped**. That part does not change: with nothing else playing, the preview note is the only way to hear what you landed on.
+
+While a jam is **playing** there is no preview note at all. Holding to cycle used to fire one on every step of the hold, landing out of time and at a fixed pitch on top of whatever the sequencer was already playing, and stacking up as the cycle ran. Rhythm was the worst of the four tracks, since its preview is three drum hits per step rather than one note.
+
+Nothing else about cycling changes. The track still switches to the new sound the instant you reach it, and the tooltip still names it, so the very next sequencer step plays the new sound. You simply stop hearing the extra note on top of the jam.
+:::
+
+{/* OWNER, BEFORE PUBLISHING: the commit that made this change (8e09ebd) is
+verified to build only. It was never run on a device or the simulator, and the
+audible result is the whole point of it. Give it a listen while a jam is running
+before this note goes live. */}
+
+{/* MystrixVisualizer figure: the mute column mid-cycle while the sequencer is
+running. Do not author here; add in a later pass. */}
+
+---
+
+## The Bank-Style Display
+
+While cycling, column 0 no longer shows a single climbing dot: the sound library is too big to fit one-pixel-per-sound in a 4-6 pixel column. Instead it shows two markers:
+
+- A **dim pixel** marking which bank of sounds you're currently in.
+- A **brighter pixel** marking your position within that bank.
+
+When the two land on the same pixel, it lights at its **brightest**.
+
+export function BankDisplayDemo() {
+    const uiElements = [
+        {
+            "name": "Unlit cells",
+            "desc": "While cycling, the rest of the column drops to a very dark tint of the track colour.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 6], "color": "#130821" }
+            ]
+        },
+        {
+            "name": "Bank Marker (dim)",
+            "desc": "Marks which bank of sounds is active.",
+            "elements": [
+                { "pos": [0, 3], "size": [1, 1], "color": "#3C1477" }
+            ]
+        },
+        {
+            "name": "Active Pixel (bright)",
+            "desc": "Marks the current sound within the bank. Measured on 1.1.3 during a hold.",
+            "elements": [
+                { "pos": [0, 2], "size": [1, 1], "color": "#6B13AE" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Bank-Style Cycling"
+        uiDescription="Dim bank pixel + bright active pixel, brightest when they coincide"
+        uiElements={uiElements}
+    />
+}
+
+<BankDisplayDemo />
+
+---
+
+## Melody Sounds
+
+export function MelodySoundsDemo() {
+    const sounds = [
+        ["Gliss Lead", "#FFE066", "Smooth gliding lead with portamento"],
+        ["Bell", "#FFCC00", "Bright FM bell tone with harmonic overtones"],
+        ["Flute", "#FFB833", "Soft, breathy wind instrument sound"],
+        ["Square Lead", "#FFA500", "Classic chiptune-style square wave lead"],
+        ["PWM", "#FF8C00", "Pulse width modulation for evolving sound"],
+        ["Sync Lead", "#FF6600", "Hard sync oscillator, aggressive and cutting"],
+        ["Stab", "#FF5533", "Short, percussive stab"],
+        ["Swell", "#FF4411", "Slow-attack, swelling lead"],
+        ["Glass", "#FF3300", "Glassy, bell-like tone"],
+        ["Pop", "#C280FF", "Bright, snappy pluck-lead"],
+        ["Growl", "#B266FF", "Growling, distorted lead"],
+        ["Drone", "#A44DFF", "Sustained drone tone"],
+        ["Clang", "#9933FF", "Metallic, clanging FM tone"],
+        ["Reed", "#8822E6", "Reedy, woodwind-like tone"],
+        ["Wisp", "#7711CC", "Soft, airy whisper lead"],
+        ["Harp", "#6600B3", "Plucked, harp-like tone"]
+    ];
+
+    const uiElements = [
+        {
+            "name": "Melody Sounds",
+            "desc": "16 sounds, all included.",
+            "elements": sounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
+        },
+        ...sounds.map((s, i) => ({
+            "name": s[0],
+            "desc": s[2],
+            "elements": [{ "pos": [i, 0], "size": [1, 1], "color": s[1] }]
+        }))
+    ];
+
+    return <MystrixVisualizer
+        uiName="Melody Sound Library"
+        uiDescription="16 melody sounds, all included"
+        uiElements={uiElements}
+    />
+}
+
+<MelodySoundsDemo />
+
+| Sound | Character |
+|-------|-----------|
+| **Gliss Lead** | Smooth, gliding |
+| **Bell** | Bright, harmonic |
+| **Flute** | Soft, breathy |
+| **Square Lead** | Chiptune, retro |
+| **PWM** | Lush, evolving |
+| **Sync Lead** | Aggressive, cutting |
+| **Stab** | Short, percussive |
+| **Swell** | Slow-attack, swelling |
+| **Glass** | Glassy, bell-like |
+| **Pop** | Bright, snappy |
+| **Growl** | Growling, distorted |
+| **Drone** | Sustained drone |
+| **Clang** | Metallic, clanging |
+| **Reed** | Reedy, woodwind-like |
+| **Wisp** | Soft, airy |
+| **Harp** | Plucked, harp-like |
+
+---
+
+## Chords Sounds
+
+The default Chords sound is **Pad**.
+
+export function ChordsSoundsDemo() {
+    const sounds = [
+        ["Pad", "#66E0C4", "Warm sustained pad"],
+        ["Piano", "#4ECDC4", "Acoustic piano timbre"],
+        ["Electric Piano", "#3DBDB4", "Warm FM electric piano"],
+        ["Combo Organ", "#2CADA4", "Bright combo organ with chorus character"],
+        ["Pluck", "#1B9D94", "Plucked string/mallet sound"],
+        ["Organ", "#0A8D84", "Drawbar organ"],
+        ["Bloom", "#0A7D74", "Slow-blooming, evolving pad"],
+        ["Reso", "#C280FF", "Resonant, filter-swept pad"],
+        ["Dream", "#B266FF", "Airy, dreamlike pad"],
+        ["Mallet", "#0A6D64", "Soft mallet/percussion timbre"],
+        ["Brass", "#0A5D54", "Warm brass ensemble"],
+        ["Glass Pad", "#A44DFF", "Glassy, shimmering pad"],
+        ["Aurora", "#9933FF", "Wide, shimmering evolving pad"],
+        ["Core", "#8822E6", "Solid, centered sustained tone"],
+        ["Snap", "#7711CC", "Tight, snappy chord stab"],
+        ["Drawn", "#6600B3", "Sustained, organ-like tone"]
+    ];
+
+    const uiElements = [
+        {
+            "name": "Chords Sounds",
+            "desc": "16 sounds, all included.",
+            "elements": sounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
+        },
+        ...sounds.map((s, i) => ({
+            "name": s[0],
+            "desc": s[2],
+            "elements": [{ "pos": [i, 0], "size": [1, 1], "color": s[1] }]
+        }))
+    ];
+
+    return <MystrixVisualizer
+        uiName="Chords Sound Library"
+        uiDescription="16 chords sounds, all included"
+        uiElements={uiElements}
+    />
+}
+
+<ChordsSoundsDemo />
+
+| Sound | Character |
+|-------|-----------|
+| **Pad** | Warm sustained pad (default) |
+| **Piano** | Acoustic piano timbre |
+| **Electric Piano** | Warm FM electric piano |
+| **Combo Organ** | Bright combo organ with chorus character |
+| **Pluck** | Plucked string/mallet sound |
+| **Organ** | Drawbar organ |
+| **Bloom** | Slow-blooming, evolving pad |
+| **Reso** | Resonant, filter-swept pad |
+| **Dream** | Airy, dreamlike pad |
+| **Mallet** | Soft mallet/percussion timbre |
+| **Brass** | Warm brass ensemble |
+| **Glass Pad** | Glassy, shimmering pad |
+| **Aurora** | Wide, shimmering evolving pad |
+| **Core** | Solid, centered sustained tone |
+| **Snap** | Tight, snappy chord stab |
+| **Drawn** | Sustained, organ-like tone |
+
+---
+
+## Bass Sounds
+
+The default Bass sound is **Electric Bass**.
+
+export function BassSoundsDemo() {
+    const sounds = [
+        ["Acid Bass", "#66C7D1", "Classic 303-style acid bass"],
+        ["FM Bass", "#45B7D1", "FM synthesis bass"],
+        ["Saw Bass", "#34A7C1", "Sawtooth wave bass"],
+        ["Electric Bass", "#2397B1", "Electric bass guitar timbre"],
+        ["Sub Bass", "#128797", "Deep, sine-heavy sub bass"],
+        ["Ring Bass", "#017787", "Ring-modulated bass"],
+        ["Grit Bass", "#CC99FF", "Overdriven, gritty bass"],
+        ["Punch Bass", "#006777", "Short, punchy transient bass"],
+        ["Hollow Bass", "#C280FF", "Hollow, woody bass"],
+        ["Formant Bass", "#B266FF", "Vowel-like formant bass"],
+        ["Muted Pick", "#A44DFF", "Muted, picked bass"],
+        ["Rubber Bass", "#9933FF", "Bouncy, rubbery bass"],
+        ["Driven Bass", "#8822E6", "Driven, saturated bass"],
+        ["Velvet Bass", "#7711CC", "Smooth, mellow bass"],
+        ["Layer Bass", "#6600B3", "Layered, thick bass"],
+        ["Gated Bass", "#550099", "Choppy, gated bass"]
+    ];
+
+    const uiElements = [
+        {
+            "name": "Bass Sounds",
+            "desc": "16 sounds, all included.",
+            "elements": sounds.map((s, i) => ({ "pos": [i, 0], "size": [1, 1], "color": s[1] }))
+        },
+        ...sounds.map((s, i) => ({
+            "name": s[0],
+            "desc": s[2],
+            "elements": [{ "pos": [i, 0], "size": [1, 1], "color": s[1] }]
+        }))
+    ];
+
+    return <MystrixVisualizer
+        uiName="Bass Sound Library"
+        uiDescription="16 bass sounds, all included"
+        uiElements={uiElements}
+    />
+}
+
+<BassSoundsDemo />
+
+| Sound | Character |
+|-------|-----------|
+| **Acid Bass** | Classic 303-style acid bass |
+| **FM Bass** | FM synthesis bass |
+| **Saw Bass** | Sawtooth wave bass |
+| **Electric Bass** | Electric bass guitar timbre (default) |
+| **Sub Bass** | Deep, sine-heavy sub bass |
+| **Ring Bass** | Ring-modulated bass |
+| **Grit Bass** | Overdriven, gritty bass |
+| **Punch Bass** | Short, punchy transient bass |
+| **Hollow Bass** | Hollow, woody bass |
+| **Formant Bass** | Vowel-like formant bass |
+| **Muted Pick** | Muted, picked bass |
+| **Rubber Bass** | Bouncy, rubbery bass |
+| **Driven Bass** | Driven, saturated bass |
+| **Velvet Bass** | Smooth, mellow bass |
+| **Layer Bass** | Layered, thick bass |
+| **Gated Bass** | Choppy, gated bass |
+
+---
+
+## Rhythm Track: Drums
+
+The **Rhythm track** does not have synth sounds. Instead it plays the classic **Synth** drum kit: synthesized drums organized into 4 banks. See [Drum Banks](DrumBanks) for information about the drum sounds.
+
+Extra sample-playback drum kits arrive with **[Pixelboop Pro](../GettingStarted/PixelboopPro)** in a future update.
+
+export function RhythmNoteDemo() {
+    const uiElements = [
+        {
+            "name": "Rhythm Track",
+            "desc": "Rows 18-21. Uses drum samples, not synth sounds.",
+            "elements": [
+                { "pos": [0, 18], "size": [1, 4], "color": ["#FFB24D", "#A25C44", "#8D473C", "#773434"] }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Rhythm (No Presets)"
+        uiDescription="Rhythm track uses drum samples instead of synth sounds"
+        uiElements={uiElements}
+    />
+}
+
+<RhythmNoteDemo />
+
+---
+
+## Loudness Matching
+
+Every sound carries a level correction that was measured, not guessed, so a quiet-sounding Flute and a loud-sounding Sync Lead land close to the same perceived loudness. Most of the library does sit at one level.
+
+It is not exact, and cycling sounds can still step the volume. A handful of sounds need more correction than the app is able to apply, and they stay off the shared level: the very short, percussive sounds stay quieter than the rest, and the long sustained pads stay louder.
+
+Bass has a lower real ceiling than the other tracks. **Acid Bass**, **Electric Bass**, **Ring Bass**, **Punch Bass**, **Muted Pick**, and **Gated Bass** all reach that ceiling, so at full velocity their level corrections do nothing to separate them. The difference between those six only shows up when you play softer.
+
+Drum kits are not corrected at all: a kit carries no level setting, so what you hear is whatever the kit renders.
+
+:::note Coming in the next version
+The whole library was re-measured with gated K-weighted loudness (ITU-R BS.1770-4, the broadcast loudness standard) against a median reference of -17.697 LUFS. The previous pass averaged level over a fixed window, which flattered long pads and made short stabs read far quieter than they actually sound, so it over-boosted the stabs and over-attenuated the pads. Sounds that fit inside the correction the app can apply now land on that one reference level.
+
+Fourteen of the 48 do not fit, and stay off it:
+
+- **Melody: Stab, Pop, Clang.** Short and percussive. They stay quieter than the rest of the melody library.
+- **Chords: Organ, Brass, Glass Pad, Aurora, Drawn.** Long and sustained. They stay louder than the rest of the chord library.
+- **Bass: Acid Bass, Electric Bass, Ring Bass, Punch Bass, Muted Pick, Gated Bass.** The same six named above.
+
+There is no reference level that would fit all 48 inside the available correction: roughly 10 dB of spread survives whichever level is chosen. Closing it needs more headroom in the mix, not a better table of numbers.
+
+Drum kits are measured in the same pass, but still not corrected.
+:::
+
+## Jams Remember Your Sounds
+
+Your sound selections are **automatically saved** and restored when you reopen the app. Each track remembers its last selected sound independently — and this now carries through to jams: opening a saved jam, or opening someone else's jam from Community Jams, brings back the sound each track was using.
+
+---
+
+## Everything Included
+
+All 48 sounds above are included with Pixelboop. Extra drum kits and more arrive with **[Pixelboop Pro](../GettingStarted/PixelboopPro)** in a future update.

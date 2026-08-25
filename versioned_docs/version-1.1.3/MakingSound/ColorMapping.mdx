@@ -1,0 +1,65 @@
+---
+sidebar_position: 3
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Color & Music Theory
+
+Pixelboop maps musical pitch directly to color, creating a synesthetic experience where you can "see" the music.
+
+## Chromatic Color Map
+
+Each of the 12 musical semitones is assigned a specific color from the spectrum. This helps you identify notes and harmonic relationships visually.
+
+| Note | Color | Hex |
+| :--- | :--- | :--- |
+| **C** | <span style={{backgroundColor: '#FF0000', padding: '2px 10px', color: 'white'}}>Red</span> | `#FF0000` |
+| **C#** | <span style={{backgroundColor: '#FF4500', padding: '2px 10px', color: 'white'}}>Orange</span> | `#FF4500` |
+| **D** | <span style={{backgroundColor: '#FF8C00', padding: '2px 10px', color: 'white'}}>Dark Orange</span> | `#FF8C00` |
+| **D#** | <span style={{backgroundColor: '#FFC700', padding: '2px 10px', color: 'black'}}>Yellow-Orange</span> | `#FFC700` |
+| **E** | <span style={{backgroundColor: '#FFFF00', padding: '2px 10px', color: 'black'}}>Yellow</span> | `#FFFF00` |
+| **F** | <span style={{backgroundColor: '#99CC33', padding: '2px 10px', color: 'black'}}>Yellow-Green</span> | `#99CC33` |
+| **F#** | <span style={{backgroundColor: '#00FF00', padding: '2px 10px', color: 'black'}}>Green</span> | `#00FF00` |
+| **G** | <span style={{backgroundColor: '#00FFAB', padding: '2px 10px', color: 'black'}}>Cyan-Green</span> | `#00FFAB` |
+| **G#** | <span style={{backgroundColor: '#00FFFF', padding: '2px 10px', color: 'black'}}>Cyan</span> | `#00FFFF` |
+| **A** | <span style={{backgroundColor: '#00ABFF', padding: '2px 10px', color: 'white'}}>Sky Blue</span> | `#00ABFF` |
+| **A#** | <span style={{backgroundColor: '#0054FF', padding: '2px 10px', color: 'white'}}>Blue</span> | `#0054FF` |
+| **B** | <span style={{backgroundColor: '#8A2BE3', padding: '2px 10px', color: 'white'}}>Purple</span> | `#8A2BE3` |
+
+## Track Colors
+
+Each track has a base theme color that helps differentiate it on the grid.
+
+- **Melody:** Blue-Purple (`#4D2EF2`)
+- **Chords:** Cyan-Green (`#00E68C`)
+- **Bass:** Yellow (`#F2E600`)
+- **Rhythm:** Red-Orange (`#FF3000`)
+
+export function ColorDemo() {
+    const uiElements = [
+        {
+            "name": "Chromatic Scale",
+            "desc": "The 12 semitones mapped to colors.",
+            "elements": [
+                {
+                    "pos": [16, 10], // Centered roughly
+                    "size": [12, 1],
+                    "color": [
+                        "#FF0000", "#FF4500", "#FF8C00", "#FFC700", 
+                        "#FFFF00", "#99CC33", "#00FF00", "#00FFAB", 
+                        "#00FFFF", "#00ABFF", "#0054FF", "#8A2BE3"
+                    ]
+                }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Color Map"
+        uiDescription="Visual representation of the 12 chromatic notes."
+        uiElements={uiElements}
+    />
+}
+
+<ColorDemo />

@@ -38,7 +38,11 @@ const config: Config = {
           routeBasePath: '/', // Make docs the site root
           versions: {
             current: {
-              label: '1.1.3',
+              // The live docs describe the version currently in review or on
+              // sale. Bump this with every release and snapshot the outgoing
+              // one first (`npm run docusaurus docs:version <old>`), so each
+              // shipped version keeps its own entry in the picker.
+              label: '1.1.6',
             },
           },
         },

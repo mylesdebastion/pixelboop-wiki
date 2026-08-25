@@ -1,0 +1,392 @@
+---
+sidebar_position: 7
+---
+
+import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+
+# Top Controls
+
+The top bar of the screen contains all playback and musical controls. These buttons let you control tempo, scale, musical key, and more.
+
+## Control Layout Overview
+
+export function ControlRowOverview() {
+    const chromaticColors = [
+        "#FF0000", "#FF4500", "#FF8C00", "#FFC700",  // C, C#, D, D#
+        "#FFFF00", "#99CC33", "#00FF00", "#00FFAA",  // E, F, F#, G
+        "#00FFFF", "#00AAFF", "#0055FF", "#8A2BE2"   // G#, A, A#, B
+    ];
+
+    const uiElements = [
+        { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, hold 3.5s for WLED config", "elements": [
+            { "pos": [0, 0], "size": [3, 1], "color": "#45FF45" }  // Green when stopped
+        ]},
+        { "name": "Undo", "desc": "Col 4: Undo last action. Bright when an undo is available, dim (#333333) when there is nothing to undo.", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
+        { "name": "Redo", "desc": "Col 5: Redo action. Bright when a redo is available, dim (#333333) when there is nothing to redo.", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#878787" }] },
+        { "name": "Major Scale", "desc": "Col 7: Select major scale", "elements": [{ "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }] },
+        { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00334D" }] },
+        { "name": "Pentatonic", "desc": "Col 9: Select pentatonic scale", "elements": [{ "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }] },
+        { "name": "Root Notes", "desc": "Cols 11-22: Select key (C through B)", "elements": chromaticColors.map((color, i) => ({
+            "pos": [11 + i, 0], "size": [1, 1], "color": color
+        }))},
+        { "name": "Ghost Notes", "desc": "Col 24: Toggle ghost note display", "elements": [{ "pos": [24, 0], "size": [1, 1], "color": "#666666" }] },
+        { "name": "BPM -", "desc": "Col 26: Decrease tempo", "elements": [{ "pos": [26, 0], "size": [1, 1], "color": "#454545" }] },
+        { "name": "BPM Display", "desc": "Col 27: Shows current BPM, pulses with beat", "elements": [{ "pos": [27, 0], "size": [1, 1], "color": "#595959" }] },
+        { "name": "BPM +", "desc": "Col 28: Increase tempo", "elements": [{ "pos": [28, 0], "size": [1, 1], "color": "#454545" }] },
+        { "name": "Length -", "desc": "Col 30: Decrease pattern length", "elements": [{ "pos": [30, 0], "size": [1, 1], "color": "#454545" }] },
+        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }] },
+        { "name": "Length +", "desc": "Col 32: Increase pattern length", "elements": [{ "pos": [32, 0], "size": [1, 1], "color": "#454545" }] },
+        { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
+        { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
+        { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#20396C" }] },
+        { "name": "Jams", "desc": "Cols 40-43: Tap to open your jam library, hold to save the current jam and start a new one. Dim purple until you have saved a jam, brighter after.", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#402666" }] }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Top Controls (Row 0)"
+        uiDescription=""
+        uiElements={uiElements}
+    />
+}
+
+<ControlRowOverview />
+
+---
+
+## Play/Stop
+
+export function PlayStopDemo() {
+    const uiElements = [
+        {
+            "name": "Play/Stop Button",
+            "desc": "Green = stopped, red = playing. Tap to toggle.",
+            "elements": [
+                { "pos": [0, 0], "size": [1, 1], "color": "#45FF45" }
+            ]
+        },
+        {
+            "name": "Bar Markers",
+            "desc": "Some columns are shaded slightly darker (#121212 against #1A1A1A) as bar markers. They are static and do not move with playback.",
+            "elements": [
+                { "pos": [4, 2], "size": [1, 20], "color": "#121212" },
+                { "pos": [20, 2], "size": [1, 20], "color": "#121212" },
+                { "pos": [28, 2], "size": [1, 20], "color": "#121212" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Play/Stop"
+        uiDescription="Column 0: Start or stop the sequencer"
+        uiElements={uiElements}
+    />
+}
+
+<PlayStopDemo />
+
+| State | Color | Description |
+|-------|-------|-------------|
+| Stopped | 🟢 Green (#45FF45) | Ready to play, tap to start |
+| Playing | 🔴 Red (#FF4545) | Sequencer is running, tap to stop |
+
+### Double-Tap: Restart to Step 1
+
+Double-tapping the Play button restarts the pattern from step 1.
+
+- **While playing**: playback keeps going, but jumps back to step 1.
+- **While paused**: the playhead resets to step 1 and a **"stop / reset"** tooltip confirms it.
+- **In a WiFi jam session**: the restart syncs to every connected player, so the whole session snaps back to step 1 together.
+
+A single tap still toggles play/pause as normal — Pixelboop waits briefly to see if a second tap follows before acting.
+
+### Hold for the Rainbow Menu (Shortcut)
+
+**Hold the Play button for about three and a half seconds** and the **Rainbow menu** opens. A firm haptic tap tells you it caught. This is a shortcut for when your hand is already at the top-left of the grid; the usual way in is to **tap the rainbow gradient in the bottom-left corner** (row 23, cols 0-3). Both gestures land on exactly the same screen.
+
+It is a full screen, not a small dialog with a couple of fields on it. Grid labels, note colors, every light Pixelboop can drive, and the app's own about and licenses all live in there, and the lighting settings (including the address of a WLED strip) sit a level in rather than on the first thing you see. Rather than repeat that layout here, see [The Rainbow Menu](../GettingStarted/RainbowMenu.mdx).
+
+For wiring up LED strips end to end, see the [WLED Setup Guide](../Connectivity/WLED.mdx).
+
+---
+
+## BPM (Tempo)
+
+export function BPMDemo() {
+    const uiElements = [
+        {
+            "name": "BPM Down",
+            "desc": "Column 26. Tap to decrease tempo by 5 BPM.",
+            "elements": [
+                { "pos": [26, 0], "size": [1, 1], "color": "#454545" }
+            ]
+        },
+        {
+            "name": "BPM Display",
+            "desc": "Column 27. Shows current BPM, pulses with beat.",
+            "elements": [
+                { "pos": [27, 0], "size": [1, 1], "color": "#595959" }
+            ]
+        },
+        {
+            "name": "BPM Up",
+            "desc": "Column 28. Tap to increase tempo by 5 BPM.",
+            "elements": [
+                { "pos": [28, 0], "size": [1, 1], "color": "#454545" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="BPM Controls"
+        uiDescription="Columns 26-28: Adjust tempo"
+        uiElements={uiElements}
+    />
+}
+
+<BPMDemo />
+
+- **Default**: 120 BPM
+- **Range**: 60–200 BPM
+- **Tap**: ±5 BPM
+- **Hold**: fine adjustment, repeats ±1 BPM for as long as you hold
+
+---
+
+## Pattern Length
+
+export function PatternLengthDemo() {
+    const uiElements = [
+        {
+            "name": "Length Down",
+            "desc": "Column 30. Shorten the pattern by 4 steps (minimum 8).",
+            "elements": [
+                { "pos": [30, 0], "size": [1, 1], "color": "#454545" }
+            ]
+        },
+        {
+            "name": "Length Display",
+            "desc": "Column 31. Shows the current pattern length, the colour shifts as you change it.",
+            "elements": [
+                { "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }
+            ]
+        },
+        {
+            "name": "Length Up",
+            "desc": "Column 32. Lengthen the pattern by 4 steps (maximum 32).",
+            "elements": [
+                { "pos": [32, 0], "size": [1, 1], "color": "#454545" }
+            ]
+        },
+        {
+            "name": "8-Step Pattern",
+            "desc": "Visible columns 4-11 when length is 8.",
+            "elements": [
+                { "pos": [4, 2], "size": [8, 20], "color": "#222222" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Pattern Length"
+        uiDescription="Columns 30-32: Adjust pattern length"
+        uiElements={uiElements}
+    />
+}
+
+<PatternLengthDemo />
+
+Each tap changes the length by 4 steps, between 8 and 32: **8, 12, 16, 20, 24, 28, 32**. The default is 32. Column 31 shows the current length as a colour that shifts with the value.
+
+---
+
+## Scale Selection
+
+export function ScaleDemo() {
+    const uiElements = [
+        {
+            "name": "Major Scale",
+            "desc": "Column 7. Bright, happy sound. Intervals: 0-2-4-5-7-9-11",
+            "elements": [
+                { "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }
+            ]
+        },
+        {
+            "name": "Minor Scale",
+            "desc": "Column 8. Dark, emotional sound. Intervals: 0-2-3-5-7-8-10",
+            "elements": [
+                { "pos": [8, 0], "size": [1, 1], "color": "#00334D" }
+            ]
+        },
+        {
+            "name": "Pentatonic Scale",
+            "desc": "Column 9. Simple, universal. Intervals: 0-2-4-7-9",
+            "elements": [
+                { "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Scale Selection"
+        uiDescription="Columns 7-9: Choose musical scale"
+        uiElements={uiElements}
+    />
+}
+
+<ScaleDemo />
+
+When you change scales, existing notes **snap to the new scale** — out-of-scale notes move to the nearest in-scale pitch.
+
+| Scale | Notes | Character |
+|-------|-------|-----------|
+| **Major** | C D E F G A B | Happy, bright |
+| **Minor** | C D Eb F G Ab Bb | Sad, emotional |
+| **Pentatonic** | C D E G A | Simple, versatile |
+
+---
+
+## Musical Key (Root Note)
+
+export function KeyDemo() {
+    const uiElements = [
+        {
+            "name": "Key Selection",
+            "desc": "Columns 11-22, one per key. The active key is bright; the other eleven sit at about 28% brightness.",
+            "elements": [
+                { "pos": [11, 0], "size": [12, 1], "color": [
+                    "#ED2B2B", "#0D2A47", "#47470D", "#2A0D47",
+                    "#0D470D", "#470D2A", "#0D4747", "#472A0D",
+                    "#0D0D47", "#2A470D", "#470D47", "#0D472A"
+                ]}
+            ]
+        },
+        {
+            "name": "Current Key Indicator",
+            "desc": "The active key glows brighter than others.",
+            "elements": [
+                { "pos": [11, 0], "size": [1, 1], "color": "#ED2B2B" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Key Selection"
+        uiDescription="Columns 11-22: Select musical key (root note)"
+        uiElements={uiElements}
+    />
+}
+
+<KeyDemo />
+
+| Column | Note | Color |
+|--------|------|-------|
+| 11 | C | Red |
+| 12 | C# | Orange |
+| 13 | D | Dark Orange |
+| 14 | D# | Yellow-Orange |
+| 15 | E | Yellow |
+| 16 | F | Yellow-Green |
+| 17 | F# | Green |
+| 18 | G | Cyan-Green |
+| 19 | G# | Cyan |
+| 20 | A | Sky Blue |
+| 21 | A# | Blue |
+| 22 | B | Purple |
+
+Changing the key **transposes all notes** in the pattern to the new key.
+
+---
+
+## Undo, Redo, and Jams
+
+export function EditControlsDemo() {
+    const uiElements = [
+        {
+            "name": "Undo",
+            "desc": "Column 4. Reverts the last change.",
+            "elements": [
+                { "pos": [4, 0], "size": [1, 1], "color": "#878787" }
+            ]
+        },
+        {
+            "name": "Redo",
+            "desc": "Column 5. Re-applies an undone change.",
+            "elements": [
+                { "pos": [5, 0], "size": [1, 1], "color": "#878787" }
+            ]
+        },
+        {
+            "name": "Jams",
+            "desc": "Columns 40-43. Tap to open your jam library, hold to save the current jam and start a new one.",
+            "elements": [
+                { "pos": [40, 0], "size": [4, 1], "color": "#402666" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Edit Controls"
+        uiDescription="Col 4: Undo | Col 5: Redo | Cols 40-43: Jams"
+        uiElements={uiElements}
+    />
+}
+
+<EditControlsDemo />
+
+- **Undo** (col 4): Reverts the last change. Supports multiple levels.
+- **Redo** (col 5): Re-applies an undone change.
+
+### The Jams Button (Cols 40-43)
+
+The four purple pixels in the top-right corner are your jam library, not a reset button.
+
+- **Tap**: opens the jam library. Your saved jams are listed with names, dates, and thumbnails, and tapping one loads it back onto the grid.
+- **Hold**: saves whatever you have been playing, then clears the grid so you can start something new. A firm haptic tap and a **"NEW JAM"** tooltip confirm it. The hold is short (well under a second), so press and stay put rather than tapping twice.
+
+The purple starts dim and brightens once you have at least one jam saved, so the button tells you at a glance whether the library has anything in it. The figure above shows the dim, empty-library state.
+
+Two things worth knowing before you hold it:
+
+- If you have barely played anything (fewer than five recorded events), there is nothing worth keeping. The grid still clears, but no jam is added to the library.
+- If a save genuinely fails, Pixelboop leaves your grid alone. You get a **"Save failed! Jam kept for recovery"** tooltip and your playing stays on screen instead of being wiped.
+
+:::note Coming in the next version
+Tapping the Jams button while the library is already open will close it again. Until that ships, each tap opens another copy of the library on top of the last one, and every copy needs its own **Done** tap to clear.
+:::
+
+For the whole story on saving, reopening, and starting fresh, see [Saving & Opening Jams](../Jams/SavingAndOpeningJams.mdx).
+
+---
+
+## Ghost Notes Toggle
+
+export function GhostDemo() {
+    const uiElements = [
+        {
+            "name": "Ghost Notes Toggle",
+            "desc": "Column 24. Shows faded notes from other sections for reference.",
+            "elements": [
+                { "pos": [24, 0], "size": [1, 1], "color": "#666666" }
+            ]
+        },
+        {
+            "name": "Ghost Note Example",
+            "desc": "Faded notes from other sections appear as dim pixels.",
+            "elements": [
+                { "pos": [10, 5], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [14, 6], "size": [1, 1], "color": "#3a3520" },
+                { "pos": [18, 4], "size": [1, 1], "color": "#3a3520" }
+            ]
+        }
+    ];
+
+    return <MystrixVisualizer
+        uiName="Ghost Notes"
+        uiDescription="Column 24: Toggle ghost note display"
+        uiElements={uiElements}
+    />
+}
+
+<GhostDemo />
+
+Ghost notes show faded versions of notes from other song sections, helping you create cohesive arrangements.

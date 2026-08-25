@@ -1,0 +1,268 @@
+---
+sidebar_position: 3.8
+---
+
+# Chords
+
+The Chords track is where your song's harmony lives, and you do not need to know any chord names to work it. Draw two or more notes in the same column, hold them, and Pixelboop walks you through the chords that belong in your key, best guess first. Lift your finger on the one you like.
+
+This page covers what that walk offers you, how to pick a chord up and move it, and one change to minor keys that is coming in the next release.
+
+{/* FIGURE: grid figure goes here once the visualizer component is rebuilt.
+    It should show the Chords track only, rows 8-13 (GridConstants.swift:29-34),
+    across the step columns, with a three-note chord lit in one column and the
+    same three notes lit as a sustain chain across the next three columns. That
+    is the shape both the hold gesture and the grab gesture act on. Nothing else
+    needs marking. */}
+
+## Getting a chord onto the grid
+
+The Chords track is **rows 8 to 13**, six rows on screen. Behind those six rows the track has twelve note lanes, six per note set, and a single chord can use lanes from both sets at once.
+
+The quickest way in is a **vertical swipe**, which stacks several notes at one step. A **horizontal drag** from a chord sustains it across the steps you cross. Both are described in full on [Gestures](Gestures.mdx).
+
+Anything with **two or more notes at the same step** counts as a chord for everything below.
+
+## Hold a chord to change it
+
+Put a finger on any lit cell of a chord and keep it there.
+
+- Nothing happens for the first **half second**. That deadzone is what keeps a quick tap a tap.
+- Then you get a firm haptic tap and the chord becomes Pixelboop's first suggestion.
+- It changes again roughly **every 0.7 seconds** for as long as you hold.
+- **Lift your finger** to keep whatever is sounding. There is no confirm step, because every option has already been written into the pattern.
+
+Those are the same two timings as cycling sounds or interval modes, so all three gestures feel identical under the finger.
+
+Each option is **auditioned as it lands**. If the playhead happens to be inside the chord you are holding, the new chord re-triggers and sustains straight away rather than going silent until the loop comes round. A tooltip names what you are hearing: the roman numeral and your place in the list, like `V7  3/7`.
+
+:::note Cycling is on hold, not on tap
+A single tap on a note that already exists **deletes** it, on every track, and that includes chord notes. Chord cycling moved onto the hold gesture when tap-to-delete became the shipping grammar. Double-tap is accent.
+:::
+
+Two things the gesture handles for you:
+
+**Sustained chords move as one.** Hold any cell of a sustain chain and the whole chain is rewritten, head and tail together. You never have to hunt for the first column.
+
+**One hold is one undo.** However many options you walked past, undo puts back the chord you started with.
+
+## What the seven options are
+
+Every hold walks the same seven chords, the ones built on each degree of your key.
+
+| Numeral | Built on | Sounds like |
+| :--- | :--- | :--- |
+| **I** | the key note | home |
+| **ii** | the second degree | the usual approach to V |
+| **iii** | the third degree | soft, in between |
+| **IV** | the fourth degree | the other chord that feels like home |
+| **V** | the fifth degree | tension, wants to fall to I |
+| **vi** | the sixth degree | the relative minor of I |
+| **vii°** | the seventh degree | sharpest tension, rarely what you want first |
+
+They are not offered in that order. The first thing you hear is whichever chord is **most plausible where you put your finger**, and Pixelboop works that out from the chords on either side of it: the one at the previous step, which leads in, and the one at the next step, which this one leads to. A chord that sits neatly between its neighbours floats to the top of the list.
+
+With nothing on either side, the order of preference is **I, IV, V, vi, ii, iii, vii°**. Familiar moves then push candidates up the list: V into I, ii into V, IV into V, vii° into I, vi into ii, iii into vi, vi into IV, IV into I, and V into vi. So holding the middle chord of a ii, V, i tends to offer you the chord that actually belongs there instead of restarting at I every time.
+
+### How many notes you drew decides the chord's size
+
+The walk honors the number of notes already in the column, so a plain triad and a seventh chord are both reachable without switching anything.
+
+| Notes at the step | What you get |
+| :--- | :--- |
+| 2 | root and fifth, no third: the open, power-chord shape |
+| 3 | a three-note triad |
+| 4 or more | the triad plus its seventh, so I becomes Imaj7, ii becomes ii7, V becomes V7 |
+
+### The numerals come from Major or Minor, not from your scale cycle
+
+The seven chords are always built from the seven-note **major** or **natural minor** scale that the Major and Minor buttons imply (row 0, columns 7 and 8). They are never built from whichever scale the scale-cycle button is showing.
+
+That is deliberate. Pentatonic, Blues and Hirajoshi have five or six notes rather than seven, so building chords from them would leave fewer than seven options and labels like `deg3` where you expect a roman numeral. Your grid still sounds and looks like the scale you picked. Only the chord vocabulary comes from major or minor.
+
+## Coming in 1.2.0: minor keys get a V that can cadence
+
+:::info Not in the App Store build yet
+Everything in this section is built and measured, but it has not been released. In the current public build, a diatonically built V in a minor key comes out minor.
+:::
+
+In a minor key, the fifth chord built straight out of natural minor is a **minor** chord, and a minor v does not pull toward home. That is the single reason a ii, V, i in a minor key never quite landed in Pixelboop: nothing in the progression was doing the pulling.
+
+The next release fixes it the way musicians have for centuries. The **seventh degree of the scale rises a semitone**. That note is called the leading tone because it leads into the key note, and it does two jobs at once: it is the third of V, which turns V major, and it is the root of vii, which turns vii into a leading-tone diminished chord.
+
+| Chord | Before | After |
+| :--- | :--- | :--- |
+| **V** | minor | **major** |
+| **V** with four notes | minor seventh | **dominant seventh** |
+| **vii** | diminished, on the flat seventh | **diminished, on the leading tone** |
+| i, ii, III, iv, VI | unchanged | unchanged |
+
+Major keys are untouched. They already have a major V, and the raise refuses to apply to a scale whose seventh is not lowered in the first place.
+
+### It only happens when your grid can sound that note
+
+Here is the part worth knowing before you go looking for it, because it is the surprising bit.
+
+The raised seventh is not forced onto the grid. Pixelboop first checks whether that note exists **anywhere in the twelve lanes of the Chords track**, across both note sets, under your current scale and interval mode. If it does not, the chord keeps its natural-minor spelling.
+
+That check is not fussiness. Without it, the app would fall back to the nearest note it does have and hand you a sus4 where you asked for a dominant, which is worse than the minor v it replaced.
+
+In the default **PENTA** interval mode, the note tables split like this:
+
+| Scale | Carries the leading tone? |
+| :--- | :--- |
+| Blues (`BLUES`) | yes |
+| Dorian (`DORI`) | yes |
+| Lydian (`LYDI`) | yes |
+| Hirajoshi (`HIRA`) | yes |
+| Hungarian (`HUNG`) | yes |
+| Major (`MAJ`) | no |
+| Minor (`MIN`) | no |
+| Pentatonic (`PENTA`) | no |
+
+:::caution The check reads Major/Minor/Pentatonic, not the scale-cycle position
+Pixelboop keeps two separate scale values, and the leading-tone check reads the one the **Major and Minor buttons** write, not the one the **scale-cycle button** (row 0, column 9) advances through Pentatonic, Blues, Dorian, Lydian, Hirajoshi and Hungarian.
+
+So cycling across to Blues or Hungarian does not by itself switch the raised V on. The five scales in the table are the note layouts that contain the leading tone. On the app's own buttons, the value actually being checked only ever holds Major, Minor or Pentatonic, and in PENTA mode none of those three carry it.
+
+One route does switch it on today: put the pitch tracks in the **CHROM** interval mode and set the key to Minor. In CHROM the Chords track's second note set covers the six semitones above the first, which puts the leading tone on the grid whatever scale is showing. Hold a chord there and the fifth degree comes back major.
+:::
+
+## Picking a chord up and moving it
+
+A drag that **starts on an existing chord** picks the chord up instead of drawing over it.
+
+- **Drag up or down** to shift the whole chord through the twelve lanes. The spacing between its notes is preserved, so the shape you built stays the shape you hear, and the shift wraps around rather than pushing notes off the grid.
+- **Drag left or right** to relocate it to a different step, sustain chain and all. This wraps too.
+- **Both directions are live at once.** You can slide a chord two steps later and a lane higher in one gesture. The `⇅ Shift chord` and `⇆ Move chord` labels only tell you which direction is currently dominant.
+
+The chord follows your finger and sounds on every cell it crosses, like drawing a sustained chord. The visible note set follows it too: if most of its notes end up in Set 2, the display switches to Set 2 so you can still see what you are holding. The whole grab is a single undo entry.
+
+A one-cell deadzone arms the grab and a two-cell one commits it, so a slightly sloppy tap will not nudge your chord.
+
+:::note What this replaces
+On a step that already holds two or more notes, a drag is chord manipulation and nothing else. It will not stack a second chord on top of the first, and it does not start Progression Fill. Empty steps behave exactly as they always have.
+:::
+
+## Related pages
+
+- [Gestures](Gestures.mdx) for drawing chords in the first place
+- [Interval Modes](IntervalModes.mdx) for what the eight row layouts do, CHROM included
+- [Top Controls](TopControls.mdx) for the Major, Minor and scale-cycle buttons on row 0
+- [Tracks & Sounds](Tracks.mdx) for where each track sits on the grid
+
+{/*
+MAINTAINER EVIDENCE, pinned to 52f702b922e4feb78b808ac50fb02774ebb7ad6c.
+
+Track geometry: GridConstants.swift:29-34 (chords = rows 8-13, height 6).
+Twelve lanes across both sets: SequencerViewModel.swift:6993-7002
+  (chordSlotsAtStep scans slots 0..<12, unlike getNotesAtStep which only
+  scans 0..<height); set parity at PixelGridUIView+Touch.swift:5591-5595
+  (even slots = Set 1, odd = Set 2).
+
+HOLD TO CYCLE
+  Entry: PixelGridUIView+Touch.swift:3721-3733 (holdIntent; chords track only,
+    touched cell must hold a note, step must have >= 2 notes).
+  Clock: :3775-3803 and :3805-3841 (0.1s ticker); constants
+    PixelGridUIView.swift:849 (GESTURE_HOLD_ACTIVATION 0.5s) and :852
+    (GESTURE_HOLD_STEP 0.7s), both aliased to PresetSelectionController, which
+    is what makes the three hold gestures feel identical.
+  Release confirms, no commit step: :3788-3790.
+  One hold = one undo: SequencerViewModel.swift:6493 plus
+    PixelGridUIView+Touch.swift:3827-3830 (saveHistory only on the first step).
+  Sustain-chain aware: SequencerViewModel.swift:6501-6538 (walks forward, then
+    back to the head).
+  Live audition, held if the playhead is inside the chord:
+    SequencerViewModel.swift:6624-6644.
+  Tooltip "V7  3/7": SequencerViewModel.swift:6608, shown at :6649-6653
+    (smartInversionEnabled defaults true at :1713 / :7388 and has no caller
+    that toggles it, so the numeral tooltip is what users see).
+  Tap does NOT cycle: FeatureFlags.swift:158-171 (enableSingleTapDelete = true,
+    ALWAYS ON, and the comment names the chords tap-cycle among the behaviours
+    it retires; "chord cycling lives on hold"). Gestures.mdx:490-492 already
+    documents it as a hold, so the two pages agree.
+
+THE SEVEN OPTIONS
+  Numerals: DiatonicChordCycler.swift:25.
+  Standalone ordering I > IV > V > vi > ii > iii > vii°: :47-58.
+  Neighbour-aware transitions: :63-77; ordering assembled at :32-45.
+  Note-count sizing (2 = root+fifth, 3 = triad, 4+ = diatonic seventh with the
+    "7" suffix on the name): :113-123.
+  Always the 7-degree major or natural minor implied by isMajorQuality, never
+    currentScale: SequencerViewModel.swift:6563-6570 (the comment explains the
+    deg-N label regression it fixed). Present in v1.1.3 too, so this is not
+    described as new.
+
+HARMONIC-MINOR V AND vii (NEW AT THIS SHA)
+  Raise: DiatonicChordCycler.swift:92-124. Gate inside voicing() at :105
+    (n == 7 && scaleIntervals[6] == 10 && (d == 4 || d == 6)), which is why
+    major keys can never be affected.
+  Asserted: HarmonicModelTestHarness.swift:126-153 (V = root+7 [0,4,7],
+    V7 = [0,4,7,10], vii = root+11 [0,3,6], vii7 = [0,3,6,9]) and :155-173
+    (raise off = natural minor byte for byte; major identical with the flag on
+    and off).
+  Absent at v1.1.3 (31ce35ee13bcf6bea34eed14583ecf0296266a14): voicing() there
+    has no raiseLeadingTone parameter, DiatonicChordCycler.swift:91.
+  Grid gate: DiatonicChordCycler.swift:126-145 (canSpellLeadingTone), which
+    calls CrossSetSlotMapper.slotForPitchClass, ChordInversionSystem.swift:
+    431-479 (scans both note sets of the track for pitch class keyRoot+11).
+  Caller: SequencerViewModel.swift:6591-6594. Sibling path with the same gate:
+    TrackChordContext.swift:480-491.
+
+  The eight-scale table was COMPUTED from the minor-variant PENTA tables, not
+  copied from the source comment. Chords track height is 6, so set 1 = the
+  *6 array and set 2 = the *6_t array; the leading tone is pitch class 11:
+    Pentatonic IntervalMode.swift:118-119 -> {0,3,5,7,10} u {2,8}       no 11
+    Blues      :135-136 -> {0,3,5,6,7,10} u {2,4,8,9,11}                 11
+    Dorian     :146-147 -> {0,2,3,5,7,9} u {1,4,6,8,11}                  11
+    Lydian     :170-171 -> {0,2,4,6,7,10} u {1,5,9,11}                   11
+    Hirajoshi  :187-188 -> {0,1,3,7,8} u {2,5,10,11}                     11
+    Hungarian  :204-205 -> {0,2,3,6,7,11} u {4,5,8,9,10}                 11
+    Major/Minor :216-226 route onto the pentatonic tables                no 11
+  This reproduces the list in the source comment at
+  DiatonicChordCycler.swift:128-133. Note that HarmonicModelTestHarness.swift:
+  175-184 deliberately REPORTS this split rather than asserting it, calling it
+  a property of the note tables.
+
+THE TWO-SCALE-FIELDS CAUTION (source disagrees with the recon brief)
+  The gate is passed currentScale (SequencerViewModel.swift:6592), declared at
+  :637 with the comment "Quality: major or minor". The scale-cycle button
+  (row 0 col 9, PixelGridUIView+Touch.swift:4823-4825) calls
+  cyclePentaScaleType, SequencerViewModel.swift:3719-3743, which writes only
+  pentaScaleType. That is stated outright at :4155-4158 and RecordingEvent.
+  swift:249-250: "setMajorQuality writes currentScale; cyclePentaScaleType
+  does not". setMajorQuality is :3697-3704 and forces currentScale to .major
+  or .minor. setScale (:3613-3629), the only writer that can set an arbitrary
+  scale, has no local UI caller: only SessionDiscoveryService.swift:606 (the
+  network follower path) and unit tests.
+  Consequence: on the app's own buttons currentScale holds only .major, .minor
+  or .pentatonic (plus .pentatonic after resetAll, :4817), and under PENTA all
+  three fail canSpellLeadingTone. Jam load can carry another value in
+  (:4159-4164), but the jam's scale field is written from currentScale
+  (SessionRecordingService.swift:291-293), so it inherits the same three.
+  CHROM route: IntervalMode.swift:339-343 returns
+  rootNote + rowsFromBottom + setOffset*trackHeight and ignores scale entirely.
+  With trackHeight 6, set 2 spans 6..11 semitones, so pitch class 11 is always
+  reachable and canSpellLeadingTone returns true for any scale.
+
+GRAB, SHIFT, MOVE
+  Intercept before the draw gestures: PixelGridUIView+Touch.swift:981-1000.
+  handleChordGrab: :5533-5599. Arming deadzone 1 cell (:5537-5538), commit
+    deadzone 2 cells (:5563-5565), tooltip swap hysteresis (:5567-5575),
+    tooltips at :5601-5604, both axes live (:5577-5584).
+  Lane shift preserves spacing and wraps through 12 pitch-ordered lanes:
+    SequencerViewModel.swift:7019-7029 (with chordSlotPitch at :7004-7017).
+  Step relocation wraps: PixelGridUIView+Touch.swift:5584. Sustain span found
+    at SequencerViewModel.swift:7031-7043.
+  Audible preview per move: :5596-5597. Set follows the majority: :5591-5595.
+  One undo: :5550 (beginChordGrabUndo) and :5629 (commitChordGrab).
+  Flag: FeatureFlags.swift:143-148, enableChordDragGestures = true, not build
+    gated, so this is public. Present at v1.1.3 as well, so it is described as
+    current behavior rather than new.
+  No overlay and no Progression Fill on an occupied step:
+    PixelGridUIView+Touch.swift:1473-1482 (the fill branch at :1483 is only
+    reached when the chord branch above did not take it) and
+    SequencerViewModel.swift:6327-6341 (multi-note drag previews suppressed).
+    Gestures.mdx:415-457 still documents Progression Fill without this
+    condition; that page has not been corrected here.
+*/}
