@@ -6,7 +6,10 @@
 // today, so those two fixtures are synthetic -- marked below.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { classifyZone, coordinateString, columnLabelFontSize, directionWords, legendLabelCenters } from './legend.ts';
+import {
+  classifyZone, coordinateString, columnLabelFontSize, directionWords, legendLabelCenters,
+  groupLegendZones,
+} from './legend.ts';
 // eslint-disable-next-line import/no-unresolved -- vendored plain JS, see src/vendor/pbgrid/pbgrid.js header
 import { ZONES, GRID_LAYOUT } from '../../vendor/pbgrid/pbgrid.js';
 
@@ -89,4 +92,78 @@ test('columnLabelFontSize: full size when the room fits, shrunk only when it doe
   assert.equal(columnLabelFontSize(['SHORT'], 100, 0.85), 0.85);
   const shrunk = columnLabelFontSize(['A VERY LONG COLUMN LABEL'], 2, 0.85);
   assert.ok(shrunk < 0.85 && shrunk > 0);
+});
+
+// ---- groupLegendZones: the fix for the overlap bug itself. pbgrid's a11y
+// zones are finer-grained than the app's own legend controls; these merge
+// them the same way LegendOverlayView.swift's IntroTutorialStep regions do.
+// Real zones throughout -- ZONE_BY_ID-shaped objects pulled straight out of
+// pbgrid.js, same discipline as the rest of this file.
+
+test('groupLegendZones: scaleMajor+scaleMinor+scaleType merge into ONE "SCALE TYPE" mark -- the exact ScaleDemo overlap case', () => {
+  const zs = [zone('scaleMajor'), zone('scaleMinor'), zone('scaleType')];
+  const groups = groupLegendZones(zs);
+  assert.equal(groups.length, 1, 'three adjacent a11y zones must collapse to one legend mark');
+  const [g] = groups;
+  assert.equal(g.label, 'SCALE TYPE');
+  assert.equal(g.fromApp, true);
+  assert.deepEqual(g.zoneIds, ['scaleMajor', 'scaleMinor', 'scaleType']);
+  assert.deepEqual(g.cells.sort(), [[7, 0], [8, 0], [9, 0]].sort());
+  // Feed the merge into classifyZone exactly as PbGridFigure.tsx does: one
+  // filledTab spanning the whole cols 7-9 span, not three overlapping ones.
+  const mark = classifyZone(g.zoneIds.join('+'), g.label, g.cells, COLS, ROWS);
+  assert.deepEqual(mark, { kind: 'filledTab', zoneId: 'scaleMajor+scaleMinor+scaleType', colStart: 7, colEnd: 9, top: false, label: 'SCALE TYPE' });
+});
+
+test('groupLegendZones: undo+redo merge into ONE "UNDO REDO" mark regardless of input order', () => {
+  const forward = groupLegendZones([zone('undo'), zone('redo')]);
+  const backward = groupLegendZones([zone('redo'), zone('undo')]);
+  for (const groups of [forward, backward]) {
+    assert.equal(groups.length, 1);
+    assert.equal(groups[0].label, 'UNDO REDO');
+    assert.deepEqual(groups[0].cells.sort(), [[4, 0], [5, 0]].sort());
+  }
+});
+
+test('groupLegendZones: a page focusing only ONE member of a group still gets that control\'s real name, unmerged', () => {
+  const groups = groupLegendZones([zone('scaleMajor')]);
+  assert.deepEqual(groups, [{ zoneIds: ['scaleMajor'], label: 'SCALE TYPE', cells: [[7, 0]], fromApp: true }]);
+});
+
+test('groupLegendZones: a zone with no IntroTutorialStep (shakeUsb) falls back to its own pbgrid name, not an invented label', () => {
+  const groups = groupLegendZones([zone('shakeUsb')]);
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0].fromApp, false);
+  assert.equal(groups[0].label, zone('shakeUsb').name.toUpperCase());
+});
+
+test('groupLegendZones: renames a singleton zone to the app\'s own control name (rootNoteWheel -> KEY, bpm -> BPM)', () => {
+  assert.equal(groupLegendZones([zone('rootNoteWheel')])[0].label, 'KEY');
+  assert.equal(groupLegendZones([zone('bpm')])[0].label, 'BPM');
+  assert.equal(groupLegendZones([zone('ghost')])[0].label, 'GHOST NOTES');
+});
+
+test('groupLegendZones: the four per-track key columns merge into ONE "TRACK ON/OFF" mark tiling col 0, rows 2-21', () => {
+  const zs = ['melodyKey', 'chordsKey', 'bassKey', 'rhythmKeyColumn'].map(zone);
+  const groups = groupLegendZones(zs);
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0].label, 'TRACK ON/OFF');
+  const rows = groups[0].cells.map(([, r]) => r).sort((a, b) => a - b);
+  assert.deepEqual(rows, Array.from({ length: 20 }, (_, i) => i + 2), 'must tile rows 2-21 with no gap or overlap');
+});
+
+test('groupLegendZones: TopControls\' ControlRowOverview (14 pbgrid zones) collapses to 11 legend marks -- the worst-case figure', () => {
+  const ids = [
+    'playStop', 'undo', 'redo', 'scaleMajor', 'scaleMinor', 'scaleType',
+    'rootNoteWheel', 'ghost', 'bpm', 'patternLength', 'shakeUsb',
+    'usbIndicator', 'btIndicator', 'jams',
+  ];
+  const groups = groupLegendZones(ids.map(zone));
+  assert.equal(groups.length, 11);
+  const labels = groups.map((g) => g.label);
+  assert.deepEqual(labels, [
+    'PLAY/PAUSE/STOP', 'UNDO REDO', 'SCALE TYPE', 'KEY', 'GHOST NOTES', 'BPM',
+    'SECTION LENGTH', zone('shakeUsb').name.toUpperCase(), 'USB', 'BT MIDI', 'JAMS',
+  ]);
+  assert.equal(new Set(labels).size, labels.length, 'no two marks may share a label (that would just move the collision)');
 });

@@ -1,5 +1,5 @@
 // GENERATED FILE — do not edit directly. Built by packages/pbgrid/build.mjs.
-// Provenance: pixelboop@d682f8730141c53f958cb5a87731a5be0dfcb474+dirty (source-hash sha256:679a075148b3286b6f0c89106cebf886e52ee7dddb02f01ba708c7b54db16f32)
+// Provenance: pixelboop@b2f907b5c27d64764dedc65d7c98847ec7e7fe1e+dirty (source-hash sha256:3005fd2e94746e6abc9e483aa3c400681cb783650c6299dd2d8af8a414eeb35a)
 // Every vendored copy (pixelboop-wiki, pixelboop-web, web/generator/lib) must
 // byte-match this header+body exactly — see packages/pbgrid/tools/check-vendored.mjs.
 // src/generated/grid-constants.ts
@@ -768,6 +768,12 @@ function describeDeviations(padSizePx = null) {
 }
 
 // src/ported-formulas.ts
+function hexToRgb(hex) {
+  const m = /^#([0-9a-fA-F]{6})$/.exec(hex);
+  if (!m) throw new Error(`hexToRgb: expected "#RRGGBB", got ${JSON.stringify(hex)}`);
+  const n = parseInt(m[1], 16);
+  return { r: n >> 16 & 255, g: n >> 8 & 255, b: n & 255 };
+}
 function rgbToHex({ r, g, b }) {
   const c = (v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0");
   return `#${c(r)}${c(g)}${c(b)}`.toUpperCase();
@@ -1875,6 +1881,69 @@ var ZONES = [
   }
 ];
 
+// src/present.ts
+var PLAYBACK_HIDDEN_ZONES = [
+  "jams",
+  "rootNoteWheel",
+  "btIndicator",
+  "usbIndicator",
+  "controlBarWled",
+  "controlBarLink",
+  "controlBarMode",
+  "controlBarSync",
+  "controlBarRest",
+  "undo",
+  "redo",
+  "scaleMajor",
+  "scaleMinor",
+  "scaleType",
+  "controlBarSectionsClear"
+];
+var DEFAULT_FOCUS_DIM = 0.6;
+var ALL_ZONE_IDS = new Set(ZONES.map((z) => z.id));
+function checkZoneNames(names, where) {
+  for (const name of names) {
+    if (typeof name !== "string" || !ALL_ZONE_IDS.has(name)) {
+      throw new Error(
+        `renderPbGrid: ${where} names an unknown zone ${JSON.stringify(name)}. Valid zone names: ${[...ALL_ZONE_IDS].sort().join(", ")}`
+      );
+    }
+  }
+}
+function resolvePresentation(present) {
+  if (present !== void 0 && (typeof present !== "object" || present === null || Array.isArray(present))) {
+    throw new Error(`renderPbGrid: options.present must be an object, got ${JSON.stringify(present)}`);
+  }
+  const preset = present?.preset ?? "full";
+  if (preset !== "full" && preset !== "playback" && preset !== "tutorial") {
+    throw new Error(`renderPbGrid: present.preset must be "full", "playback" or "tutorial", got ${JSON.stringify(preset)}`);
+  }
+  const explicitHide = present?.hide ?? [];
+  if (!Array.isArray(explicitHide)) throw new Error("renderPbGrid: present.hide must be an array of zone names");
+  checkZoneNames(explicitHide, "present.hide");
+  const presetHide = preset === "playback" ? PLAYBACK_HIDDEN_ZONES : [];
+  const hiddenIds = /* @__PURE__ */ new Set([...presetHide, ...explicitHide]);
+  let focusIds = null;
+  let dim = DEFAULT_FOCUS_DIM;
+  if (present?.focus !== void 0) {
+    if (typeof present.focus !== "object" || present.focus === null || Array.isArray(present.focus)) {
+      throw new Error(`renderPbGrid: present.focus must be an object of { zones, dim? }, got ${JSON.stringify(present.focus)}`);
+    }
+    const { zones, dim: dimOverride } = present.focus;
+    if (!Array.isArray(zones) || zones.length === 0) {
+      throw new Error("renderPbGrid: present.focus.zones must be a non-empty array of zone names");
+    }
+    checkZoneNames(zones, "present.focus.zones");
+    if (dimOverride !== void 0 && (!Number.isFinite(dimOverride) || dimOverride < 0 || dimOverride > 1)) {
+      throw new Error(`renderPbGrid: present.focus.dim must be a finite number in [0, 1], got ${dimOverride}`);
+    }
+    focusIds = new Set(zones);
+    dim = dimOverride ?? DEFAULT_FOCUS_DIM;
+  }
+  const suppressed = ZONES.filter((z) => hiddenIds.has(z.id)).map((z) => `${z.id}: ${z.name}`);
+  return { hiddenIds, focusIds, dim, suppressed };
+}
+
 // src/render.ts
 var SUPPORTED_STATES = ["empty"];
 function fail(message) {
@@ -2025,9 +2094,14 @@ function deviationFor(constantPrefix, padSizePx) {
   if (!d || !isDeviationActive(d, padSizePx)) return null;
   return d.deviatingValueHex;
 }
+function dimHex(hex, factor) {
+  const { r, g, b } = hexToRgb(hex);
+  return rgbToHex({ r: r * factor, g: g * factor, b: b * factor });
+}
 function renderPbGrid(ctx, options) {
   validate(ctx, options);
   const { layout, applyDeviations = true } = options;
+  const { hiddenIds, focusIds, dim, suppressed } = resolvePresentation(options.present);
   const scale = layout.scale ?? 1;
   const gapPtOrPx = COLORS.gapSize;
   let pixelSize, gapPx, offsetX, offsetY, canvasWidth, canvasHeight;
@@ -2059,11 +2133,15 @@ function renderPbGrid(ctx, options) {
   for (let col = 0; col < GRID_LAYOUT.columns; col++) {
     for (let row = 0; row < GRID_LAYOUT.rows; row++) {
       const zone = ZONES.find((z) => z.cells.some(([c, r]) => c === col && r === row));
+      const hidden = !!zone && hiddenIds.has(zone.id);
       let hex = padHex;
-      if (zone) {
+      if (zone && !hidden) {
         const resolved = zone.resolve(col, row, stateOpts);
         if (resolved) hex = resolved.hex;
         else gapsSeen.add(zone.describe(stateOpts));
+      }
+      if (focusIds && !(zone && focusIds.has(zone.id))) {
+        hex = dimHex(hex, dim);
       }
       const visualRow = visualRowForCell(col, row);
       const x = offsetX + col * pitch;
@@ -2073,7 +2151,17 @@ function renderPbGrid(ctx, options) {
     }
   }
   const deviationsApplied = applyDeviations ? DEVIATIONS.filter((d) => isDeviationActive(d, pixelSize)).map((d) => `${d.constant}: ${d.deviatingValueHex} instead of ${d.appValueHex}`) : [];
-  return { pixelSize, gapPx, offsetX, offsetY, canvasWidth, canvasHeight, gaps: [...gapsSeen], deviationsApplied };
+  return {
+    pixelSize,
+    gapPx,
+    offsetX,
+    offsetY,
+    canvasWidth,
+    canvasHeight,
+    gaps: [...gapsSeen],
+    deviationsApplied,
+    suppressed
+  };
 }
 
 // src/a11y.ts
@@ -2101,17 +2189,19 @@ function coordinateString(cells) {
   const span = (n) => n.length === 1 ? `${n[0]}` : `${n[0]}-${n[n.length - 1]}`;
   return `col ${span(cols)}, row ${span(rows)}`;
 }
-function mountA11y(canvas, container, partialOpts = {}, state = "empty") {
+function mountA11y(canvas, container, partialOpts = {}, state = "empty", present) {
   if (!SUPPORTED_STATES.includes(state)) {
     throw new Error(`mountA11y: state ${JSON.stringify(state)} is not supported. Supported: ${SUPPORTED_STATES.join(", ")}`);
   }
   const opts = { ...DEFAULT_EMPTY_STATE_OPTIONS, ...partialOpts };
   const doc = container.ownerDocument;
   ensureStyle(doc);
+  const { hiddenIds } = resolvePresentation(present);
+  const visibleZones = ZONES.filter((z) => !hiddenIds.has(z.id));
   canvas.setAttribute("role", "img");
   canvas.setAttribute(
     "aria-label",
-    `Pixelboop pattern grid, 44 by 24 pads, ${state} state. ${ZONES.length} named regions are listed below with their coordinates, color and function.`
+    `Pixelboop pattern grid, 44 by 24 pads, ${state} state. ${visibleZones.length} named regions are listed below with their coordinates, color and function.`
   );
   const list = doc.createElement("ul");
   list.className = "pbgrid-list";
@@ -2128,7 +2218,7 @@ function mountA11y(canvas, container, partialOpts = {}, state = "empty") {
     });
     if (moveFocus) items[selected]?.focus();
   };
-  ZONES.forEach((zone, i) => {
+  visibleZones.forEach((zone, i) => {
     const resolvedSample = zone.resolve(zone.cells[0][0], zone.cells[0][1], opts);
     const swatchHex = resolvedSample ? resolvedSample.hex : COLORS.cellOffColor.hex;
     const ink = labelInk({ r: parseInt(swatchHex.slice(1, 3), 16), g: parseInt(swatchHex.slice(3, 5), 16), b: parseInt(swatchHex.slice(5, 7), 16) });
@@ -2179,7 +2269,7 @@ function mountA11y(canvas, container, partialOpts = {}, state = "empty") {
       const from = typed.buf.length > 1 ? 0 : 1;
       for (let k = from; k < n + from; k++) {
         const j = (selected + k) % n;
-        if (ZONES[j].name.toLowerCase().startsWith(typed.buf)) {
+        if (visibleZones[j].name.toLowerCase().startsWith(typed.buf)) {
           next = j;
           break;
         }
@@ -2215,14 +2305,17 @@ function describePendingConstants() {
 export {
   COLORS,
   DEFAULT_EMPTY_STATE_OPTIONS,
+  DEFAULT_FOCUS_DIM,
   DEVIATIONS,
   GRID_LAYOUT,
   PENDING_CONSTANTS,
+  PLAYBACK_HIDDEN_ZONES,
   SUPPORTED_STATES,
   ZONES,
   describeDeviations,
   describePendingConstants,
   mountA11y,
-  renderPbGrid
+  renderPbGrid,
+  resolvePresentation
 };
 //# sourceMappingURL=pbgrid.js.map

@@ -10,18 +10,75 @@ The top bar of the screen contains all playback and musical controls. These butt
 
 ## Control Layout Overview
 
-export function ControlRowOverview() {
+{/* This used to be one 14-zone, 11-label figure covering the whole row --
+    an app screenshot never shows it that way; only the wiki tried to. At
+    812px (this article's prose column) the worst pair of labels overlapped
+    by 59.3px, and even a diagnostic 1093px only got that to 20px: 11 labels
+    do not fit one figure at any honest font size. The app's own legend
+    only fits ~20 labels because it runs full-screen; a doc column never
+    has that room.
+
+    Split into three figures below, but NOT the naive "transport / musical /
+    timing" thirds a first pass reaches for -- that split still fails.
+    legend.ts's own margin labels are the app's real IntroTutorialStep names
+    (LegendOverlayView.swift), not something this page picks, and two of them
+    are simply too wide for their own neighbourhood regardless of what else
+    shares the figure:
+      - "PLAY/PAUSE/STOP" (16 chars) over playStop's 3-column span (cols 0-2)
+        collides with "UNDO REDO" 3.5 columns away no matter what other zones
+        are focused alongside them -- measured, not assumed: playStop + undo
+        + redo alone overlapped by 26.93px at 1440px. Play/Stop and Undo/Redo
+        can never share one figure.
+      - "SECTION LENGTH" (patternLength) and "SHAKE INDICATOR" (shakeUsb)
+        sit only 3.5 columns apart and are BOTH oversized labels; grouped
+        together they measured 61.64px overlap -- worse than the original
+        composite's 59.3px, because removing the far-away zones did nothing
+        for two labels that were already colliding with each other alone.
+    Every other adjacency across the whole row is comfortably clear (down to
+    scaleType's merged label sitting 7 columns from playStop with room to
+    spare), so the fix is routing AROUND those two specific collisions, not
+    shrinking text or widening boxes further -- the breakout already in
+    PbGridFigure.tsx is at its citation-backed limit for a page this size.
+
+    shakeUsb has no IntroTutorialStep of its own (legend.ts's own documented
+    gap) and no natural functional home; it lives here, next to the musical
+    controls, only because that is where it is column-distance-safe next to
+    ghost (10.5 columns clear) and away from patternLength. Every one of the
+    14 original zones still appears in exactly one of the three figures --
+    see the coverage check in the PR/commit notes. */}
+
+### Play/Stop and Musical Controls
+
+export function PlayMusicalOverview() {
     return <PbGridFigure
-        caption="Top Controls (Row 0). Every button and indicator across the top bar."
-        focus={[
-            "playStop", "undo", "redo", "scaleMajor", "scaleMinor", "scaleType",
-            "rootNoteWheel", "ghost", "bpm", "patternLength", "shakeUsb",
-            "usbIndicator", "btIndicator", "jams",
-        ]}
+        caption="Play/Stop (columns 0-2), scale quality and type (columns 7-9), the 12-key root note wheel (columns 11-22), the ghost notes toggle (column 24), and the shake indicator (columns 34-35, grouped here for column clearance -- it has no functional relation to the others; see Undo, Redo and Jams below and Timing and MIDI further down for the rest of the row)."
+        focus={["playStop", "scaleMajor", "scaleMinor", "scaleType", "rootNoteWheel", "ghost", "shakeUsb"]}
     />
 }
 
-<ControlRowOverview />
+<PlayMusicalOverview />
+
+### Undo, Redo, and Jams
+
+export function EditAndJamsOverview() {
+    return <PbGridFigure
+        caption="Undo (column 4), Redo (column 5), and the Jams button (columns 40 to 43)."
+        focus={["undo", "redo", "jams"]}
+    />
+}
+
+<EditAndJamsOverview />
+
+### Tempo, Pattern Length, and MIDI
+
+export function TimingHardwareOverview() {
+    return <PbGridFigure
+        caption="Tempo (BPM, columns 26-28), pattern length (columns 30-32), and the USB and Bluetooth MIDI indicators (columns 36-39)."
+        focus={["bpm", "patternLength", "usbIndicator", "btIndicator"]}
+    />
+}
+
+<TimingHardwareOverview />
 
 ---
 

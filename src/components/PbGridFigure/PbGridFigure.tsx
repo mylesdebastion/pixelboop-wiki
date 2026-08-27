@@ -31,7 +31,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import styles from './styles.module.css';
 import {
-  classifyZone, columnLabelFontSize, coordinateString, legendLabelCenters,
+  classifyZone, columnLabelFontSize, coordinateString, groupLegendZones, legendLabelCenters,
   visualRowSpan, type LegendMark,
 } from './legend';
 // eslint-disable-next-line import/no-unresolved -- vendored plain JS, see src/vendor/pbgrid/pbgrid.js header
@@ -64,9 +64,11 @@ const Figure: React.FC<PbGridFigureProps> = ({ focus, caption, dim }) => {
   const [sel, setSel] = useState(-1);
   const optRefs = useRef<(HTMLLIElement | null)[]>([]);
   const typed = useRef({ buf: '', at: 0 });
+  const figRef = useRef<HTMLElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [boxW, setBoxW] = useState(700);
+  const [breakoutPx, setBreakoutPx] = useState(0);
 
   const zones = useMemo(
     () => focus.map((id) => ZONE_BY_ID.get(id)).filter((z): z is NonNullable<typeof z> => {
@@ -76,9 +78,17 @@ const Figure: React.FC<PbGridFigureProps> = ({ focus, caption, dim }) => {
     [focus],
   );
 
+  // The margin legend groups pbgrid's finer-grained accessibility zones the
+  // same way the app's own legend does (LegendOverlayView.swift's labels
+  // come from IntroTutorialStep regions, which routinely span several pbgrid
+  // zones at once) -- see legend.ts's groupLegendZones for the full port
+  // note and citations. This is a LABELLING merge only: the outline per
+  // zone, the focus ring per zone, and the region list below all still key
+  // on `zones` directly, one entry per pbgrid zone, untouched.
+  const legendGroups = useMemo(() => groupLegendZones(zones), [zones]);
   const marks = useMemo(
-    () => zones.map((z) => classifyZone(z.id, z.name.toUpperCase(), z.cells, COLS, ROWS)),
-    [zones],
+    () => legendGroups.map((g) => classifyZone(g.zoneIds.join('+'), g.label, g.cells, COLS, ROWS)),
+    [legendGroups],
   );
   const tabMarks = marks.filter((m): m is Extract<LegendMark, { kind: 'filledTab' | 'hollowTab' }> =>
     !!m && 'kind' in m && (m.kind === 'filledTab' || m.kind === 'hollowTab'));
@@ -91,7 +101,30 @@ const Figure: React.FC<PbGridFigureProps> = ({ focus, caption, dim }) => {
   // coordinate ruler here (MystrixVisualizer's) -- the app's own legend has
   // none either, and margin labels plus focus/dim answer "where is this"
   // without printing raw numbers nobody reading the app ever sees.
-  const LT = 0.85; // filledTab / hollowTab / sideBracket / columnLabel text size
+  //
+  // LT is a CELL-UNIT size, so its rendered pixel size is LT * (px per cell
+  // unit) -- and px-per-cell-unit grows with the box's own rendered width,
+  // since the SVG is one fixed viewBox stretched by CSS `width: 100%`. A
+  // breakout that widens the box (see the breakoutPx effect above) therefore
+  // does NOTHING for overlap on its own: verified live, widening `.pic` from
+  // 812px to 1093px made "SECTION LENGTH"/"SHAKE INDICATOR" overlap grow
+  // from 59.29px to 79.81px, not shrink -- font size and column pitch scale
+  // up TOGETHER, so the relative (cell-unit) crowding, which is what
+  // actually causes overlap, is exactly unchanged; only the absolute pixel
+  // count of that same crowding grew with it.
+  //
+  // So LT itself has to shrink when a breakout widens the box, by exactly
+  // enough to hold the ABSOLUTE (px) font size at whatever it would have
+  // rendered at this figure's own natural, un-widened width -- turning the
+  // reclaimed pixels into real relative room instead of uniform zoom.
+  // `boxW - breakoutPx` recovers that natural width without a hardcoded
+  // reference (boxW IS `.wrap`'s measured width, and breakoutPx is exactly
+  // how much wider than natural `.pic`/`.wrap` were made) -- when
+  // breakoutPx is 0 (every figure that isn't wide enough to need one) the
+  // ratio is exactly 1 and LT is exactly 0.85, unchanged from before this
+  // existed.
+  const naturalBoxW = Math.max(1, boxW - breakoutPx);
+  const LT = 0.85 * Math.min(1, naturalBoxW / boxW); // filledTab / hollowTab / sideBracket / columnLabel text size
   const OFFSET0 = 0.35;
   const TIER_GAP = LT * 1.8;
   const topBandTabs = OFFSET0 + TIER_GAP + LT * 1.3;
@@ -157,6 +190,77 @@ const Figure: React.FC<PbGridFigureProps> = ({ focus, caption, dim }) => {
     return () => ro.disconnect();
   }, []);
 
+  // ---- breakout: a busy figure (e.g. TopControls' 14-zone row-0 overview)
+  // needs more physical pixels per column than the article's own prose-width
+  // reading column can spare -- see legend.ts's overlap-avoidance, which is
+  // already at its citation-backed limit (LegendOverlayView.swift:617-624,
+  // "no room, leave it honest": never shrink a label, never nudge it more
+  // than half a cell). Reaching for more room here, not there, is the
+  // faithful fix; MDN/CSS-tricks call this pattern a "breakout" or
+  // "full-bleed" box -- widen ONLY the diagram (`.pic`), never the
+  // <figcaption> or the region list beside/below it, which stay at normal
+  // reading width.
+  //
+  // Bounded to whichever is TIGHTER: the doc's own <main> column (so a
+  // breakout can never exceed the page's real content area or cause
+  // horizontal scroll), or -- when this page renders a right-hand table of
+  // contents -- that TOC's own live left edge. The TOC is a SIBLING column,
+  // not an ancestor, so no CSS selector reaches it; this measures the real
+  // DOM box rather than assuming a fixed grid ratio, which stays correct if
+  // the reader collapses the left nav (changing <main>'s own width) or the
+  // theme's column split ever changes.
+  //
+  // Bounding to the TOC's own rect (not just "leave some margin") matters
+  // for a reason beyond good manners: `.pic` is `position: sticky` with
+  // `z-index: 1` (so the diagram stays above the prose scrolling beneath
+  // it), and the TOC's own nav is ALSO sticky, pinned near the top of the
+  // viewport for as long as the reader is anywhere in this article. Verified
+  // live: widen `.pic` far enough to cross into the TOC's own x-range and,
+  // once both are stuck near the top, `.pic`'s z-index wins the stacking
+  // fight and the diagram paints OVER the TOC's links -- exactly what must
+  // never happen. Stopping strictly short of the TOC's left edge makes that
+  // structurally impossible (the two boxes never share an x-range), rather
+  // than relying on z-index or scroll position to keep them apart.
+  useEffect(() => {
+    const figEl = figRef.current;
+    if (!figEl || typeof ResizeObserver === 'undefined') return undefined;
+    const BUFFER = 16; // one --ifm-spacing-horizontal, a visual breathing gap
+    const PHONE_BREAKPOINT = 639; // styles.module.css's own legend-text cutoff
+
+    const recompute = () => {
+      // Below the phone breakpoint the legend text is already hidden (see
+      // styles.module.css) and the figure fits its column exactly as
+      // before -- no breakout needed, and the doc layout itself usually
+      // collapses to one column here anyway.
+      if (window.innerWidth <= PHONE_BREAKPOINT) { setBreakoutPx(0); return; }
+      const mainEl = figEl.closest('main');
+      if (!mainEl) { setBreakoutPx(0); return; }
+      // figEl's OWN rect, not .pic's -- .pic is what we resize, so measuring
+      // it back would measure our own last write and drift. figEl is never
+      // touched by this effect, so it is a stable, un-fed-back reference for
+      // "where the figure naturally sits before any breakout."
+      const figRect = figEl.getBoundingClientRect();
+      const mainRect = mainEl.getBoundingClientRect();
+      const toc = document.querySelector<HTMLElement>('[class*="tableOfContents"]');
+      const tocRect = toc?.getBoundingClientRect();
+      const tocVisible = !!tocRect && tocRect.width > 0;
+      const safeRight = Math.min(mainRect.right, tocVisible ? tocRect.left : mainRect.right) - BUFFER;
+      // Final defence-in-depth: never past the viewport's own scrollable
+      // width, whatever <main>/the TOC measured (belt-and-suspenders against
+      // ever introducing horizontal scroll).
+      const hardRight = Math.min(safeRight, document.documentElement.clientWidth - BUFFER);
+      setBreakoutPx(Math.max(0, Math.round(hardRight - figRect.right)));
+    };
+
+    recompute();
+    const ro = new ResizeObserver(recompute);
+    ro.observe(figEl);
+    const mainEl = figEl.closest('main');
+    if (mainEl) ro.observe(mainEl);
+    window.addEventListener('resize', recompute);
+    return () => { ro.disconnect(); window.removeEventListener('resize', recompute); };
+  }, []);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
@@ -204,11 +308,11 @@ const Figure: React.FC<PbGridFigureProps> = ({ focus, caption, dim }) => {
   const gid = (i: number) => `pbf${i}`;
 
   return (
-    <figure className={styles.fig} data-pbgridfigure data-zone-count={zones.length}>
+    <figure ref={figRef} className={styles.fig} data-pbgridfigure data-zone-count={zones.length}>
       <figcaption className={styles.cap}>{caption}</figcaption>
       <div aria-live="polite" className={styles.srOnly} />
 
-      <div className={styles.pic}>
+      <div className={styles.pic} style={breakoutPx > 0 ? { width: `calc(100% + ${breakoutPx}px)` } : undefined}>
         <div ref={wrapRef} className={styles.wrap}>
           <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true"
             style={{
