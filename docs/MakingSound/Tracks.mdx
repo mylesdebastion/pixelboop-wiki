@@ -139,3 +139,16 @@ Simply tap a pixel to toggle it on or off. The color of the pixel reflects the t
 ## Interval Modes
 
 Column 3 of each pitch track shows that track's current scale notes — and holding it lets you cycle the interval mode Melody, Chords, and Bass use. See [Interval Modes](IntervalModes.mdx) for the full gesture and the 8 available modes.
+
+import PbGridPreview from "@site/src/components/PbGridPreview/PbGridPreview";
+
+## Live Grid Renderer (technical preview)
+
+:::note
+Proof-of-concept only — not linked from anywhere else on the wiki yet. This
+renders the real 44x24 grid from `@pixelboop/pbgrid`, the same renderer
+verified pixel-identical against real iOS screenshots, rather than the
+hand-authored figure data above. It is additive; nothing above was changed.
+:::
+
+<PbGridPreview />

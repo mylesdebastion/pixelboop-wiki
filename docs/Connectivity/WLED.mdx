@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+import PbGridFigure from "@site/src/components/PbGridFigure/PbGridFigure";
 
 # Lighting Up LED Strips with WLED
 
@@ -46,24 +46,28 @@ Pixelboop can control external LED strips in real-time, creating synchronized li
 
 ## WLED Button Location
 
-export function WLEDButtonDemo() {
-    const uiElements = [
-        { 
-            "name": "WLED Button", 
-            "desc": "Cols 0-3, Row 23: Tap to open the Rainbow Menu. Hold to toggle WLED output on or off.", 
-            "elements": [
-                { "pos": [0, 23], "size": [1, 1], "color": "#CC2929" },
-                { "pos": [1, 23], "size": [1, 1], "color": "#CC4229" },
-                { "pos": [2, 23], "size": [1, 1], "color": "#CC5C29" },
-                { "pos": [3, 23], "size": [1, 1], "color": "#CC7529" }
-            ]
-        }
-    ];
+{/* This used to hardcode #CC2929..#CC7529 (red to orange). pbgrid's own
+    default resolve for controlBarWled gives #3729CC..#9929CC (blue to
+    magenta) instead -- a different hue family, not a rounding gap. Checked
+    whether that makes the old red-to-orange value wrong: the WLED button,
+    when enabled, is an animated rainbow chase, not a fixed color --
+    PixelGridUIView.swift:3567 sets `baseHue = frameCounter % 600 / 600.0`,
+    which sweeps the ENTIRE 0-360 degree hue wheel once every 600 frames
+    (~10s at 60fps). Red-to-orange (hue 0-36, from the gradientSpan: 0.10
+    band across the four pixels, :3570-3574) is squarely inside that sweep
+    -- it is the ~1-second slice of every 10-second cycle where baseHue is
+    near 0. So it IS reachable: the old figure's colors were a legitimate
+    frozen frame, not drift, and pbgrid's own blue-to-magenta default below
+    is just a DIFFERENT frozen frame (its own image-derived stand-in,
+    WLED_GRADIENT_BASE_HUE_IMAGE_DERIVED = 409/600, src/vendor/pbgrid/pbgrid.js:1014).
+    Neither hue family is "the" color, so this isn't corrected to match the
+    old figure -- the honest fix is saying so below, not repainting either
+    one to agree with the other. */}
 
-    return <MystrixVisualizer
-        uiName="WLED Button (Row 23)"
-        uiDescription="Bottom-left corner shows WLED status and control"
-        uiElements={uiElements}
+export function WLEDButtonDemo() {
+    return <PbGridFigure
+        caption="WLED status button, columns 0 to 3, row 23. Shown enabled: an animated rainbow chase whose base hue sweeps the full color wheel once every ~10 seconds (PixelGridUIView.swift:3565-3577), so the four colors here are one arbitrary frozen frame, not a fixed value -- on the real device this band is always sliding. The color family shown (blue to magenta) is pbgrid's own default frame, distinct from but no more or less 'correct' than a red-to-orange frame caught at a different moment in the same 10-second cycle."
+        focus={["controlBarWled"]}
     />
 }
 

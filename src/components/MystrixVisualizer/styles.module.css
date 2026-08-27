@@ -51,7 +51,43 @@
   background-color: var(--ifm-background-color);
 }
 
+/* wrap holds the pbgrid <canvas> substrate and the SVG annotation layer,
+   stacked exactly on top of each other.
+   BUG FIXED HERE (found live, 2026-08-26): .wrap previously sized itself via
+   `width: 100%` as a flex item of .pic. An absolutely-positioned child (the
+   canvas) contributes nothing to that sizing, and the SVG's own width:100%
+   resolves against .wrap in turn -- in the shipped build .wrap's flex-basis
+   collapsed to its content's max-content size (effectively 0, since the only
+   in-flow child is a percentage-sized replaced element), so .wrap, the SVG,
+   and therefore the whole annotation layer rendered at 0x0. The canvas still
+   "looked" fine only because its own draw effect fell back to a hardcoded
+   700px guess whenever the measured wrapper width read back as 0 -- so the
+   substrate quietly drew at a plausible size while the SVG on top of it
+   vanished. Fixed by taking .wrap OUT of percentage-width resolution
+   entirely: flex-grow fills the container's known available space directly,
+   with no percentage to resolve against .wrap at all. The SVG stays the
+   normal-flow sizing element (explicit display:block, width:100%, height:auto
+   from its viewBox) and gives .wrap its height; the canvas is positioned via
+   plain CSS percentages of that same box (gut/W, top/H, C/W, ROWS/H, set as
+   inline style in MystrixVisualizer.tsx), not JS-measured pixel values, so a
+   0-width wrap now fails the SAME way on both layers instead of hiding on one
+   of them. */
+.wrap {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.canvas {
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none; /* decorative; all interaction is the SVG region layer above it */
+}
+
 .grid {
+  display: block; /* SVG root defaults to inline in some UAs; must be block to own .wrap's box */
+  position: relative; /* wins the paint order over the absolutely-positioned canvas */
+  z-index: 1;
   width: 100%;
   height: auto;
   overflow: visible; /* never a scroller: the picture always fits its column */
@@ -59,9 +95,22 @@
 }
 
 .rule,
-.leader path,
-.inset rect {
+.leader path {
   stroke: currentColor;
+}
+
+/* Visually hidden but still announced: see MystrixVisualizer.tsx's aria-live
+   region for the auto state-switch that used to happen with no announcement. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .ruler text,

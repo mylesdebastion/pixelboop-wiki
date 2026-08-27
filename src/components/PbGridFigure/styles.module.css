@@ -1,0 +1,193 @@
+/* PbGridFigure. Canonical replacement for MystrixVisualizer, one zone-id at a
+   time (see PbGridFigure.tsx's header comment). Same shape as
+   MystrixVisualizer/styles.module.css deliberately -- one picture, one
+   region list, no animation, same focus-ring and phone treatment -- because
+   that shape was already right; what changed is where the DATA comes from. */
+
+.fig {
+  margin: 1.5rem 0;
+  padding: 0;
+  color: var(--ifm-font-color-base);
+  font-family: var(--ifm-font-family-base);
+}
+
+.cap {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 0.6rem;
+  color: var(--ifm-font-color-base);
+}
+
+.pic {
+  position: sticky;
+  top: var(--ifm-navbar-height, 60px);
+  z-index: 1;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.4rem 0;
+  background-color: var(--ifm-background-color);
+}
+
+/* Same fix as MystrixVisualizer's .wrap (see its comment): flex-grow fills
+   the container directly, no percentage-width resolution against .wrap
+   itself, so the canvas and the SVG fail (or size) the same way together. */
+.wrap {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.canvas {
+  position: absolute;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.grid {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  color: var(--ifm-font-color-base);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.region {
+  cursor: pointer;
+}
+
+.region rect {
+  fill: transparent;
+}
+
+.region:hover .inkB,
+.region[data-sel] .inkB {
+  stroke-width: 3px;
+}
+
+.region:hover .inkA,
+.region[data-sel] .inkA {
+  stroke-width: 6px;
+}
+
+/* ---- the ported legend marks (filledTab / hollowTab / sideBracket /
+   columnLabel) -- see PbGridFigure.tsx's render section and legend.ts.
+   Monospace, matching LegendOverlayView.swift's own SF Mono choice: the
+   collision-avoidance math (legend.ts's legendLabelCenters/tabCenter) sizes
+   every label at a fixed 0.60em per character, which only holds for a
+   monospace face -- the browser default serif runs noticeably wider per
+   character and made adjacent short labels (UNDO/REDO) overlap in testing. */
+.legendMark text {
+  fill: currentColor;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.legendMark path {
+  stroke: currentColor;
+  opacity: 0.75;
+}
+
+/* A bracket's reaching cap crosses the dark lattice, where currentColor
+   alone disappears. */
+.legendMark .halo {
+  stroke: var(--ifm-background-color);
+  opacity: 1;
+}
+
+.legendDetail {
+  opacity: 0.75;
+}
+
+/* ---- the region list: the semantic and interactive surface -------------- */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.opt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+  min-height: 48px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background-color: var(--ifm-color-emphasis-100);
+  cursor: pointer;
+}
+
+.opt[aria-selected='true'] {
+  background-color: var(--ifm-color-emphasis-200);
+  box-shadow: inset 3px 0 0 0 var(--ifm-color-primary);
+}
+
+.opt:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000000;
+}
+
+.num {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6em;
+  height: 1.6em;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-color-emphasis-500);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.sw {
+  flex: 0 0 auto;
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 3px;
+  border: 1px solid var(--ifm-color-emphasis-500);
+}
+
+.nm {
+  font-weight: 700;
+}
+
+.co {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+.de {
+  flex: 1 0 100%;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* ---- phone -------------------------------------------------------------- */
+@media screen and (max-width: 639px) {
+  .grid {
+    pointer-events: none;
+  }
+
+  .legendMark text {
+    display: none;
+  }
+}

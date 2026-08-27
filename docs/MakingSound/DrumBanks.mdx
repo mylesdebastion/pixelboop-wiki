@@ -72,7 +72,7 @@ Column 2 shimmers while the effects are working, so its color is never the same 
 Judge it by how far up the column is filled, not by its shade.
 
 To hear which drum a row plays, tap a step in that row: the hit goes in and the drum's
-name (Kick 2, Snare, Closed Hat) flashes up. Switching banks announces the new bank the
+name (Kick, Snare, Closed Hat) flashes up. Switching banks announces the new bank the
 same way, as a four-word shorthand like "KD SD CH TM".
 
 ---
@@ -86,8 +86,8 @@ The default drum bank with essential sounds.
 export function Bank0Demo() {
     const uiElements = [
         {
-            "name": "Kick 2 (Row 18)",
-            "desc": "GM Note 36. Bass Drum 1.",
+            "name": "Kick (Row 18)",
+            "desc": "GM Note 35. Acoustic Bass Drum.",
             "elements": [
                 { "pos": [8, 18], "size": [1, 1], "color": "#F2531D" },
                 { "pos": [16, 18], "size": [1, 1], "color": "#F2531D" },
@@ -133,7 +133,7 @@ export function Bank0Demo() {
 
 | Row | Drum | GM Note |
 |-----|------|---------|
-| 18 | Kick 2 | 36 |
+| 18 | Kick | 35 |
 | 19 | Snare | 38 |
 | 20 | Closed Hi-Hat | 42 |
 | 21 | Low Tom | 47 |
@@ -147,8 +147,8 @@ Alternative sounds for variation.
 export function Bank1Demo() {
     const uiElements = [
         {
-            "name": "Kick (Row 18)",
-            "desc": "GM Note 35. Acoustic Bass Drum.",
+            "name": "Kick 2 (Row 18)",
+            "desc": "GM Note 36. Bass Drum 1.",
             "elements": [
                 { "pos": [8, 18], "size": [1, 1], "color": "#F21D1D" }
             ]
@@ -188,7 +188,7 @@ export function Bank1Demo() {
 
 | Row | Drum | GM Note |
 |-----|------|---------|
-| 18 | Kick | 35 |
+| 18 | Kick 2 | 36 |
 | 19 | Snare 2 | 40 |
 | 20 | Open Hi-Hat | 46 |
 | 21 | Ride | 51 |
@@ -258,8 +258,8 @@ Mixed selection for versatility.
 export function Bank3Demo() {
     const uiElements = [
         {
-            "name": "Kick 2 (Row 18)",
-            "desc": "GM Note 36. Bass Drum 1.",
+            "name": "Kick (Row 18)",
+            "desc": "GM Note 35. Acoustic Bass Drum.",
             "elements": [
                 { "pos": [8, 18], "size": [1, 1], "color": "#F2531D" }
             ]
@@ -289,7 +289,7 @@ export function Bank3Demo() {
 
     return <MystrixVisualizer
         uiName="Bank 3: Hybrid"
-        uiDescription="Kick 2 / Snare / Open Hat / Crash"
+        uiDescription="Kick / Snare / Open Hat / Crash"
         uiElements={uiElements}
     />
 }
@@ -298,7 +298,7 @@ export function Bank3Demo() {
 
 | Row | Drum | GM Note |
 |-----|------|---------|
-| 18 | Kick 2 | 36 |
+| 18 | Kick | 35 |
 | 19 | Snare | 38 |
 | 20 | Open Hi-Hat | 46 |
 | 21 | Crash | 49 |
@@ -309,10 +309,10 @@ export function Bank3Demo() {
 
 | Bank | Row 18 | Row 19 | Row 20 | Row 21 |
 |------|--------|--------|--------|--------|
-| **0 (Core)** | Kick 2 (36) | Snare (38) | Closed Hat (42) | Low Tom (47) |
-| **1 (Alt)** | Kick (35) | Snare 2 (40) | Open Hat (46) | Ride (51) |
+| **0 (Core)** | Kick (35) | Snare (38) | Closed Hat (42) | Low Tom (47) |
+| **1 (Alt)** | Kick 2 (36) | Snare 2 (40) | Open Hat (46) | Ride (51) |
 | **2 (Perc)** | Clap (39) | Rimshot (37) | Cowbell (56) | Crash (49) |
-| **3 (Hybrid)** | Kick 2 (36) | Snare (38) | Open Hat (46) | Crash (49) |
+| **3 (Hybrid)** | Kick (35) | Snare (38) | Open Hat (46) | Crash (49) |
 
 ---
 

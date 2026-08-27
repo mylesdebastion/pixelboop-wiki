@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-import MystrixVisualizer from "@site/src/components/MystrixVisualizer/MystrixVisualizer";
+import PbGridFigure from "@site/src/components/PbGridFigure/PbGridFigure";
 
 # Top Controls
 
@@ -10,75 +10,93 @@ The top bar of the screen contains all playback and musical controls. These butt
 
 ## Control Layout Overview
 
-export function ControlRowOverview() {
-    const chromaticColors = [
-        "#FF0000", "#FF4500", "#FF8C00", "#FFC700",  // C, C#, D, D#
-        "#FFFF00", "#99CC33", "#00FF00", "#00FFAA",  // E, F, F#, G
-        "#00FFFF", "#00AAFF", "#0055FF", "#8A2BE2"   // G#, A, A#, B
-    ];
+{/* This used to be one 14-zone, 11-label figure covering the whole row --
+    an app screenshot never shows it that way; only the wiki tried to. At
+    812px (this article's prose column) the worst pair of labels overlapped
+    by 59.3px, and even a diagnostic 1093px only got that to 20px: 11 labels
+    do not fit one figure at any honest font size. The app's own legend
+    only fits ~20 labels because it runs full-screen; a doc column never
+    has that room.
 
-    const uiElements = [
-        { "name": "Play/Stop (3px)", "desc": "Cols 0-2: Tap to start/stop, hold 3.5s for WLED config", "elements": [
-            { "pos": [0, 0], "size": [3, 1], "color": "#45FF45" }  // Green when stopped
-        ]},
-        { "name": "Undo", "desc": "Col 4: Undo last action. Bright when an undo is available, dim (#333333) when there is nothing to undo.", "elements": [{ "pos": [4, 0], "size": [1, 1], "color": "#878787" }] },
-        { "name": "Redo", "desc": "Col 5: Redo action. Bright when a redo is available, dim (#333333) when there is nothing to redo.", "elements": [{ "pos": [5, 0], "size": [1, 1], "color": "#878787" }] },
-        { "name": "Major Scale", "desc": "Col 7: Select major scale", "elements": [{ "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }] },
-        { "name": "Minor Scale", "desc": "Col 8: Select minor scale", "elements": [{ "pos": [8, 0], "size": [1, 1], "color": "#00334D" }] },
-        { "name": "Pentatonic", "desc": "Col 9: Select pentatonic scale", "elements": [{ "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }] },
-        { "name": "Root Notes", "desc": "Cols 11-22: Select key (C through B)", "elements": chromaticColors.map((color, i) => ({
-            "pos": [11 + i, 0], "size": [1, 1], "color": color
-        }))},
-        { "name": "Ghost Notes", "desc": "Col 24: Toggle ghost note display", "elements": [{ "pos": [24, 0], "size": [1, 1], "color": "#666666" }] },
-        { "name": "BPM -", "desc": "Col 26: Decrease tempo", "elements": [{ "pos": [26, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "BPM Display", "desc": "Col 27: Shows current BPM, pulses with beat", "elements": [{ "pos": [27, 0], "size": [1, 1], "color": "#595959" }] },
-        { "name": "BPM +", "desc": "Col 28: Increase tempo", "elements": [{ "pos": [28, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "Length -", "desc": "Col 30: Decrease pattern length", "elements": [{ "pos": [30, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "Length Display", "desc": "Col 31: Shows pattern length (8-32 steps)", "elements": [{ "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }] },
-        { "name": "Length +", "desc": "Col 32: Increase pattern length", "elements": [{ "pos": [32, 0], "size": [1, 1], "color": "#454545" }] },
-        { "name": "Shake Indicator", "desc": "Cols 34-35: Shows shake gesture detection", "elements": [{ "pos": [34, 0], "size": [2, 1], "color": "#212121" }] },
-        { "name": "USB MIDI", "desc": "Cols 36-37: USB MIDI connection indicator", "elements": [{ "pos": [36, 0], "size": [2, 1], "color": "#404040" }] },
-        { "name": "Bluetooth MIDI", "desc": "Cols 38-39: Bluetooth MIDI connection indicator", "elements": [{ "pos": [38, 0], "size": [2, 1], "color": "#20396C" }] },
-        { "name": "Jams", "desc": "Cols 40-43: Tap to open your jam library, hold to save the current jam and start a new one. Dim purple until you have saved a jam, brighter after.", "elements": [{ "pos": [40, 0], "size": [4, 1], "color": "#402666" }] }
-    ];
+    Split into three figures below, but NOT the naive "transport / musical /
+    timing" thirds a first pass reaches for -- that split still fails.
+    legend.ts's own margin labels are the app's real IntroTutorialStep names
+    (LegendOverlayView.swift), not something this page picks, and two of them
+    are simply too wide for their own neighbourhood regardless of what else
+    shares the figure:
+      - "PLAY/PAUSE/STOP" (16 chars) over playStop's 3-column span (cols 0-2)
+        collides with "UNDO REDO" 3.5 columns away no matter what other zones
+        are focused alongside them -- measured, not assumed: playStop + undo
+        + redo alone overlapped by 26.93px at 1440px. Play/Stop and Undo/Redo
+        can never share one figure.
+      - "SECTION LENGTH" (patternLength) and "SHAKE INDICATOR" (shakeUsb)
+        sit only 3.5 columns apart and are BOTH oversized labels; grouped
+        together they measured 61.64px overlap -- worse than the original
+        composite's 59.3px, because removing the far-away zones did nothing
+        for two labels that were already colliding with each other alone.
+    Every other adjacency across the whole row is comfortably clear (down to
+    scaleType's merged label sitting 7 columns from playStop with room to
+    spare), so the fix is routing AROUND those two specific collisions, not
+    shrinking text or widening boxes further -- the breakout already in
+    PbGridFigure.tsx is at its citation-backed limit for a page this size.
 
-    return <MystrixVisualizer
-        uiName="Top Controls (Row 0)"
-        uiDescription=""
-        uiElements={uiElements}
+    shakeUsb has no IntroTutorialStep of its own (legend.ts's own documented
+    gap) and no natural functional home; it lives here, next to the musical
+    controls, only because that is where it is column-distance-safe next to
+    ghost (10.5 columns clear) and away from patternLength. Every one of the
+    14 original zones still appears in exactly one of the three figures --
+    see the coverage check in the PR/commit notes. */}
+
+### Play/Stop and Musical Controls
+
+export function PlayMusicalOverview() {
+    return <PbGridFigure
+        caption="Play/Stop (columns 0-2), scale quality and type (columns 7-9), the 12-key root note wheel (columns 11-22), the ghost notes toggle (column 24), and the shake indicator (columns 34-35, grouped here for column clearance -- it has no functional relation to the others; see Undo, Redo and Jams below and Timing and MIDI further down for the rest of the row)."
+        focus={["playStop", "scaleMajor", "scaleMinor", "scaleType", "rootNoteWheel", "ghost", "shakeUsb"]}
     />
 }
 
-<ControlRowOverview />
+<PlayMusicalOverview />
+
+### Undo, Redo, and Jams
+
+export function EditAndJamsOverview() {
+    return <PbGridFigure
+        caption="Undo (column 4), Redo (column 5), and the Jams button (columns 40 to 43)."
+        focus={["undo", "redo", "jams"]}
+    />
+}
+
+<EditAndJamsOverview />
+
+### Tempo, Pattern Length, and MIDI
+
+export function TimingHardwareOverview() {
+    return <PbGridFigure
+        caption="Tempo (BPM, columns 26-28), pattern length (columns 30-32), and the USB and Bluetooth MIDI indicators (columns 36-39)."
+        focus={["bpm", "patternLength", "usbIndicator", "btIndicator"]}
+    />
+}
+
+<TimingHardwareOverview />
 
 ---
 
 ## Play/Stop
 
 export function PlayStopDemo() {
-    const uiElements = [
-        {
-            "name": "Play/Stop Button",
-            "desc": "Green = stopped, red = playing. Tap to toggle.",
-            "elements": [
-                { "pos": [0, 0], "size": [1, 1], "color": "#45FF45" }
-            ]
-        },
-        {
-            "name": "Bar Markers",
-            "desc": "Some columns are shaded slightly darker (#121212 against #1A1A1A) as bar markers. They are static and do not move with playback.",
-            "elements": [
-                { "pos": [4, 2], "size": [1, 20], "color": "#121212" },
-                { "pos": [20, 2], "size": [1, 20], "color": "#121212" },
-                { "pos": [28, 2], "size": [1, 20], "color": "#121212" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Play/Stop"
-        uiDescription="Column 0: Start or stop the sequencer"
-        uiElements={uiElements}
+    {/* The old hand-authored version drew this button as ONE cell at col 0.
+        The real button (playStop zone, PixelGridUIView.swift:2076) is THREE
+        cells, cols 0-2 -- a drift the hand-authored figure had no way to
+        catch. The zone-driven figure below draws the real span.
+        "Bar Markers" (the old figure's second region, three 1x20 columns at
+        cols 4/20/28 inside the step grid) is dropped: it illustrates the
+        step grid's own internal bar shading, not a pbgrid zone boundary --
+        pbgrid has no zone for it. The bar/beat ruler on the Getting Started
+        overview figure already shows this structurally. */}
+    return <PbGridFigure
+        caption="Play/Stop button, columns 0 to 2. Green when stopped, red when playing. Tap to toggle."
+        focus={["playStop"]}
     />
 }
 
@@ -112,34 +130,13 @@ For wiring up LED strips end to end, see the [WLED Setup Guide](../Connectivity/
 ## BPM (Tempo)
 
 export function BPMDemo() {
-    const uiElements = [
-        {
-            "name": "BPM Down",
-            "desc": "Column 26. Tap to decrease tempo by 5 BPM.",
-            "elements": [
-                { "pos": [26, 0], "size": [1, 1], "color": "#454545" }
-            ]
-        },
-        {
-            "name": "BPM Display",
-            "desc": "Column 27. Shows current BPM, pulses with beat.",
-            "elements": [
-                { "pos": [27, 0], "size": [1, 1], "color": "#595959" }
-            ]
-        },
-        {
-            "name": "BPM Up",
-            "desc": "Column 28. Tap to increase tempo by 5 BPM.",
-            "elements": [
-                { "pos": [28, 0], "size": [1, 1], "color": "#454545" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="BPM Controls"
-        uiDescription="Columns 26-28: Adjust tempo"
-        uiElements={uiElements}
+    {/* pbgrid models cols 26-28 as ONE zone ("bpm" / Tempo controls), not
+        three. The old figure's separate Down/Display/Up callouts collapse
+        into a single region here; the bullet list below still explains all
+        three sub-actions in words. */}
+    return <PbGridFigure
+        caption="Tempo (BPM) controls, columns 26 to 28."
+        focus={["bpm"]}
     />
 }
 
@@ -155,41 +152,16 @@ export function BPMDemo() {
 ## Pattern Length
 
 export function PatternLengthDemo() {
-    const uiElements = [
-        {
-            "name": "Length Down",
-            "desc": "Column 30. Shorten the pattern by 4 steps (minimum 8).",
-            "elements": [
-                { "pos": [30, 0], "size": [1, 1], "color": "#454545" }
-            ]
-        },
-        {
-            "name": "Length Display",
-            "desc": "Column 31. Shows the current pattern length, the colour shifts as you change it.",
-            "elements": [
-                { "pos": [31, 0], "size": [1, 1], "color": "#3E2680" }
-            ]
-        },
-        {
-            "name": "Length Up",
-            "desc": "Column 32. Lengthen the pattern by 4 steps (maximum 32).",
-            "elements": [
-                { "pos": [32, 0], "size": [1, 1], "color": "#454545" }
-            ]
-        },
-        {
-            "name": "8-Step Pattern",
-            "desc": "Visible columns 4-11 when length is 8.",
-            "elements": [
-                { "pos": [4, 2], "size": [8, 20], "color": "#222222" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Pattern Length"
-        uiDescription="Columns 30-32: Adjust pattern length"
-        uiElements={uiElements}
+    {/* pbgrid models cols 30-32 as ONE zone ("patternLength"), not three --
+        same collapse as BPMDemo above. The old figure's fourth region,
+        "8-Step Pattern" (a hypothetical cols 4-11 highlight showing what an
+        8-step pattern would look like), has no pbgrid zone: it is not a
+        fixed UI region, it is an illustration of a DIFFERENT pattern-length
+        value than the figure's own default (32). Dropped rather than
+        re-invented; the prose below still states the step counts in words. */}
+    return <PbGridFigure
+        caption="Pattern length controls, columns 30 to 32. The centre readout (col 31) encodes the current length as a hue."
+        focus={["patternLength"]}
     />
 }
 
@@ -202,34 +174,12 @@ Each tap changes the length by 4 steps, between 8 and 32: **8, 12, 16, 20, 24, 2
 ## Scale Selection
 
 export function ScaleDemo() {
-    const uiElements = [
-        {
-            "name": "Major Scale",
-            "desc": "Column 7. Bright, happy sound. Intervals: 0-2-4-5-7-9-11",
-            "elements": [
-                { "pos": [7, 0], "size": [1, 1], "color": "#FFAA00" }
-            ]
-        },
-        {
-            "name": "Minor Scale",
-            "desc": "Column 8. Dark, emotional sound. Intervals: 0-2-3-5-7-8-10",
-            "elements": [
-                { "pos": [8, 0], "size": [1, 1], "color": "#00334D" }
-            ]
-        },
-        {
-            "name": "Pentatonic Scale",
-            "desc": "Column 9. Simple, universal. Intervals: 0-2-4-7-9",
-            "elements": [
-                { "pos": [9, 0], "size": [1, 1], "color": "#AA00FF" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Scale Selection"
-        uiDescription="Columns 7-9: Choose musical scale"
-        uiElements={uiElements}
+    {/* Clean 1:1 mapping, no drop: three zones, same three columns.
+        Intervals (0-2-4-5-7-9-11 etc.) aren't pbgrid data -- they stay in
+        the prose/table below, same as before. */}
+    return <PbGridFigure
+        caption="Scale selection, columns 7 to 9."
+        focus={["scaleMajor", "scaleMinor", "scaleType"]}
     />
 }
 
@@ -248,31 +198,17 @@ When you change scales, existing notes **snap to the new scale** — out-of-scal
 ## Musical Key (Root Note)
 
 export function KeyDemo() {
-    const uiElements = [
-        {
-            "name": "Key Selection",
-            "desc": "Columns 11-22, one per key. The active key is bright; the other eleven sit at about 28% brightness.",
-            "elements": [
-                { "pos": [11, 0], "size": [12, 1], "color": [
-                    "#ED2B2B", "#0D2A47", "#47470D", "#2A0D47",
-                    "#0D470D", "#470D2A", "#0D4747", "#472A0D",
-                    "#0D0D47", "#2A470D", "#470D47", "#0D472A"
-                ]}
-            ]
-        },
-        {
-            "name": "Current Key Indicator",
-            "desc": "The active key glows brighter than others.",
-            "elements": [
-                { "pos": [11, 0], "size": [1, 1], "color": "#ED2B2B" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Key Selection"
-        uiDescription="Columns 11-22: Select musical key (root note)"
-        uiElements={uiElements}
+    {/* The old figure's second region, "Current Key Indicator", was a
+        hand-drawn duplicate of what the first region's own colour array
+        already showed (col 11 brighter than the rest) -- not a second pbgrid
+        zone, just the same fact stated twice. rootNoteWheel's own resolve()
+        already brightens the active note (root C by default) and dims the
+        other eleven via the app's real dimColor() formula
+        (PixelGridUIView+Touch.swift:5794-5797), so one zone says everything
+        both old regions said. */}
+    return <PbGridFigure
+        caption="Root note selector, 12 keys, columns 11 to 22, harmonic (circle-of-fifths) colour wheel."
+        focus={["rootNoteWheel"]}
     />
 }
 
@@ -300,34 +236,10 @@ Changing the key **transposes all notes** in the pattern to the new key.
 ## Undo, Redo, and Jams
 
 export function EditControlsDemo() {
-    const uiElements = [
-        {
-            "name": "Undo",
-            "desc": "Column 4. Reverts the last change.",
-            "elements": [
-                { "pos": [4, 0], "size": [1, 1], "color": "#878787" }
-            ]
-        },
-        {
-            "name": "Redo",
-            "desc": "Column 5. Re-applies an undone change.",
-            "elements": [
-                { "pos": [5, 0], "size": [1, 1], "color": "#878787" }
-            ]
-        },
-        {
-            "name": "Jams",
-            "desc": "Columns 40-43. Tap to open your jam library, hold to save the current jam and start a new one.",
-            "elements": [
-                { "pos": [40, 0], "size": [4, 1], "color": "#402666" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Edit Controls"
-        uiDescription="Col 4: Undo | Col 5: Redo | Cols 40-43: Jams"
-        uiElements={uiElements}
+    {/* Clean 1:1 mapping, no drop. */}
+    return <PbGridFigure
+        caption="Undo (column 4), Redo (column 5), and Jams (columns 40 to 43)."
+        focus={["undo", "redo", "jams"]}
     />
 }
 
@@ -361,29 +273,14 @@ For the whole story on saving, reopening, and starting fresh, see [Saving & Open
 ## Ghost Notes Toggle
 
 export function GhostDemo() {
-    const uiElements = [
-        {
-            "name": "Ghost Notes Toggle",
-            "desc": "Column 24. Shows faded notes from other sections for reference.",
-            "elements": [
-                { "pos": [24, 0], "size": [1, 1], "color": "#666666" }
-            ]
-        },
-        {
-            "name": "Ghost Note Example",
-            "desc": "Faded notes from other sections appear as dim pixels.",
-            "elements": [
-                { "pos": [10, 5], "size": [1, 1], "color": "#3a3520" },
-                { "pos": [14, 6], "size": [1, 1], "color": "#3a3520" },
-                { "pos": [18, 4], "size": [1, 1], "color": "#3a3520" }
-            ]
-        }
-    ];
-
-    return <MystrixVisualizer
-        uiName="Ghost Notes"
-        uiDescription="Column 24: Toggle ghost note display"
-        uiElements={uiElements}
+    {/* The old figure's second region, "Ghost Note Example" (three scattered
+        dim cells inside the note grid), illustrates a LIVE playback state
+        (ghost notes from another section) that pbgrid's zones don't model --
+        it is note content, not a fixed UI region. Dropped rather than
+        re-invented; the prose below still explains what ghost notes are. */}
+    return <PbGridFigure
+        caption="Ghost notes toggle, column 24."
+        focus={["ghost"]}
     />
 }
 

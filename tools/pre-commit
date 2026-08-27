@@ -1,0 +1,54 @@
+#!/bin/sh
+# pixelboop-wiki pre-commit hook.
+#
+# Guards against a HAND-EDIT of the vendored copy of pbgrid.js
+# (src/vendor/pbgrid/pbgrid.js — checked in because this repo has no way to
+# `import '@pixelboop/pbgrid'` from the sibling pixelboop repo through
+# node_modules resolution). Compares the file's SHA-256 against the recorded
+# hash checked in beside it, src/vendor/pbgrid/pbgrid.js.sha256.
+#
+# What this does NOT catch: STALENESS. If the pixelboop repo rebuilds
+# dist/pbgrid.js (source changed) and this copy is never refreshed, the
+# vendored file and its recorded hash still match each other perfectly and
+# this hook passes — there is nothing in this repo to compare against to
+# know a newer build exists upstream. That half needs a published,
+# versioned package to diff against, or a network fetch; neither exists
+# yet. See packages/pbgrid/tools/check-vendored.mjs in the pixelboop repo
+# for the other half of this guard (source vs. vendored, byte-for-byte),
+# which only runs from the app repo where the source lives.
+#
+# This is the canonical copy — .git/hooks/ is not version-controlled, so
+# this file is what gets committed and reinstalled on a fresh clone via
+# tools/install-hook.sh (mirrors packages/pbgrid/tools/{pre-commit,
+# install-hook.sh} in the pixelboop repo). If you edit hook behavior, edit
+# THIS file, then reinstall.
+#
+# Skip once (use sparingly): git commit --no-verify
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+VENDORED="$REPO_ROOT/src/vendor/pbgrid/pbgrid.js"
+RECORDED="$REPO_ROOT/src/vendor/pbgrid/pbgrid.js.sha256"
+
+if [ ! -f "$VENDORED" ] || [ ! -f "$RECORDED" ]; then
+  exit 0  # nothing vendored yet, nothing to guard
+fi
+
+ACTUAL="$(shasum -a 256 "$VENDORED" | awk '{print $1}')"
+EXPECTED="$(awk '{print $1}' "$RECORDED")"
+
+if [ "$ACTUAL" != "$EXPECTED" ]; then
+  echo "[pbgrid vendor check] FAIL: src/vendor/pbgrid/pbgrid.js does not match its recorded hash." >&2
+  echo "  recorded: $EXPECTED" >&2
+  echo "  actual:   $ACTUAL" >&2
+  echo "" >&2
+  echo "  If this is an intentional re-vendor from pixelboop's packages/pbgrid/dist/pbgrid.js," >&2
+  echo "  update the recorded hash and commit both:" >&2
+  echo "    shasum -a 256 src/vendor/pbgrid/pbgrid.js | awk '{print \$1}' > src/vendor/pbgrid/pbgrid.js.sha256" >&2
+  echo "" >&2
+  echo "  If you did not intend to touch this file, a generated, checked-in" >&2
+  echo "  artifact was hand-edited directly — restore it instead:" >&2
+  echo "    git checkout -- src/vendor/pbgrid/pbgrid.js" >&2
+  exit 1
+fi
+
+exit 0

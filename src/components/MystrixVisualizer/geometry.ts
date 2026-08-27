@@ -3,6 +3,22 @@
  * Everything the figure draws is derived from the authored props by these
  * functions, so the picture is identical in the server-rendered HTML and
  * after hydration. Tested by ./geometry.test.mjs (node:test, no dependency).
+ *
+ * NOT retired in favor of @pixelboop/pbgrid (deliberately, for now): this
+ * file's constants (COLS, ROWS, ROW_BANDS, BAR_COLS) are a hand-maintained
+ * copy of the same 44x24 grid shape pbgrid's generated/grid-constants.ts
+ * models from the shipping Swift source, so they CAN drift (and see
+ * src/vendor/pbgrid/pbgrid.js's header for the color-mode bug this already
+ * caused in one doc page). Left in place because this component is used by
+ * 64 current-docs figures (532 counting versioned_docs/i18n, most unrelated
+ * MatrixOS hardware docs sharing the component name) that author per-figure
+ * `uiElements` region data MystrixVisualizer alone knows how to interpret —
+ * migrating those call sites to pbgrid's renderPbGrid()/patternNotes
+ * contract is a real per-page content migration, not a drop-in swap, and is
+ * out of scope for the task that added pbgrid. See
+ * ../PbGridPreview/PbGridPreview.tsx for a working, additive proof that the
+ * real renderer runs in this Docusaurus build (docs/MakingSound/Tracks.mdx),
+ * and that PR's task notes for the fuller migration-cost estimate.
  */
 
 export type Position = [number | 't' | 'u' | 'c', number?];
